@@ -1,0 +1,16 @@
+@mixin shadow($color, $alpha) {
+  box-shadow: rgba($color: $color, $alpha: $alpha) 0px 2px 8px 0px;
+}
+
+@mixin shadowLeft($color, $alpha) {
+  box-shadow: 10px 0px 30px 0px rgba($color: $color, $alpha: $alpha);
+}
+
+@mixin shadowRight($color, $alpha) {
+  box-shadow: 0px 10px 30px 0px rgba($color: $color, $alpha: $alpha);
+}
+
+@mixin shadowInset($color, $alpha) {
+  box-shadow: rgba($color: $color, $alpha: $alpha) 3px 3px 6px 0px inset,
+    rgba($color: $color, $alpha: $alpha) -3px -3px 6px 1px inset;
+}

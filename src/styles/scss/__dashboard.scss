@@ -1,0 +1,114 @@
+@import "./__functions.scss";
+.portal-board {
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+  // border: 1px solid $color-100;
+
+  box-shadow: inset 0 0px 10px 0px rgb(207, 207, 207);
+  .header {
+    width: 100%;
+    padding-top: 2rem;
+    padding-left: 1.8rem;
+    .user-type {
+      font-weight: 600;
+      font-size: $s4;
+      color: $dark;
+    }
+    .breadcrumb {
+      margin: 0;
+      a {
+        font-weight: 500;
+        text-decoration: none;
+        color: rgb(196, 195, 195);
+      }
+      .text-link {
+        color: rgb(196, 195, 195);
+        font-weight: 500;
+        font-size: $s6;
+        margin-left: 0.6rem;
+      }
+      .active {
+        color: $color-200;
+      }
+    }
+  }
+  .body {
+    padding-left: 1.5rem;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+  .admin-dashboard {
+    .box-red {
+      background-color: #fbd5ff !important;
+    }
+    .box-green {
+      background-color: #e1ffc7 !important;
+    }
+    .box {
+      width: max-content;
+      width: 36rem;
+      margin: 0.3rem;
+      .box-header {
+        font-weight: 700;
+        font-size: $s5;
+      }
+      .card {
+        border: 0;
+        background-color: #d6eaf9;
+        border-radius: 15px;
+        padding: 0.6rem 2rem;
+
+        .data {
+          padding: 0.6rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          .tag-name {
+            font-weight: 500;
+            font-size: 15px;
+          }
+
+          .item {
+            padding-top: 1rem;
+            min-width: max-content;
+            display: flex;
+            align-items: baseline;
+            justify-content: baseline;
+            position: relative;
+            img {
+              margin: auto;
+              aspect-ratio: 1/1;
+              object-fit: cover;
+              width: 40px;
+            }
+            max-height: max-content;
+            .text {
+              position: absolute;
+              bottom: -8px;
+              left: 42px;
+              display: flex;
+              align-items: baseline;
+              justify-content: first baseline;
+              margin: auto;
+              margin-left: 0.4rem;
+              padding: 0rem;
+
+              justify-content: flex-start;
+              h3 {
+                color: $color-200;
+                font-weight: 500;
+              }
+              h6 {
+                color: $dark;
+                font-weight: 500;
+                margin-left: 0.3rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.view-student {
+  .content {
+    .photo {
+      img {
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        width: 10rem;
+        border-radius: 10px;
+      }
+    }
+    .details {
+      width: 100%;
+      max-width: 50rem;
+      .row {
+        width: 100%;
+      }
+    }
+  }
+}

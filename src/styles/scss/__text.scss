@@ -1,0 +1,15 @@
+@import "./__theme.scss";
+.title-primary {
+  color: $color-200 !important;
+}
+.title-secondary {
+  font-weight: "100";
+  color: $color-100;
+}
+.subtitle-primary {
+  font-size: $s6;
+  color: #1a1a1a;
+}
+.text-sm {
+  font-size: $s6;
+}

@@ -1,0 +1,63 @@
+@import "./__theme.scss";
+//// form classes
+.form-control {
+  padding: 0.7rem 1rem;
+  border-radius: 4px !important;
+  max-width: 25rem;
+  border: 1px solid $color-100 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: $s6;
+  &:focus {
+    box-shadow: $shadow-1 !important;
+  }
+}
+.form-select {
+  padding: 0.7rem 1rem;
+  border-radius: 4px !important;
+  max-width: 25rem;
+  border: 1px solid $color-100 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: $s6;
+  &:focus {
+    box-shadow: $shadow-1 !important;
+  }
+}
+
+///flex items
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.flex-center-start {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  align-content: center;
+}
+.flex-start {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-end {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+.flex-center-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+}
