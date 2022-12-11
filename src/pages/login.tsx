@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthService from "../services/_auth";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [creeds, setCreeds] = useState({
     username: "",
     password: "",
@@ -18,6 +20,9 @@ export default function Login() {
     console.log(creeds);
     setLoading(true);
     loginUser(creeds);
+    setTimeout(() => {
+      navigate("/Home");
+    }, 1500);
     setLoading(false);
   };
   return (

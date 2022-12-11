@@ -26,23 +26,25 @@ export default function AuthService() {
       });
       console.log("Response", res.data);
       if (res.data.data.token && res.data.status) {
-        const student: any = await _https.get(
-          "/get_student_details/" + res.data.data.user_id,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authentication: res.data.data.token,
-            },
-          }
-        );
-        const { data } = student;
-        const prop = {
+        // const user: any = await _https.get(
+        //   "/get_user_details/" + res.data.data.user_id,
+        //   {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       authentication: res.data.data.token,
+        //     },
+        //   }
+        // );
+        // console.log(user);
+        // const { data } = user;
+        const prop: any = {
           username: res.data.data.username,
-          user_id: getEncryptString(res.data.data.user_id),
+          user_id: res.data.data.user_id,
           role: res.data.data.role,
           status: res.data.data.status,
         };
-        authHook.useLogin({ ...prop, ...data }, res.data.data.token);
+        console.log(prop);
+        authHook.useLogin(prop, res.data.data.token);
       }
       return res.data;
     } catch (e) {

@@ -1,9 +1,10 @@
-import DataTable from "../../../../common/data_table";
+
 import { Columns } from "../../../../interfaces/_common";
 import globalDataStore from "../../../../store/_globalData";
 import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../services/_protected_api";
 import PrimeDataTable from "../../../../common/prime_data_table";
+
 export default function AllStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -51,33 +52,32 @@ export default function AllStudents() {
   ];
   const { allStudents } = globalDataStore();
   const { getAllStudents } = protectedApiService();
+  const [allData, setAllData] = useState(null);
   useEffect(() => {
     getData();
   }, []);
-  const [allData, setAllData] = useState(null);
+
   const getData = async () => {
-    if (allStudents) {
+    if (allStudents?.length) {
       setAllData(allStudents);
     } else {
-      const res: any = await getAllStudents();
-      setAllData(res);
+      getFromApi();
     }
   };
-
+  const getFromApi = async () => {
+    const res: any = await getAllStudents();
+    setAllData(res);
+  };
   return (
     <>
       <PrimeDataTable
-        data={allData}
+        data={allData || []}
         structure={tablesStructure}
         title={"All Students"}
         isForStudent
+        onRefresh={getFromApi}
+        message
       />
-      {/* <DataTable
-        data={allData}
-        structure={tablesStructure}
-        title={"All Students"}
-        isForStudent
-      /> */}
     </>
   );
 }

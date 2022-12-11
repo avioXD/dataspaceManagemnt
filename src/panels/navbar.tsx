@@ -1,6 +1,8 @@
 import { VscBellDot } from "react-icons/vsc";
+import userState from "../store/_userState";
 
 export default function Navbar() {
+  const { user } = userState();
   return (
     <div className="container-fluid">
       <div className="nav flex-between ">
@@ -13,10 +15,11 @@ export default function Navbar() {
             </div>
             <div className="user">
               <span>
-                Suresh Thapa <br /> Admin
+                {user?.username}
+                <br /> Admin
               </span>
             </div>
-            <div className="arrow-dropdown">img</div>
+            {/* <div className="arrow-dropdown">img</div> */}
           </div>
         </div>
       </div>

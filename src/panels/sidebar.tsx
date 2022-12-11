@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { routings } from "../main_router";
 
 export default function Sidebar(props: any) {
-  const [togglerShow, setTogglerShow] = useState(false);
+  const [togglerShow, setTogglerShow] = useState(true);
 
   useEffect(() => {
     doQuerry();
@@ -41,7 +41,7 @@ export default function Sidebar(props: any) {
     return elements.map((ele: any) => (
       <>
         {" "}
-        {ele.path ? (
+        {ele.shortcut && ele.path ? (
           <li id={`li${ele.path}`} className="list-item">
             {ele.children.length ? (
               <>
@@ -56,7 +56,7 @@ export default function Sidebar(props: any) {
                   id={`#sub-${ele.path}`}
                 >
                   <div className="cont">
-                    {ele.icon ? <>{ele.icon}</> : "0"}
+                    {ele.icon ? <>{ele.icon}</> : <span className="dot"></span>}
                     <span className="route_name">{ele.route}</span>
                     <span className="sub-icon"></span>
                   </div>
@@ -85,7 +85,7 @@ export default function Sidebar(props: any) {
                 >
                   <div className="cont">
                     {" "}
-                    {ele.icon ? <>{ele.icon}</> : "0"}
+                    {ele.icon ? <>{ele.icon}</> : <span className="dot"></span>}
                     <span className="route_name">{ele.route}</span>
                   </div>
                 </Link>
@@ -121,7 +121,11 @@ export default function Sidebar(props: any) {
         <div className="options d-flex flex-column ">
           <div className="s-menu">
             <ul className="list-group">
-              <RenderLi elements={routings[0].children} sub={0} />
+              <RenderLi
+                elements={routings[1].children}
+                parentPath={"/Home"}
+                sub={0}
+              />
               {/* <li className="list">
                 <a
                   href="#submenu1"

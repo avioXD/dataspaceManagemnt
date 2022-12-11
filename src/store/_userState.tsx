@@ -1,15 +1,15 @@
 import create from "zustand";
 
 const store = create((set: any) => ({
-  user_data: {},
+  user_data: null,
   user_role: 0,
-  access_token: "",
+  access_token: localStorage.getItem("AccessToken"),
   is_login: false,
   //functions
   set_user_data: (data: any) =>
     set((state: any) => {
       return {
-        user_data: data,
+        user_data: { ...data },
         is_login: data ? true : false,
       };
     }),

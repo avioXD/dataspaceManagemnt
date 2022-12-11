@@ -1,7 +1,6 @@
 @import "./__theme.scss";
 .table {
-  padding: 1rem;
-
+  padding-right: 1rem;
   .table-main {
     width: 100%;
     padding-bottom: 10vh;
@@ -10,12 +9,16 @@
       padding-bottom: 1rem;
       .heading {
         display: flex;
-        align-items: center;
-        font-weight: 500;
+        align-items: flex-end;
+        font-weight: 600;
         text-align: start;
       }
       .search {
         display: flex;
+        input {
+          margin-right: 0.4rem;
+          border: 2px solid $color-200 !important;
+        }
         justify-content: flex-end;
       }
     }
@@ -60,7 +63,7 @@
               opacity: 1;
               min-width: 12rem;
               max-width: 25rem;
-              font-weight: 500;
+              font-weight: 600;
               padding: 0.2rem 0.2rem;
               margin-right: 1rem;
               border-bottom: 1px solid $dark-offset;
@@ -196,5 +199,46 @@
         }
       }
     }
+  }
+}
+
+.editor {
+  width: 100%;
+  position: relative;
+  img {
+    max-width: 5rem !important;
+  }
+}
+.table-menu {
+  .press {
+    transform: rotate(90deg);
+  }
+  .menu {
+    overflow: hidden;
+    .option {
+      padding: 0.5rem 1rem;
+      color: $dark;
+      span {
+        font-size: 14px;
+        text-align: start;
+      }
+      img {
+        width: 20px;
+      }
+      &:hover {
+        background-color: #eeeeee;
+      }
+    }
+    box-shadow: $shadow-2;
+    transition: $transition-all ease-in;
+    display: none;
+    position: absolute;
+    left: 10%;
+    top: 80%;
+
+    min-width: 3rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    z-index: 10000;
   }
 }

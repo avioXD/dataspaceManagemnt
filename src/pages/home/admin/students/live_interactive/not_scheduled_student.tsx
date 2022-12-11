@@ -3,7 +3,7 @@ import globalDataStore from "../../../../../store/_globalData";
 import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../../services/_protected_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
-export default function ProjectAssignedStudents() {
+export default function NotScheduledStudents() {
   const tablesStructure: Columns[] = [
     {
       data_name: "name",
@@ -30,18 +30,6 @@ export default function ProjectAssignedStudents() {
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
-      data_name: "mode",
-      header: "Mode",
-      sortable: true,
-      dataFilter: (data: any, key: any) => {
-        if (data[key] == 1) return <div className="text-success">online</div>;
-        if (data[key] == 2) return <div className="text-danger">offline</div>;
-        if (data[key] == 3)
-          return <div className="text-info">online & offline</div>;
-        return <div className="text-gray">Not Specified</div>;
-      },
-    },
-    {
       data_name: "operation",
       header: "Operation",
       sortable: true,
@@ -49,7 +37,7 @@ export default function ProjectAssignedStudents() {
         return (
           <>
             <button className="btn btn-outline-primary btn-sm">
-              Send Reminder
+              Set Class
             </button>
           </>
         );
@@ -66,20 +54,23 @@ export default function ProjectAssignedStudents() {
   const getData = async () => {
     if (allStudents) {
       let data: any[] = allStudents.filter((x: any) => {
-        if (x.project_assigned) {
+        if (!x.assign_class && !x.assign_teacher) {
           return x;
         }
       });
       setAllData(data.length ? [...data] : []);
     } else {
-      const res: any = await getAllStudents();
-      let data: any[] = res.filter((x: any) => {
-        if (x.project_assigned) {
-          return x;
-        }
-      });
-      setAllData(data.length ? [...data] : []);
+      getFromApi();
     }
+  };
+  const getFromApi = async () => {
+    const res: any = await getAllStudents();
+    let data: any[] = res.filter((x: any) => {
+      if (!x.assign_class && !x.assign_teacher) {
+        return x;
+      }
+    });
+    setAllData(data.length ? [...data] : []);
   };
 
   return (
@@ -87,9 +78,9 @@ export default function ProjectAssignedStudents() {
       <PrimeDataTable
         data={allData}
         structure={tablesStructure}
-        title={"Project Assigned Students"}
+        title={"Not Scheduled Students"}
         isForStudent
-        onRefresh={getData}
+        onRefresh={getFromApi}
         note
         message
         timeline

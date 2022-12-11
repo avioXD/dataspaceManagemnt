@@ -42,10 +42,18 @@ export default function ProjectNotAssignedStudents() {
       },
     },
     {
-      data_name: "reg_date",
-      header: "Register Date & Time",
+      data_name: "operation",
+      header: "Operation",
       sortable: true,
-      dataFilter: (data: any, key: any) => data[key] || <></>,
+      dataFilter: (data: any, key: any) => {
+        return (
+          <>
+            <button className="btn btn-outline-primary  btn-sm">
+              Assign Project
+            </button>
+          </>
+        );
+      },
     },
   ];
   const { allStudents } = globalDataStore();
@@ -58,20 +66,23 @@ export default function ProjectNotAssignedStudents() {
   const getData = async () => {
     if (allStudents) {
       let data: any[] = allStudents.filter((x: any) => {
-        if (!x.course_id) {
+        if (!x.project_assigned) {
           return x;
         }
       });
       setAllData(data.length ? [...data] : []);
     } else {
-      const res: any = await getAllStudents();
-      let data: any[] = res.filter((x: any) => {
-        if (!x.course_id) {
-          return x;
-        }
-      });
-      setAllData(data.length ? [...data] : []);
+      getFromApi();
     }
+  };
+  const getFromApi = async () => {
+    const res: any = await getAllStudents();
+    let data: any[] = res.filter((x: any) => {
+      if (!x.project_assigned) {
+        return x;
+      }
+    });
+    setAllData(data.length ? [...data] : []);
   };
 
   return (
@@ -79,9 +90,12 @@ export default function ProjectNotAssignedStudents() {
       <PrimeDataTable
         data={allData}
         structure={tablesStructure}
-        title={"All Students"}
+        title={"Project Not Assigned Students"}
         isForStudent
-        onRefresh={getData}
+        onRefresh={getFromApi}
+        note
+        message
+        timeline
       />
     </>
   );

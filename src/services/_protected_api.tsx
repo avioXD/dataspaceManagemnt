@@ -1,12 +1,14 @@
 import axios from "axios";
 import globalDataStore from "../store/_globalData";
+import userState from "../store/_userState";
 export default function protectedApiService() {
   const _https = axios.create({
     baseURL: "https://dataspaceacademymanagement.in/api",
   });
+  const { accessToken } = userState();
   let authHeader = {
     headers: {
-      authentication: "1cc336f97d7010de473d8ed2c733e38bef69e467",
+      authentication: accessToken,
     },
   };
 
@@ -17,13 +19,14 @@ export default function protectedApiService() {
       // console.log(res.data);
       return res.data;
     } catch (e) {
-      //console.log(e);
+      console.log(e);
     }
   };
   const getAllAdmins = async () => {
     try {
       const res = await _https.get("/get_admin", authHeader);
       // console.log(res.data);
+      setAllAdmins(res.data);
       return res.data;
     } catch (e) {
       //console.log(e);

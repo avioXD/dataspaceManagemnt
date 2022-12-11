@@ -27,10 +27,18 @@
   border-radius: 4px;
   padding: 0.4rem 1rem;
   font-weight: 400;
-  border: 0px;
-  color: #ffffff;
+  // border: 0px;
+
   // box-shadow: 0px 0px 10px $color-100;
   @media screen and (max-width: 450px) {
     font-size: 15px;
   }
+}
+
+.btn-primary {
+  color: white;
+}
+.btn-sm {
+  font-size: 13px !important;
+  padding: 0.4rem 1rem;
 }

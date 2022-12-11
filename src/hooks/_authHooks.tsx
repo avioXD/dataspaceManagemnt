@@ -14,15 +14,13 @@ export default function AuthHooks() {
   const useSyncUser = async () => {
     const { getAppToken } = AppTokenService();
     try {
-      const res = getDecryptString(localStorage.getItem("USER"));
-      const access = validateEncryptedToken(
-        localStorage.getItem("AccessToken")
-      );
+      const res: any = localStorage.getItem("USER");
+      const access: any = localStorage.getItem("AccessToken");
       console.log(typeof res);
 
       if (res) {
         let access_token: string = "";
-        let result = JSON.parse(res);
+        let result: any = JSON.parse(res);
         console.log(result);
         if (access) {
           access_token = access;
@@ -37,6 +35,7 @@ export default function AuthHooks() {
           return true;
         } else {
           localStorage.removeItem("USER");
+          localStorage.removeItem("AccessToken");
           return true;
         }
       } else {
@@ -49,13 +48,16 @@ export default function AuthHooks() {
 
   const useLogin = (user: any | null, token: string) => {
     try {
-      if (user)
-        localStorage.setItem("USER", getEncryptString(JSON.stringify(user)));
-      else localStorage.removeItem("USER");
-      setUser(user);
-      if (token) {
-        localStorage.setItem("AccessToken", createEncryptToken(token, 6));
+      console.log(user, token);
+      if (user) {
+        console.log("useLogin", token);
+        localStorage.setItem("USER", JSON.stringify(user));
+        setUser(user);
+      } else localStorage.removeItem("USER");
 
+      if (token) {
+        console.log("useLogin", token);
+        localStorage.setItem("AccessToken", token);
         setAccessToken(token);
       }
     } catch (e) {

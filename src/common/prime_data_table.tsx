@@ -1,6 +1,6 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { Button } from "primereact/button";
+
 import { Ripple } from "primereact/ripple";
 
 import { InputText } from "primereact/inputtext";
@@ -12,19 +12,37 @@ import { TbMessage2, TbEye } from "react-icons/tb";
 import { useState, useEffect } from "react";
 import { classNames } from "primereact/utils";
 import { Columns } from "../interfaces/_common";
-
+import { BiRefresh } from "react-icons/bi";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { Link, useLocation } from "react-router-dom";
 export default function PrimeDataTable({
   structure,
   data,
   isForStudent,
   title,
   onRefresh,
+  view,
+  viewclass,
+  message,
+  timeline,
+  setclass,
 }: any) {
+  const location = useLocation();
+  console.log(location);
+  let locationPath: any = location.pathname.replaceAll("%20", " ").split("/");
+  let final_path = "";
+  locationPath.forEach((element: any, index: any) => {
+    if (locationPath.length - 1 != index && element) {
+      final_path += "/" + element;
+    }
+  });
+
+  ////********************************** */
   const showMenu = (cls: any) => {
     removeMenu();
     let menu: any = (document.getElementById(cls) as HTMLElement) || null;
+    console.log(cls);
     menu.style.display = "block";
   };
   const removeMenu = () => {
@@ -37,8 +55,17 @@ export default function PrimeDataTable({
     });
   };
 
+  const [loading, setLoading] = useState("Loading....");
   const [changeableData, setChangeableData] = useState(data);
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setChangeableData(data);
+    setTimeout(() => {
+      setLoading("No Data Available");
+    }, 4500);
+  }, [data]);
+
+  const empt: any[] = [];
+  const [selectedData, setSelectedData] = useState(empt);
 
   //********************* */
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +75,8 @@ export default function PrimeDataTable({
   const onPageInputChange = (event: any) => {
     setCurrentPage(event.target.value);
   };
+  const onSearchValueChange = () => {};
+
   //***************** */
   const onPageInputKeyDown = (event: any, options: any) => {
     if (event.key === "Enter") {
@@ -64,42 +93,52 @@ export default function PrimeDataTable({
     }
   };
   const paginatorLeft = (
-    <Button
-      type="button"
-      icon="pi pi-refresh"
-      className="p-button-text"
-      onClick={onRefresh}
-    />
+    <button className="btn btn-warning">
+      <BiRefresh color={"white"} size={28} />
+    </button>
   );
+
   const paginatorRight = (
     <div className="table-body-footer">
       <div className="flex-between">
-        {isForStudent ? (
+        {selectedData?.length && isForStudent ? (
           <>
             {" "}
             <div className="options flex-end">
-              <button className="outlined-btn flex-start-center mx-1">
-                <VscBook size={20} />
-                <span className="mx-1">View Class</span>
-              </button>
-              <button className="outlined-btn flex-start-center mx-1">
-                <AiOutlineRadiusSetting size={20} />
-                <span className="mx-1">Set Class</span>
-              </button>
-              <button className="outlined-btn flex-start-center mx-1">
-                <CgRuler size={20} />
-                <span className="mx-1">Timeline</span>
-              </button>
+              {viewclass && (
+                <button className="outlined-btn flex-start-center mx-1">
+                  <VscBook size={20} />
+                  <span className="mx-1">View Class</span>
+                </button>
+              )}
 
-              <button className="outlined-btn flex-start-center mx-1">
-                <TbMessage2 size={20} />
-                <span className="mx-1">Message</span>
-              </button>
+              {setclass && (
+                <button className="outlined-btn flex-start-center mx-1">
+                  <AiOutlineRadiusSetting size={20} />
+                  <span className="mx-1">Set Class</span>
+                </button>
+              )}
+              {timeline && (
+                <button className="outlined-btn flex-start-center mx-1">
+                  <CgRuler size={20} />
+                  <span className="mx-1">Timeline</span>
+                </button>
+              )}
+              {message && (
+                <Link to={`${final_path}/Message`} state={selectedData}>
+                  <button className="outlined-btn flex-start-center mx-1">
+                    <TbMessage2 size={20} />
+                    <span className="mx-1">Message</span>
+                  </button>
+                </Link>
+              )}
 
-              <button className="outlined-btn flex-start-center mx-1">
-                <TbEye size={20} />
-                <span className="mx-1">View</span>
-              </button>
+              {view && (
+                <button className="outlined-btn flex-start-center mx-1">
+                  <TbEye size={20} />
+                  <span className="mx-1">View</span>
+                </button>
+              )}
             </div>
           </>
         ) : (
@@ -218,13 +257,12 @@ export default function PrimeDataTable({
             </div>
           </div>
 
-          {data?.length ? (
+          {changeableData?.length ? (
             <>
-              {" "}
               <div className="table-body mx-auto">
                 <DataTable
                   className="live-session"
-                  value={data || null}
+                  value={changeableData || null}
                   sortMode="multiple"
                   responsiveLayout="scroll"
                   paginator
@@ -235,9 +273,51 @@ export default function PrimeDataTable({
                   rowsPerPageOptions={[10, 20, 50]}
                   paginatorLeft={paginatorLeft}
                   paginatorRight={paginatorRight}
+                  selection={selectedData}
+                  onSelectionChange={(e) => setSelectedData(e.value)}
                 >
-                  {console.log("data", data)}
-                  {data?.length &&
+                  <Column
+                    selectionMode="multiple"
+                    headerStyle={{ width: "3em" }}
+                  ></Column>
+                  <Column
+                    headerStyle={{ width: "3em" }}
+                    style={{
+                      position: "relative",
+                    }}
+                    body={(e) => (
+                      <>
+                        {e.user_id ? (
+                          <div className="table-menu">
+                            {" "}
+                            <img
+                              className="press"
+                              onClick={() => showMenu(`menuid${e.user_id}`)}
+                              src="/assets/svg/more.svg"
+                              alt="..."
+                            />
+                            <div
+                              id={`menuid${e.user_id}`}
+                              className="menu"
+                              onMouseLeave={removeMenu}
+                            >
+                              <div className="flex-start text-dark option">
+                                <img src="/assets/svg/edit.svg" alt="" />
+                                <span className="mx-3">Edit</span>
+                              </div>
+                              <div className="flex-start text-danger option">
+                                <img src="/assets/svg/trash.svg" alt="" />
+                                <span className="mx-3">Delete</span>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                      </>
+                    )}
+                  ></Column>
+                  {changeableData?.length &&
                     structure.map((key: Columns) => (
                       <Column
                         field={key.data_name}
@@ -258,7 +338,7 @@ export default function PrimeDataTable({
               </div>
             </>
           ) : (
-            <>No Data Available</>
+            <>{loading}</>
           )}
         </div>
       </div>

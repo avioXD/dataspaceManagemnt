@@ -32,8 +32,7 @@ export const addHours = (numOfHours, date = new Date()) => {
 
 export const validateEncryptedToken = (token) => {
   let preToken = JSON.parse(getDecryptString(token));
-  if (new Date().getTime() > new Date(preToken.exp)) return preToken.token;
-  else return "";
+  return preToken.token;
 };
 export const createEncryptToken = (token, exp) => {
   return getEncryptString(

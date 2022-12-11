@@ -19,24 +19,41 @@ import { RiNewspaperLine } from "react-icons/ri";
 import EditAdmin from "./pages/home/admin/edit_admin";
 import AllStudents from "./pages/home/admin/students/all_students";
 import StudentIndex from "./pages/home/admin/students/student_index";
-import SendMessage from "./pages/home/admin/students/send_message";
 import StudentDetails from "./pages/home/admin/students/student_details";
 import AdminDashboard from "./pages/home/admin/admin_dashboard";
 import ProjectNotAssignedStudents from "./pages/home/admin/students/live_interactive/project_not_assigned";
-import LiveInteractiveStudents from "./pages/home/admin/students/live_interactive/live_ineractive_students";
+import LiveInteractiveStudents from "./pages/home/admin/students/live_interactive/outlet_live_ineractive_students";
 import ProjectAssignedStudents from "./pages/home/admin/students/live_interactive/project_assigned";
+import SendMessage from "./pages/home/admin/students/live_interactive/send_message";
+import CourseCompletedStudents from "./pages/home/admin/students/live_interactive/course_completed";
+import InterviewStudents from "./pages/home/admin/students/live_interactive/Interview";
+import CourseNotCompletedStudents from "./pages/home/admin/students/live_interactive/course_not_completed";
+import ScheduledStudents from "./pages/home/admin/students/live_interactive/scheduled_students";
+import NotScheduledStudents from "./pages/home/admin/students/live_interactive/not_scheduled_student";
+import InterviewNotCompleted from "./pages/home/admin/students/live_interactive/interview_not_completed";
+import AddAdmin from "./pages/home/admin/add_admin";
+import userState from "./store/_userState";
+import AuthHooks from "./hooks/_authHooks";
 export const routings: any[] = [
   {
     route: "",
     path: "",
+    element: <Navigate to="login" />,
+    children: [],
+    shortcut: false,
+  },
+  {
+    route: "Home",
+    path: "Home",
     element: <Home />,
-    canActivate: false,
+    shortcut: false,
     children: [
       {
         route: "Base",
         path: "",
         element: <Navigate to="Dashboard" />,
         children: [],
+        shortcut: true,
       },
       {
         route: "Dashboard",
@@ -44,6 +61,7 @@ export const routings: any[] = [
         element: <AdminDashboard />,
         icon: <RiDashboardFill />,
         children: [],
+        shortcut: true,
       },
       {
         route: "Admin",
@@ -51,59 +69,128 @@ export const routings: any[] = [
         element: <EditAdmin />,
         icon: <GoPerson />,
         children: [],
+        shortcut: true,
+      },
+      {
+        route: "Add Admins",
+        path: "Add Admins",
+        element: <AddAdmin />,
+        icon: <GoPerson />,
+        children: [],
+        shortcut: false,
       },
       {
         route: "Students",
         path: "Students",
         element: <StudentIndex />,
         icon: <FaUserGraduate />,
+        shortcut: true,
         children: [
           {
             route: "Base",
             path: "",
             element: <Navigate to="All Students" />,
             children: [],
+            shortcut: true,
+          },
+          {
+            route: "Message",
+            path: "Message",
+            element: <SendMessage />,
+            children: [],
+            shortcut: false,
           },
           {
             route: "All Students",
             path: "All Students",
             element: <AllStudents />,
             children: [],
+            shortcut: true,
           },
-          {
-            route: "Message",
-            path: "Message",
-            element: <StudentDetails />,
-            children: [],
-          },
+
           {
             route: "Live Interactive Students",
             path: "live",
             element: <LiveInteractiveStudents />,
+            shortcut: true,
             children: [
               {
                 route: "Base",
                 path: "",
                 element: <Navigate to="Scheduled Students" />,
                 children: [],
+                shortcut: false,
               },
               {
                 route: "Scheduled Students",
                 path: "Scheduled Students",
-                element: <DataTable />,
+                element: <ScheduledStudents />,
+                shortcut: true,
                 children: [],
               },
+              {
+                route: "Not Scheduled Students",
+                path: "Not Scheduled Students",
+                element: <NotScheduledStudents />,
+                shortcut: true,
+                children: [],
+              },
+              {
+                route: "Course Completed",
+                path: "Course Completed",
+                element: <CourseCompletedStudents />,
+                shortcut: true,
+                children: [],
+              },
+              {
+                route: "Course Complete Reminder",
+                path: "Course Complete Reminder",
+                element: <CourseNotCompletedStudents />,
+                shortcut: true,
+                children: [],
+              },
+
               {
                 route: "Project Assigned",
                 path: "Project Assigned",
                 element: <ProjectAssignedStudents />,
                 children: [],
+                shortcut: true,
               },
               {
                 route: "Project Not Assigned",
                 path: "Project Not Assigned",
                 element: <ProjectNotAssignedStudents />,
                 children: [],
+                shortcut: true,
+              },
+              {
+                route: "Interview Completed",
+                path: "Interview Completed",
+                element: <InterviewStudents />,
+                children: [],
+                shortcut: true,
+              },
+              {
+                route: "Interview Not Completed",
+                path: "Interview Not Completed",
+                element: <InterviewNotCompleted />,
+                children: [],
+                shortcut: true,
+              },
+              {
+                route: "Message",
+                path: "Message",
+                element: <SendMessage />,
+                children: [],
+                shortcut: false,
+              },
+              {
+                route: "View Student",
+                path: "View Student",
+                element: <StudentDetails />,
+                children: [],
+                shortcut: false,
               },
             ],
           },
@@ -115,6 +202,7 @@ export const routings: any[] = [
         element: <DataTable />,
         icon: <FaChalkboardTeacher />,
         children: [],
+        shortcut: true,
       },
       {
         route: "Sales",
@@ -122,6 +210,7 @@ export const routings: any[] = [
         element: <DataTable />,
         icon: <BiStats />,
         children: [],
+        shortcut: true,
       },
       {
         route: "Reports",
@@ -129,6 +218,7 @@ export const routings: any[] = [
         element: <DataTable />,
         icon: <HiClipboardList />,
         children: [],
+        shortcut: true,
       },
       {
         route: "Career",
@@ -136,6 +226,7 @@ export const routings: any[] = [
         element: <DataTable />,
         icon: <HiBriefcase />,
         children: [],
+        shortcut: true,
       },
       {
         route: "Payment Gateway",
@@ -143,6 +234,7 @@ export const routings: any[] = [
         element: <DataTable />,
         icon: <IoMdWallet />,
         children: [],
+        shortcut: true,
       },
       {
         route: "News",
@@ -150,6 +242,7 @@ export const routings: any[] = [
         element: <DataTable />,
         icon: <RiNewspaperLine />,
         children: [],
+        shortcut: true,
       },
       {
         route: "Notes",
@@ -157,6 +250,7 @@ export const routings: any[] = [
         element: <DataTable />,
         icon: <RiNewspaperLine />,
         children: [],
+        shortcut: true,
       },
     ],
   },
@@ -195,6 +289,15 @@ const noAuthRoute = [
 ];
 export default function MainRouter() {
   let routes;
+  const { user } = userState();
+  const authHook = AuthHooks();
+  useEffect(() => {
+    sync();
+    console.log("call once");
+  }, []);
+  const sync = async () => {
+    await authHook.useSyncUser();
+  };
   if (true) {
     routes = createBrowserRouter(routings);
   } else {

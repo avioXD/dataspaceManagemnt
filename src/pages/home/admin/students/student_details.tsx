@@ -1,12 +1,10 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 export default function StudentDetails() {
+  const location = useLocation();
+  const student = location.state;
   const [creeds, setCreeds] = useState("");
-  const onValueChange = (val: any) => {
-    // console.log(val);
-    setCreeds(val);
-    console.log(val);
-    // console.log(register);
-  };
+
   return (
     <>
       <div className="p-3 view-student">
