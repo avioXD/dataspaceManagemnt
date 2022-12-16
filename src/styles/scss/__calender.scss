@@ -1,0 +1,45 @@
+@import "./__theme.scss";
+.fc-button {
+  background-color: $color-200 !important;
+  border: 0px solid $color-100 !important;
+  border-radius: 4px !important;
+  margin-right: 3px !important;
+  padding: 0.4rem 1rem !important;
+  font-weight: 400;
+  // border: 0px;
+  color: white;
+  // box-shadow: 0px 0px 10px $color-100;
+  @media screen and (max-width: 450px) {
+    font-size: 15px;
+  }
+  .fc-dayGridMonth-button {
+    color: white;
+  }
+}
+.fc-media-screen {
+  a {
+    text-decoration: none !important;
+    color: $color-200;
+  }
+}
+.fc-toolbar-title {
+  font-size: $s5 !important;
+}
+.calender-data {
+  height: max-content;
+  padding: 5px;
+  p {
+    font-size: 12px;
+    font-weight: 400;
+    width: 100%;
+    line-height: 4px;
+  }
+  box-shadow: $shadow-1;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-top: 15px;
+  transition: $transition-all;
+  &:hover {
+    transform: scale(1.03);
+  }
+}

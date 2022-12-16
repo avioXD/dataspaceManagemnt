@@ -1,6 +1,17 @@
 import { useState } from "react";
-
-export default function AddAdmin() {
+import ReactImagePickerEditor, {
+  ImagePickerConf,
+} from "react-image-picker-editor";
+import "react-image-picker-editor/dist/index.css";
+const config2: ImagePickerConf = {
+  borderRadius: "8px",
+  language: "en",
+  width: "330px",
+  height: "250px",
+  objectFit: "contain",
+  compressInitial: null,
+};
+export default function AddMarketing() {
   const init = {
     name: "",
     contact_no: "",
@@ -8,18 +19,19 @@ export default function AddAdmin() {
     address: "",
     password: "",
     email: "",
+    profile_pic: "",
   };
   const [creeds, setCreeds] = useState(init);
   const onValueChange = (val: any) => {
     // console.log(val);
     setCreeds({ ...creeds, ...val });
     console.log(val);
-    // console.log(register);
+    console.log(creeds);
   };
   return (
     <>
       <div className=" mt-3">
-        <h4>Admin Details</h4>
+        <h4>Marketing Details</h4>
         <div className="card shadow  p-4">
           <div className="row mx-3">
             <div className="col-sm-6 ">
@@ -155,9 +167,23 @@ export default function AddAdmin() {
                 />
               </div>
             </div>
+            <div className="col-sm-6">
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">
+                  Profile Picture
+                </label>
+                <ReactImagePickerEditor
+                  config={config2}
+                  imageSrcProp={creeds.profile_pic}
+                  imageChanged={(newDataUri: any) => {
+                    onValueChange({ profile_pic: newDataUri });
+                  }}
+                />
+              </div>
+            </div>
           </div>
           <div className="flex-start p-3 mx-3">
-            <button className="btn btn-primary"> Add Admin</button>
+            <button className="btn btn-primary">Add Marketing</button>
           </div>
         </div>
       </div>

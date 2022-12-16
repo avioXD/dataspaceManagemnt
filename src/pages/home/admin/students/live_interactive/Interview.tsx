@@ -83,6 +83,7 @@ export default function InterviewStudents() {
         onRefresh={getFromApi}
         note
         message
+        options
         timeline
       />
     </>

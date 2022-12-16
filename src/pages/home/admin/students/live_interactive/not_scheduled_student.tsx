@@ -3,6 +3,7 @@ import globalDataStore from "../../../../../store/_globalData";
 import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../../services/_protected_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
+import { Link } from "react-router-dom";
 export default function NotScheduledStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -36,9 +37,14 @@ export default function NotScheduledStudents() {
       dataFilter: (data: any, key: any) => {
         return (
           <>
-            <button className="btn btn-outline-primary btn-sm">
-              Set Class
-            </button>
+            <Link
+              to="/Home/Students/live/Set Student Class"
+              state={data.user_id}
+            >
+              <button className="btn btn-outline-primary btn-sm">
+                Set Class
+              </button>
+            </Link>
           </>
         );
       },
@@ -84,6 +90,7 @@ export default function NotScheduledStudents() {
         note
         message
         timeline
+        options
       />
     </>
   );

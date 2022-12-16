@@ -54,7 +54,7 @@ export default function EditAdmin() {
     <>
       <div className="das-exs p-3">
         <div className="flex-end mx-4">
-          <Link to="/Add Admins">
+          <Link to="/Home/Add Admins">
             <button className="btn btn-primary">Add Admin</button>
           </Link>
         </div>

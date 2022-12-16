@@ -93,6 +93,7 @@ export default function ProjectAssignedStudents() {
         note
         message
         timeline
+        options
       />
     </>
   );

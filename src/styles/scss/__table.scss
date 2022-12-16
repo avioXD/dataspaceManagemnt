@@ -210,6 +210,11 @@
   }
 }
 .table-menu {
+  .tbl-btn {
+    border: 0;
+    padding: 3px;
+    background-color: transparent;
+  }
   .press {
     transform: rotate(90deg);
   }
@@ -218,6 +223,9 @@
     .option {
       padding: 0.5rem 1rem;
       color: $dark;
+      border: 0;
+      background-color: #f8f8f8;
+      width: 100%;
       span {
         font-size: 14px;
         text-align: start;

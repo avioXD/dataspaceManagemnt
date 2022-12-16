@@ -3,8 +3,9 @@ import globalDataStore from "../../../../store/_globalData";
 import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../services/_protected_api";
 import PrimeDataTable from "../../../../common/prime_data_table";
+import { Link } from "react-router-dom";
 
-export default function AllStudents() {
+export default function FacultyReport() {
   const tablesStructure: Columns[] = [
     {
       data_name: "name",
@@ -25,46 +26,47 @@ export default function AllStudents() {
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
-      data_name: "course_name",
-      header: "Course",
+      data_name: "total_courses",
+      header: "Total Courses",
       sortable: true,
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
-      data_name: "mode",
-      header: "Mode",
+      data_name: "total_class_completed",
+      header: "Total Completed Classes",
       sortable: true,
-      dataFilter: (data: any, key: any) => {
-        if (data[key] == 1) return <div className="text-success">online</div>;
-        if (data[key] == 2) return <div className="text-danger">offline</div>;
-        if (data[key] == 3)
-          return <div className="text-info">online & offline</div>;
-        return <div className="text-gray">Not Specified</div>;
-      },
+      dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
-      data_name: "reg_date",
-      header: "Register Date & Time",
+      data_name: "demo_taken",
+      header: "Demo Taken",
+      sortable: true,
+      dataFilter: (data: any, key: any) => data[key] || <></>,
+    },
+
+    {
+      data_name: "ratings",
+      header: "Ratings",
       sortable: true,
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
   ];
-  const { allStudents } = globalDataStore();
-  const { getAllStudents } = protectedApiService();
+  const { allFaculty } = globalDataStore();
+  const { getAllFaculty } = protectedApiService();
   const [allData, setAllData] = useState(null);
   useEffect(() => {
     getData();
   }, []);
 
   const getData = async () => {
-    if (allStudents?.length) {
-      setAllData(allStudents);
+    if (allFaculty?.length) {
+      setAllData(allFaculty);
     } else {
       getFromApi();
     }
   };
   const getFromApi = async () => {
-    const res: any = await getAllStudents();
+    const res: any = await getAllFaculty();
     setAllData(res);
   };
   return (
@@ -72,11 +74,10 @@ export default function AllStudents() {
       <PrimeDataTable
         data={allData || []}
         structure={tablesStructure}
-        title={"All Students"}
+        title={"All Faculty Report"}
         isForStudent
         onRefresh={getFromApi}
         message
-        options
       />
     </>
   );

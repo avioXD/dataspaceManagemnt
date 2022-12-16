@@ -1,28 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/_auth";
-
+import { toast } from "react-toastify";
 export default function Login() {
   const navigate = useNavigate();
-  const [creeds, setCreeds] = useState({
+  const [creeds, setCreeds] = useState<any>({
     username: "",
     password: "",
   });
   const { loginUser } = AuthService();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const onValueChange = (val: any) => {
     // console.log(val);
     setCreeds({ ...creeds, ...val });
-    console.log(val);
+    // console.log(val);
     // console.log(register);
   };
   const onLogin = async () => {
-    console.log(creeds);
+    // console.log(creeds);
     setLoading(true);
-    loginUser(creeds);
-    setTimeout(() => {
-      navigate("/Home");
-    }, 1500);
+    let response: any = await loginUser(creeds);
+    if (!response.status) {
+      toast.error("Invalid credentials!");
+      setCreeds({
+        username: "",
+        password: "",
+      });
+      setError(true);
+    } else {
+      toast.success("Login Successful!");
+    }
     setLoading(false);
   };
   return (
@@ -65,11 +73,12 @@ export default function Login() {
                         [e.target.name]: e.target.value,
                       })
                     }
-                    className="form-control"
+                    className={`form-control ${error && "invalid"}`}
                     name="username"
                     id="username"
                     aria-describedby="namelHelp"
                     placeholder="Username*"
+                    onFocus={() => setError(false)}
                     required
                   />
                 </div>
@@ -84,11 +93,12 @@ export default function Login() {
                       })
                     }
                     type="password"
-                    className="form-control"
+                    className={`form-control ${error && "invalid"}`}
                     name="password"
                     id="password"
                     aria-describedby="passwordHelp"
                     placeholder="Password *"
+                    onFocus={() => setError(false)}
                     required
                   />
                   <div className="flex-end my-2  ">

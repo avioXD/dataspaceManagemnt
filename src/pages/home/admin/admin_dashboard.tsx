@@ -24,26 +24,30 @@ export default function AdminDashboard() {
     if (!allFaculty) {
       // console.log("looping");
       const all_faulty: any = await getAllFaculty();
-      setFacultyReports({
-        total_faculty: all_faulty.length,
-        ethical_hacking: collectionCount(all_faulty, "course_id", "9"),
-        data_science: collectionCount(all_faulty, "course_id", "8"),
-        others:
-          all_faulty.length -
-          (collectionCount(all_faulty, "course_id", "8") +
-            collectionCount(all_faulty, "course_id", "9")),
-      });
+      if (all_faulty) {
+        setFacultyReports({
+          total_faculty: all_faulty.length,
+          ethical_hacking: collectionCount(all_faulty, "course_id", "9"),
+          data_science: collectionCount(all_faulty, "course_id", "8"),
+          others:
+            all_faulty.length -
+            (collectionCount(all_faulty, "course_id", "8") +
+              collectionCount(all_faulty, "course_id", "9")),
+        });
+      }
     } else {
       // console.log("looping");
-      setFacultyReports({
-        total_faculty: allFaculty.length,
-        ethical_hacking: collectionCount(allFaculty, "course_id", "9"),
-        data_science: collectionCount(allFaculty, "course_id", "8"),
-        others:
-          allFaculty.length -
-          (collectionCount(allFaculty, "course_id", "8") +
-            collectionCount(allFaculty, "course_id", "9")),
-      });
+      if (allFaculty) {
+        setFacultyReports({
+          total_faculty: allFaculty.length,
+          ethical_hacking: collectionCount(allFaculty, "course_id", "9"),
+          data_science: collectionCount(allFaculty, "course_id", "8"),
+          others:
+            allFaculty.length -
+            (collectionCount(allFaculty, "course_id", "8") +
+              collectionCount(allFaculty, "course_id", "9")),
+        });
+      }
     }
   };
   return (

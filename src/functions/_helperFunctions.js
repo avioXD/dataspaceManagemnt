@@ -1,4 +1,4 @@
-import * as CryptoJS from "crypto-js";
+import * as CryptoJS from 'crypto-js'
 export const oF = (obj) => {
   let formData = new FormData();
   Object.keys(obj).map((item) => formData.append(item, obj[item]));
@@ -7,6 +7,7 @@ export const oF = (obj) => {
 
 export const getEncryptString = (message) => {
   // return message
+  console.log(message);
   if (message) {
     return CryptoJS.AES.encrypt(message, process.env.WEB_SALT).toString();
   } else {

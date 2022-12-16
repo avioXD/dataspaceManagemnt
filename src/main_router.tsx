@@ -1,4 +1,5 @@
 import React from "react";
+import "react-toastify/dist/ReactToastify.css";
 import {
   createBrowserRouter,
   Navigate,
@@ -33,7 +34,22 @@ import NotScheduledStudents from "./pages/home/admin/students/live_interactive/n
 import InterviewNotCompleted from "./pages/home/admin/students/live_interactive/interview_not_completed";
 import AddAdmin from "./pages/home/admin/add_admin";
 import userState from "./store/_userState";
-import AuthHooks from "./hooks/_authHooks";
+import AllFaculty from "./pages/home/admin/faculty/all_faculty";
+import AddFaculty from "./pages/home/admin/faculty/add_faculty";
+import EditProfileDetails from "./pages/home/admin/common/edit_profile";
+import ViewProfileDetails from "./pages/home/admin/common/view_profile";
+import AddNewSchedule from "./pages/home/admin/students/live_interactive/new_schedule";
+import Calender from "./common/calender";
+import AddMarketing from "./pages/home/admin/marketing/add_marketing";
+import AllMarketing from "./pages/home/admin/marketing/all_marketing";
+import SetFacultyTiming from "./pages/home/admin/faculty/set_faculty_timing";
+import AllSales from "./pages/home/admin/sales/all_sales_data";
+import AddSales from "./pages/home/admin/sales/add_sales";
+import FacultyReport from "./pages/home/admin/reports/faculty_report";
+import ReportsOutlet from "./pages/home/admin/reports/outlet_reports";
+import { ToastContainer } from "react-toastify";
+import SetStudentClass from "./pages/home/admin/students/live_interactive/set_student_class";
+
 export const routings: any[] = [
   {
     route: "",
@@ -75,6 +91,22 @@ export const routings: any[] = [
         route: "Add Admins",
         path: "Add Admins",
         element: <AddAdmin />,
+        icon: <GoPerson />,
+        children: [],
+        shortcut: false,
+      },
+      {
+        route: "View Profile",
+        path: "View Profile",
+        element: <ViewProfileDetails />,
+        icon: <GoPerson />,
+        children: [],
+        shortcut: false,
+      },
+      {
+        route: "Edit Profile",
+        path: "Edit Profile",
+        element: <EditProfileDetails />,
         icon: <GoPerson />,
         children: [],
         shortcut: false,
@@ -122,6 +154,13 @@ export const routings: any[] = [
                 shortcut: false,
               },
               {
+                route: "Add New Schedule",
+                path: "Add New Schedule",
+                element: <AddNewSchedule />,
+                shortcut: true,
+                children: [],
+              },
+              {
                 route: "Scheduled Students",
                 path: "Scheduled Students",
                 element: <ScheduledStudents />,
@@ -132,6 +171,13 @@ export const routings: any[] = [
                 route: "Not Scheduled Students",
                 path: "Not Scheduled Students",
                 element: <NotScheduledStudents />,
+                shortcut: true,
+                children: [],
+              },
+              {
+                route: "Set Student Class",
+                path: "Set Student Class",
+                element: <SetStudentClass />,
                 shortcut: true,
                 children: [],
               },
@@ -199,25 +245,74 @@ export const routings: any[] = [
       {
         route: "Faculties",
         path: "faculties",
-        element: <DataTable />,
+        element: <AllFaculty />,
         icon: <FaChalkboardTeacher />,
         children: [],
         shortcut: true,
       },
       {
+        route: "Set Faculty Timing",
+        path: "Set Faculty Timing",
+        element: <SetFacultyTiming />,
+        icon: <GoPerson />,
+        children: [],
+        shortcut: false,
+      },
+      {
+        route: "Add Faculty",
+        path: "Add Faculty",
+        element: <AddFaculty />,
+        icon: <GoPerson />,
+        children: [],
+        shortcut: false,
+      },
+      {
+        route: "Marketing",
+        path: "Marketing",
+        element: <AllMarketing />,
+        icon: <FaChalkboardTeacher />,
+        children: [],
+        shortcut: true,
+      },
+      {
+        route: "Add Marketing",
+        path: "Add Marketing",
+        element: <AddMarketing />,
+        icon: <GoPerson />,
+        children: [],
+        shortcut: false,
+      },
+      {
         route: "Sales",
         path: "sales",
-        element: <DataTable />,
+        element: <AllSales />,
         icon: <BiStats />,
         children: [],
         shortcut: true,
       },
       {
+        route: "Add Sales",
+        path: "Add Sales",
+        element: <AddSales />,
+        icon: <BiStats />,
+        children: [],
+        shortcut: false,
+      },
+      {
         route: "Reports",
         path: "reports",
-        element: <DataTable />,
+        element: <ReportsOutlet />,
         icon: <HiClipboardList />,
-        children: [],
+        children: [
+          {
+            route: "Faculty Report",
+            path: "Faculty Report",
+            element: <FacultyReport />,
+            icon: <HiBriefcase />,
+            children: [],
+            shortcut: true,
+          },
+        ],
         shortcut: true,
       },
       {
@@ -289,20 +384,29 @@ const noAuthRoute = [
 ];
 export default function MainRouter() {
   let routes;
-  const { user } = userState();
-  const authHook = AuthHooks();
-  useEffect(() => {
-    sync();
-    console.log("call once");
-  }, []);
-  const sync = async () => {
-    await authHook.useSyncUser();
-  };
   if (true) {
     routes = createBrowserRouter(routings);
   } else {
     routes = createBrowserRouter(noAuthRoute);
   }
 
-  return <>{routes && <RouterProvider router={routes} />}</>;
+  return (
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
+      {routes && <RouterProvider router={routes} />}
+    </>
+  );
 }

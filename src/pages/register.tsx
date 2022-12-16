@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import AuthService from "../services/_auth";
 
 import CommonApiService from "../services/_common_api";
 const regex: any = {
@@ -44,7 +45,7 @@ export default function Register() {
   const { getCourses } = CommonApiService();
 
   const [register, setRegister] = useState(initial);
-
+  const { signUp } = AuthService();
   useEffect(() => {
     fetchCourses();
   }, []);
@@ -103,7 +104,15 @@ export default function Register() {
       registerUser();
     }
   };
-  const registerUser = () => {};
+  const registerUser = async () => {
+    const formData = new FormData();
+    for (let [key, value] of Object.entries<any>(register)) {
+      formData.append(key, value);
+    }
+    if (formData) {
+      const res: any = await signUp(formData);
+    }
+  };
 
   const resetPanel = () => {
     setRegister(initial);

@@ -83,7 +83,7 @@ export default function CourseNotCompletedStudents() {
         onRefresh={getFromApi}
         note
         message
-        timeline
+        timeline options
       />
     </>
   );

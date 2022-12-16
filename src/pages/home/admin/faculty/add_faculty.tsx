@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function AddAdmin() {
+export default function AddFaculty() {
   const init = {
     name: "",
     contact_no: "",
@@ -19,7 +19,7 @@ export default function AddAdmin() {
   return (
     <>
       <div className=" mt-3">
-        <h4>Admin Details</h4>
+        <h4>Faculty Details</h4>
         <div className="card shadow  p-4">
           <div className="row mx-3">
             <div className="col-sm-6 ">
@@ -157,7 +157,7 @@ export default function AddAdmin() {
             </div>
           </div>
           <div className="flex-start p-3 mx-3">
-            <button className="btn btn-primary"> Add Admin</button>
+            <button className="btn btn-primary"> Add Faculty</button>
           </div>
         </div>
       </div>

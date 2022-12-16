@@ -84,6 +84,7 @@ export default function InterviewNotCompleted() {
         note
         message
         timeline
+        options
       />
     </>
   );

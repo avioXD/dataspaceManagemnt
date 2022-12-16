@@ -96,6 +96,7 @@ export default function ProjectNotAssignedStudents() {
         note
         message
         timeline
+        options
       />
     </>
   );

@@ -25,4 +25,57 @@
       border-radius: 12px;
     }
   }
+  .user {
+    span {
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+}
+.nav-menu {
+  .tbl-btn {
+    border: 0;
+    padding: 3px;
+    background-color: transparent;
+  }
+  .press {
+    transform: rotate(90deg);
+  }
+  .menu {
+    overflow: hidden;
+    .option {
+      padding: 0.5rem 1rem;
+      color: $dark;
+      border: 0;
+      background-color: #f8f8f8;
+      width: 100%;
+      span {
+        font-size: 14px;
+        text-align: start;
+      }
+      img {
+        width: 20px;
+      }
+      &:hover {
+        background-color: #eeeeee;
+      }
+    }
+    box-shadow: $shadow-2;
+    transition: $transition-all ease-in;
+    display: none;
+    position: absolute;
+    right: 10%;
+    top: 90%;
+
+    min-width: 3rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    z-index: 10000;
+  }
+}
+.right-side {
+  position: relative;
+  .nav-dropdown {
+    position: relative;
+  }
 }

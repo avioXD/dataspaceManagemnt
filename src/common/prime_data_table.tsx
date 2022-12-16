@@ -27,9 +27,10 @@ export default function PrimeDataTable({
   message,
   timeline,
   setclass,
+  options,
 }: any) {
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
   let locationPath: any = location.pathname.replaceAll("%20", " ").split("/");
   let final_path = "";
   locationPath.forEach((element: any, index: any) => {
@@ -280,43 +281,53 @@ export default function PrimeDataTable({
                     selectionMode="multiple"
                     headerStyle={{ width: "3em" }}
                   ></Column>
-                  <Column
-                    headerStyle={{ width: "3em" }}
-                    style={{
-                      position: "relative",
-                    }}
-                    body={(e) => (
-                      <>
-                        {e.user_id ? (
-                          <div className="table-menu">
-                            {" "}
-                            <img
-                              className="press"
-                              onClick={() => showMenu(`menuid${e.user_id}`)}
-                              src="/assets/svg/more.svg"
-                              alt="..."
-                            />
-                            <div
-                              id={`menuid${e.user_id}`}
-                              className="menu"
-                              onMouseLeave={removeMenu}
-                            >
-                              <div className="flex-start text-dark option">
-                                <img src="/assets/svg/edit.svg" alt="" />
-                                <span className="mx-3">Edit</span>
-                              </div>
-                              <div className="flex-start text-danger option">
-                                <img src="/assets/svg/trash.svg" alt="" />
-                                <span className="mx-3">Delete</span>
+                  {options && (
+                    <Column
+                      headerStyle={{ width: "3em" }}
+                      style={{
+                        position: "relative",
+                      }}
+                      body={(e) => (
+                        <>
+                          {e?.user_id && (
+                            <div className="table-menu">
+                              <button className="tbl-btn">
+                                <img
+                                  className="press"
+                                  onClick={() => showMenu(`menuid${e.user_id}`)}
+                                  src="/assets/svg/more.svg"
+                                  alt="..."
+                                />
+                              </button>
+                              <div
+                                id={`menuid${e.user_id}`}
+                                className="menu"
+                                onMouseLeave={removeMenu}
+                              >
+                                <Link to="/Home/View Profile" state={e}>
+                                  <button className="flex-start text-dark option">
+                                    <TbEye size={20} />
+                                    <span className="mx-3">View</span>
+                                  </button>
+                                </Link>
+                                <Link to="/Home/Edit Profile" state={e}>
+                                  <button className="flex-start text-dark option">
+                                    <img src="/assets/svg/edit.svg" alt="" />
+                                    <span className="mx-3">Edit</span>
+                                  </button>
+                                </Link>
+                                <button className="flex-start text-danger option">
+                                  <img src="/assets/svg/trash.svg" alt="" />
+                                  <span className="mx-3">Delete</span>
+                                </button>
                               </div>
                             </div>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </>
-                    )}
-                  ></Column>
+                          )}
+                        </>
+                      )}
+                    ></Column>
+                  )}
+
                   {changeableData?.length &&
                     structure.map((key: Columns) => (
                       <Column
