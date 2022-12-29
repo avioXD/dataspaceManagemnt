@@ -42,3 +42,7 @@
   font-size: 13px !important;
   padding: 0.4rem 1rem;
 }
+.btn:disabled {
+  background-color: #999999;
+  border: 0px;
+}

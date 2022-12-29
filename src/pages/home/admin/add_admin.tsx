@@ -1,5 +1,18 @@
 import { useState } from "react";
-
+import { toast } from "react-toastify";
+import protectedApiService from "../../../services/_protected_api";
+import ReactImagePickerEditor, {
+  ImagePickerConf,
+} from "react-image-picker-editor";
+import "react-image-picker-editor/dist/index.css";
+const config2: ImagePickerConf = {
+  borderRadius: "8px",
+  language: "en",
+  width: "330px",
+  height: "250px",
+  objectFit: "contain",
+  compressInitial: null,
+};
 export default function AddAdmin() {
   const init = {
     name: "",
@@ -15,6 +28,16 @@ export default function AddAdmin() {
     setCreeds({ ...creeds, ...val });
     console.log(val);
     // console.log(register);
+  };
+  const { postAddAdmin } = protectedApiService();
+  const onSubmit = async () => {
+    const res: any = await postAddAdmin(creeds);
+    if (res.status == "1") {
+      toast.success("Created");
+      setCreeds(init);
+    } else {
+      toast.error("Creation failed!");
+    }
   };
   return (
     <>
@@ -72,10 +95,11 @@ export default function AddAdmin() {
                   Contact Number
                 </label>
                 <input
-                  type="number"
+                  type="phone"
+                  maxLength={10}
                   className="form-control"
-                  name="contact_number"
-                  id="contact_number"
+                  name="contact_no"
+                  id="contact_no"
                   value={creeds.contact_no}
                   aria-describedby="namelHelp"
                   placeholder="0000 0000 00"
@@ -155,9 +179,26 @@ export default function AddAdmin() {
                 />
               </div>
             </div>
+            <div className="col-sm-6">
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">
+                  Profile Picture
+                </label>
+                {/* <ReactImagePickerEditor
+                  config={config2}
+                  imageSrcProp={creeds?.profile_pic}
+                  imageChanged={(newDataUri: any) => {
+                    onValueChange({ profile_pic: newDataUri });
+                  }}
+                /> */}
+              </div>
+            </div>
           </div>
           <div className="flex-start p-3 mx-3">
-            <button className="btn btn-primary"> Add Admin</button>
+            <button onClick={onSubmit} className="btn btn-primary">
+              {" "}
+              Add Admin
+            </button>
           </div>
         </div>
       </div>

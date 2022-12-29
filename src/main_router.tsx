@@ -25,7 +25,7 @@ import AdminDashboard from "./pages/home/admin/admin_dashboard";
 import ProjectNotAssignedStudents from "./pages/home/admin/students/live_interactive/project_not_assigned";
 import LiveInteractiveStudents from "./pages/home/admin/students/live_interactive/outlet_live_ineractive_students";
 import ProjectAssignedStudents from "./pages/home/admin/students/live_interactive/project_assigned";
-import SendMessage from "./pages/home/admin/students/live_interactive/send_message";
+import SendMessage from "./pages/home/admin/send_message";
 import CourseCompletedStudents from "./pages/home/admin/students/live_interactive/course_completed";
 import InterviewStudents from "./pages/home/admin/students/live_interactive/Interview";
 import CourseNotCompletedStudents from "./pages/home/admin/students/live_interactive/course_not_completed";
@@ -224,13 +224,7 @@ export const routings: any[] = [
                 children: [],
                 shortcut: true,
               },
-              {
-                route: "Message",
-                path: "Message",
-                element: <SendMessage />,
-                children: [],
-                shortcut: false,
-              },
+
               {
                 route: "View Student",
                 path: "View Student",
@@ -346,6 +340,13 @@ export const routings: any[] = [
         icon: <RiNewspaperLine />,
         children: [],
         shortcut: true,
+      },
+      {
+        route: "Message",
+        path: "Message",
+        element: <SendMessage />,
+        children: [],
+        shortcut: false,
       },
     ],
   },

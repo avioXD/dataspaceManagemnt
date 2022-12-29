@@ -126,7 +126,7 @@ export default function PrimeDataTable({
                 </button>
               )}
               {message && (
-                <Link to={`${final_path}/Message`} state={selectedData}>
+                <Link to={`/Home/Message`} state={selectedData}>
                   <button className="outlined-btn flex-start-center mx-1">
                     <TbMessage2 size={20} />
                     <span className="mx-1">Message</span>

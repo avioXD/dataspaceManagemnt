@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import AuthService from "../services/_auth";
 
 import CommonApiService from "../services/_common_api";
+import { toast } from "react-toastify";
 const regex: any = {
   contact_no: /(7|8|9)\d{9}/,
   aadhar_no: /^\d{4}\s\d{4}\s\d{4}$/,
@@ -41,11 +42,12 @@ export default function Register() {
   const [show, setShow] = useState(false);
   const [formError, setFormError] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(false);
-  const [screen, setScreen] = useState(2);
+  const [screen, setScreen] = useState(1);
   const { getCourses } = CommonApiService();
 
   const [register, setRegister] = useState(initial);
   const { signUp } = AuthService();
+
   useEffect(() => {
     fetchCourses();
   }, []);
@@ -68,15 +70,17 @@ export default function Register() {
       let ele: any = document.getElementById(
         `${[Object.keys(val)[0]]}`
       ) as HTMLDivElement | null;
-
+      console.log("Valid Check");
       const key = Object.keys(val)[0];
       if (!register[key].match(regex[key])) {
-        ele.classNameList.add("invalid");
+        ele.classList.add("invalid");
+        console.log("Invalid");
         setBtnDisabled(true);
         setFormError(true);
       } else {
-        ele.classNameList.remove("invalid");
+        ele.classList.remove("invalid");
         setFormError(false);
+        console.log("valid");
       }
     }
   };
@@ -85,6 +89,15 @@ export default function Register() {
     // console.log(val);
     setRegister({ ...register, ...val });
     console.log(val);
+
+    let ele: any = document.getElementById(
+      `${[Object.keys(val)[0]]}`
+    ) as HTMLDivElement | null;
+    if (ele) {
+      ele.classList.remove("invalid");
+      setFormError(false);
+      console.log("valid");
+    }
 
     // console.log(register);
   };
@@ -105,12 +118,12 @@ export default function Register() {
     }
   };
   const registerUser = async () => {
-    const formData = new FormData();
-    for (let [key, value] of Object.entries<any>(register)) {
-      formData.append(key, value);
-    }
-    if (formData) {
-      const res: any = await signUp(formData);
+    if (!formError) {
+      const res: any = await signUp(register);
+      if (res.status) {
+        toast.success("Registration Successful!");
+        resetPanel();
+      }
     }
   };
 
@@ -904,7 +917,7 @@ export default function Register() {
                               style={{
                                 marginLeft: "6px",
                               }}
-                              type="number"
+                              type="phone"
                               pattern-check="true"
                               className="form-control"
                               name="contact_no"

@@ -14,6 +14,11 @@ export default function protectedApiService() {
       authentication: accessToken,
     },
   };
+  const createForm = (creeds: any) => {
+    let formData = new FormData();
+    Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
+    return formData;
+  };
   // console.log(authHeader);
   const { setAllAdmins, setAllFaculty, setAllStudents, setAllMarketing } =
     globalDataStore();
@@ -135,6 +140,15 @@ export default function protectedApiService() {
       //console.log(e);
     }
   };
+  const postDeleteFacultyTiming = async (creeds: any) => {
+    try {
+      const res = await _https.get(
+        `/delete_faculty_timing/${creeds}`,
+        authHeader
+      );
+      return res.data;
+    } catch (e) {}
+  };
   ////// all protected post requests
 
   const postAddFacultyTiming = async (creeds: any) => {
@@ -143,10 +157,21 @@ export default function protectedApiService() {
       return res.data;
     } catch (e) {}
   };
-  const postDeleteFacultyTiming = async (creeds: any) => {
+  const postAddMarketing = async (creeds: any) => {
     try {
-      const res = await _https.get(
-        `/delete_faculty_timing/${creeds}`,
+      const res = await _https.post(
+        "/marketing_add",
+        createForm(creeds),
+        authHeader
+      );
+      return res.data;
+    } catch (e) {}
+  };
+  const postAddAdmin = async (creeds: any) => {
+    try {
+      const res = await _https.post(
+        "/add_admin",
+        createForm(creeds),
         authHeader
       );
       return res.data;
@@ -162,8 +187,10 @@ export default function protectedApiService() {
     getFacultyDetails,
     getAllSales,
     getUserDetails,
+    postDeleteFacultyTiming,
     ///post requests
     postAddFacultyTiming,
-    postDeleteFacultyTiming,
+    postAddMarketing,
+    postAddAdmin,
   };
 }

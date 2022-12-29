@@ -78,11 +78,17 @@ export default function AuthService() {
 
   const signUp = async (creeds: any) => {
     //console.log("User Login");
+
     try {
+      let formData = new FormData();
+      Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
       const res: any = await _https.post("/student_register", creeds);
-      //console.log("Response", res.data);
+      console.log("Response", res.data);
       if (res.data.status) {
-        return await loginUser(creeds);
+        return await loginUser({
+          username: creeds.email,
+          password: creeds.password,
+        });
       }
       res.data.status = 0;
       return res.data;

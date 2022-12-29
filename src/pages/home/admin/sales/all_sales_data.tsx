@@ -70,7 +70,7 @@ export default function AllSales() {
   };
   return (
     <>
-      <div className="das-exs p-3">
+      <div className="das-exs ">
         <div className="flex-end mx-4">
           <Link to="/Home/Add Sales">
             <button className="btn btn-primary">Add Sales</button>

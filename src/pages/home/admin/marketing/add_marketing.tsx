@@ -3,6 +3,8 @@ import ReactImagePickerEditor, {
   ImagePickerConf,
 } from "react-image-picker-editor";
 import "react-image-picker-editor/dist/index.css";
+import protectedApiService from "../../../../services/_protected_api";
+import { toast } from "react-toastify";
 const config2: ImagePickerConf = {
   borderRadius: "8px",
   language: "en",
@@ -22,17 +24,26 @@ export default function AddMarketing() {
     profile_pic: "",
   };
   const [creeds, setCreeds] = useState(init);
+  const { postAddMarketing } = protectedApiService();
   const onValueChange = (val: any) => {
-    // console.log(val);
-    setCreeds({ ...creeds, ...val });
     console.log(val);
-    console.log(creeds);
+    setCreeds({ ...creeds, ...val });
   };
+  const onSubmit = async () => {
+    const res: any = await postAddMarketing(creeds);
+    if (res.status == "1") {
+      toast.success("Created");
+      setCreeds(init);
+    } else {
+      toast.error("Creation failed!");
+    }
+  };
+
   return (
     <>
       <div className=" mt-3">
-        <h4>Marketing Details</h4>
-        <div className="card shadow  p-4">
+        <h5>Marketing Details</h5>
+        <div className="card shadow mt-3 p-4">
           <div className="row mx-3">
             <div className="col-sm-6 ">
               <div className="mb-3">
@@ -80,14 +91,15 @@ export default function AddMarketing() {
             </div>
             <div className="col-sm-6">
               <div className="mb-3">
-                <label htmlFor="name" className="form-label">
+                <label htmlFor="contact_no" className="form-label">
                   Contact Number
                 </label>
                 <input
-                  type="number"
+                  type="phone"
+                  maxLength={10}
                   className="form-control"
-                  name="contact_number"
-                  id="contact_number"
+                  name="contact_no"
+                  id="contact_no"
                   value={creeds.contact_no}
                   aria-describedby="namelHelp"
                   placeholder="0000 0000 00"
@@ -183,7 +195,9 @@ export default function AddMarketing() {
             </div>
           </div>
           <div className="flex-start p-3 mx-3">
-            <button className="btn btn-primary">Add Marketing</button>
+            <button onClick={onSubmit} className="btn btn-primary">
+              Add Marketing
+            </button>
           </div>
         </div>
       </div>
