@@ -79,3 +79,16 @@
     }
   }
 }
+.limited-char {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 13ch;
+}
+.timeline-text {
+  span {
+    font-size: 10px;
+    color: gray;
+  }
+}

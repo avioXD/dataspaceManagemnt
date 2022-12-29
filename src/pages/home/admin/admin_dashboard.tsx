@@ -297,6 +297,36 @@ export default function AdminDashboard() {
           ) : (
             <></>
           )}
+          {adminReports ? (
+            <>
+              {/* part */}
+              <div className="col-sm-6 p-2  flex-start box  ">
+                <div>
+                  <h6 className="box-header">Total Courses</h6>
+                  <div className="card    box box-green p-5">
+                    <div className="row">
+                      {/* section */}
+                      <div className="col-sm-6   ">
+                        <div className="data flex-center flex-column">
+                          <div className="item flex-center ">
+                            <img
+                              src="/assets/png/Total_Registered_Students.png"
+                              alt=""
+                            />
+                            <div className="text ">
+                              <h3>{adminReports.total_courses || 0} </h3>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>

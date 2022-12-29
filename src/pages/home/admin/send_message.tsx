@@ -1,16 +1,34 @@
 import { useState } from "react";
 import { Editor } from "primereact/editor";
 import { useLocation } from "react-router-dom";
+import protectedApiService from "../../../services/_protected_api";
+import { toast } from "react-toastify";
 export default function SendMessage({}) {
   const location = useLocation();
   const students = location.state;
 
   const [creeds, setCreeds] = useState("");
+  const [messages, setMessages] = useState<any>();
   const onValueChange = (val: any) => {
     // console.log(val);
     setCreeds(val);
     console.log(val);
     // console.log(register);
+  };
+  const { postAddMessage, getStudentMessages } = protectedApiService();
+  const onSubmit = () => {
+    students.map(async (s: any) => {
+      const res: any = await postAddMessage({
+        user_id: s.user_id,
+        message: creeds,
+      });
+    });
+    toast.success("Message sent successfully");
+  };
+
+  const getMessages = async (student: any) => {
+    const res: any = await getStudentMessages(student.user_id);
+    setMessages(res);
   };
   return (
     <>
@@ -40,7 +58,10 @@ export default function SendMessage({}) {
             onTextChange={(e: any) => onValueChange(e.htmlValue)}
           />
           <div className="flex-start mt-3">
-            <button className="btn btn-primary"> Send Message</button>
+            <button className="btn btn-primary" onClick={onSubmit}>
+              {" "}
+              Send Message
+            </button>
           </div>
         </div>
       </div>

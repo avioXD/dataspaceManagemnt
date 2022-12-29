@@ -10,13 +10,15 @@
     width: 100%;
     padding-top: 2rem;
     padding-left: 1.8rem;
+    margin-left: 0.6rem;
     .user-type {
       font-weight: 600;
-      font-size: $s4;
+      font-size: $s5;
       color: $dark;
     }
     .breadcrumb {
       margin: 0;
+
       margin-bottom: 1.5rem;
       a {
         font-weight: 500;
@@ -27,7 +29,6 @@
         color: rgb(196, 195, 195);
         font-weight: 500;
         font-size: $s6;
-        margin-left: 0.6rem;
       }
       .active {
         color: $color-200;
@@ -49,9 +50,9 @@
     .box-green {
       background-color: #e1ffc7 !important;
     }
+
     .box {
-      width: max-content;
-      width: 36rem;
+      width: 32rem;
       margin: 0.3rem;
       .box-header {
         font-weight: 700;
@@ -70,7 +71,7 @@
           align-items: flex-start;
           .tag-name {
             font-weight: 500;
-            font-size: 15px;
+            font-size: $s6;
           }
 
           .item {

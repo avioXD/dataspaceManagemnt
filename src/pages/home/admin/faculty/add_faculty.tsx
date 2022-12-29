@@ -1,4 +1,6 @@
 import { useState } from "react";
+import protectedApiService from "../../../../services/_protected_api";
+import { toast } from "react-toastify";
 
 export default function AddFaculty() {
   const init = {
@@ -8,6 +10,7 @@ export default function AddFaculty() {
     address: "",
     password: "",
     email: "",
+    mode: "",
   };
   const [creeds, setCreeds] = useState(init);
   const onValueChange = (val: any) => {
@@ -15,6 +18,13 @@ export default function AddFaculty() {
     setCreeds({ ...creeds, ...val });
     console.log(val);
     // console.log(register);
+  };
+  const { postAddFaculty } = protectedApiService();
+  const onSubmit = async () => {
+    const res: any = await postAddFaculty(creeds);
+    if (res) {
+      toast.success("Added");
+    }
   };
   return (
     <>
@@ -72,10 +82,11 @@ export default function AddFaculty() {
                   Contact Number
                 </label>
                 <input
-                  type="number"
+                  type="phone"
+                  maxLength={10}
                   className="form-control"
-                  name="contact_number"
-                  id="contact_number"
+                  name="contact_no"
+                  id="contact_no"
                   value={creeds.contact_no}
                   aria-describedby="namelHelp"
                   placeholder="0000 0000 00"
@@ -135,11 +146,38 @@ export default function AddFaculty() {
             </div>
             <div className="col-sm-6">
               <div className="mb-3">
+                <label htmlFor="experince" className="form-label">
+                  Mode
+                </label>
+                <div id="experince" className="flex-start flex-between ">
+                  <select
+                    id="mode"
+                    name="mode"
+                    className="form-select  m-2"
+                    defaultValue={creeds.mode}
+                    onChange={(e) =>
+                      onValueChange({
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  >
+                    <option value={0} disabled selected hidden>
+                      Select Mode
+                    </option>
+                    <option value={1}>Online</option>
+                    <option value={2}>Offline</option>
+                    <option value={3}>Both</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <div className="mb-3">
                 <label htmlFor="name" className="form-label">
                   Password
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   className="form-control"
                   name="password"
                   id="password"
@@ -157,7 +195,9 @@ export default function AddFaculty() {
             </div>
           </div>
           <div className="flex-start p-3 mx-3">
-            <button className="btn btn-primary"> Add Faculty</button>
+            <button onClick={onSubmit} className="btn btn-primary">
+              Add Faculty
+            </button>
           </div>
         </div>
       </div>

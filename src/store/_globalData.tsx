@@ -6,6 +6,7 @@ const store = create((set: any) => ({
   all_faculty: null,
   all_marketing: null,
   all_sales: null,
+  all_courses: null,
   //functions
   set_all_students: (data: any) =>
     set((state: any) => {
@@ -31,10 +32,16 @@ const store = create((set: any) => ({
         all_marketing: [...data],
       };
     }),
-    set_all_sales: (data: any) =>
+  set_all_sales: (data: any) =>
     set((state: any) => {
       return {
         all_marketing: [...data],
+      };
+    }),
+  set_all_courses: (data: any) =>
+    set((state: any) => {
+      return {
+        all_courses: [...data],
       };
     }),
 }));
@@ -46,11 +53,13 @@ export default function globalDataStore() {
     allFaculty: store((state: any) => state.all_faculty),
     allMarketing: store((state: any) => state.all_marketing),
     allSales: store((state: any) => state.all_sales),
+    allCourses: store((state: any) => state.all_courses),
     setAllStudents: store((state: any) => state.set_all_students),
     setAllAdmins: store((state: any) => state.set_all_admins),
     setAllFaculty: store((state: any) => state.set_all_faculty),
     setAllMarketing: store((state: any) => state.set_all_marketing),
     setAllSales: store((state: any) => state.set_all_sales),
+    setAllCourses: store((state: any) => state.set_all_courses),
   };
 
   return globalStore;

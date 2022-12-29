@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../services/_protected_api";
 import PrimeDataTable from "../../../../common/prime_data_table";
 import { Link } from "react-router-dom";
+import { Button } from "primereact/button";
 
 export default function AllFaculty() {
   const tablesStructure: Columns[] = [
@@ -52,14 +53,15 @@ export default function AllFaculty() {
     {
       data_name: "operation",
       header: "Operation",
-      sortable: true,
+      sortable: false,
       dataFilter: (data: any, key: any) => {
         return (
           <>
             <Link to="/Home/Set Faculty Timing" state={data.user_id}>
-              <button className="btn btn-outline-primary btn-sm">
-                Set Timing
-              </button>
+              <Button className="p-button-danger p-1" aria-label="Youtube">
+                <i className="pi pi-clock "></i>
+                <span className="px-1">Schedule</span>
+              </Button>
             </Link>
           </>
         );

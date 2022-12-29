@@ -3,6 +3,7 @@ import Navbar from "../../panels/navbar";
 import Sidebar from "../../panels/sidebar";
 import React, { useEffect, useState } from "react";
 import userState from "../../store/_userState";
+import protectedApiService from "../../services/_protected_api";
 export default function Home() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -16,10 +17,11 @@ export default function Home() {
       if (index == 0) {
         final_path += element;
       } else {
-        final_path += " > " + element;
+        final_path += element + " > ";
       }
     }
   });
+
   const { accessToken } = userState();
   return (
     <>
@@ -37,7 +39,7 @@ export default function Home() {
                   {final_path}{" "}
                   {
                     <span className="active">
-                      {" > " + locationPath[locationPath.length - 1]}
+                      {locationPath[locationPath.length - 1]}
                     </span>
                   }
                   {/* {location.pathname.replaceAll("/", " > ")} */}
@@ -45,7 +47,7 @@ export default function Home() {
               </a>
             </span>
           </div>
-          <div className="body">{accessToken && <Outlet />}</div>
+          <div className="body mb-4">{accessToken && <Outlet />}</div>
         </div>
       </div>
     </>

@@ -44,8 +44,8 @@ export default function SetFacultyTiming() {
       const eventInit: EventInput[] = res?.faculty_timing.map((fac: any) => {
         let timing: EventInput = {
           id: fac.faculty_timing_id,
-          start: `${fac.date.replace(/T.*$/, "")}T${fac.start_time}:00`,
-          end: `${fac.date.replace(/T.*$/, "")}T${fac.end_time}:00`,
+          start: `${fac.date.replace(/T.*$/, "")}T${fac.start_time}:00+05:30`,
+          end: `${fac.date.replace(/T.*$/, "")}T${fac.end_time}:00+05:30`,
           title: res?.faculty_courses.map((cos: any) =>
             cos.course_id == fac.course_id ? cos.course_name : ""
           ),
@@ -97,24 +97,30 @@ export default function SetFacultyTiming() {
       setLoading(true);
       const res: any = await postAddFacultyTiming(data);
       if (res.status) {
-        const data: any = JSON.parse(res.data);
+        const resData: any = JSON.parse(res.data);
         toast.success("Task added!");
-        console.log(res);
+        console.log(JSON.parse(res.data));
         let calendarApi = selectInfoState.view.calendar;
         calendarApi.addEvent({
-          id: data.faculty_timing_id,
+          id: resData.faculty_timing_id,
           title: currentFacultyDetails?.faculty_courses.map((cos: any) =>
-            cos.course_id == data.course ? cos.course_name : ""
+            cos.course_id == resData.course ? cos.course_name : ""
           ),
-          start: `${data.date.replace(/T.*$/, "")}T${data.start_time}:00`,
-          end: `${data.date.replace(/T.*$/, "")}T${data.end_time}:00`,
+          start: `${resData.date.replace(/T.*$/, "")}T${
+            resData.start_time
+          }:00+05:30`,
+          end: `${resData.date.replace(/T.*$/, "")}T${
+            resData.end_time
+          }:00+05:30`,
           allDay: selectInfoState.allDay,
-          display: `${moment(formData.start_time).format("ll")} - ${moment(
-            formData.end_time
+          display: `${moment(
+            `${resData.date.replace(/T.*$/, "")}T${resData.start_time}:00+05:30`
+          ).format("ll")} - ${moment(
+            `${resData.date.replace(/T.*$/, "")}T${resData.end_time}:00+05:30`
           ).format("HH:MM aa")}`,
-          event_id: data.faculty_timing_id,
+          event_id: resData.faculty_timing_id,
           mode: formData.mode,
-          extra: data,
+          extra: resData,
         });
         setLoading(false);
         handleClose();
@@ -357,12 +363,10 @@ const renderEventContent = (eventContent: EventContentArg) => {
       }}
     >
       <>
-        <p>{eventContent.event.title}: </p>
-        <p>
+        <span>
           {moment(eventContent.event.start).format("h:mm  a")} -{" "}
           {moment(eventContent.event.end).format("h:mm  a")}
-        </p>
-        <p>{["Online", "Offline", "Online & Offline"][content.mode]} </p>
+        </span>
       </>
     </div>
   );

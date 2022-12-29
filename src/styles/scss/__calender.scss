@@ -27,17 +27,15 @@
 }
 .calender-data {
   height: max-content;
-  padding: 5px;
-  p {
+  padding: 3px;
+  span {
     font-size: 12px;
     font-weight: 400;
     width: 100%;
-    line-height: 4px;
   }
   box-shadow: $shadow-1;
   border-radius: 5px;
   padding-left: 10px;
-  padding-top: 15px;
   transition: $transition-all;
   &:hover {
     transform: scale(1.03);

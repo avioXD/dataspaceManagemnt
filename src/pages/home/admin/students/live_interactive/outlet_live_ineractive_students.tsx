@@ -1,5 +1,9 @@
 import { Outlet } from "react-router-dom";
 
 export default function LiveInteractiveStudents() {
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+    </>
+  );
 }

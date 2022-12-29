@@ -3,6 +3,8 @@ import globalDataStore from "../../../../../store/_globalData";
 import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../../services/_protected_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
+import { Button } from "primereact/button";
+import { Link } from "react-router-dom";
 export default function CourseCompletedStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -36,9 +38,12 @@ export default function CourseCompletedStudents() {
       dataFilter: (data: any, key: any) => {
         return (
           <>
-            <button className="btn btn-outline-primary btn-sm">
-              Set Another Class
-            </button>
+            <Link to="/Home/Students/live/Set Student Class" state={data}>
+              <Button className="facebook p-1" aria-label="Facebook">
+                <i className="pi pi-calendar-plus "></i>
+                <span className="px-1">Set Another Class</span>
+              </Button>
+            </Link>
           </>
         );
       },

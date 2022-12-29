@@ -6,7 +6,7 @@ import { AiOutlineRadiusSetting } from "react-icons/ai";
 import { TbMessage2, TbEye } from "react-icons/tb";
 import { useState, useEffect } from "react";
 
-export default function DataTable({
+export default function MyDataTable({
   structure,
   data,
   isForStudent,

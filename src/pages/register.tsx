@@ -43,7 +43,7 @@ export default function Register() {
   const [formError, setFormError] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [screen, setScreen] = useState(1);
-  const { getCourses } = CommonApiService();
+  const { getAllCourses } = CommonApiService();
 
   const [register, setRegister] = useState(initial);
   const { signUp } = AuthService();
@@ -52,7 +52,7 @@ export default function Register() {
     fetchCourses();
   }, []);
   const fetchCourses = async () => {
-    const res: any = await getCourses();
+    const res: any = await getAllCourses();
     setCourses(res);
   };
   const handleClose = () => setShow(false);
@@ -110,7 +110,7 @@ export default function Register() {
         setScreen(screen + 1);
         setBtnDisabled(true);
       }
-    } else if (screen > 1 && screen < 4) {
+    } else if (screen > 1 && screen < 3) {
       setScreen(screen + 1);
       setBtnDisabled(true);
     } else if (screen == 4) {
@@ -162,13 +162,13 @@ export default function Register() {
           setBtnDisabled(false);
         }
         break;
-      case 4:
-        if (!register.course_id || !register.course_mode) {
-          setBtnDisabled(true);
-        } else {
-          setBtnDisabled(false);
-        }
-        break;
+      // case 4:
+      //   if (!register.course_id || !register.course_mode) {
+      //     setBtnDisabled(true);
+      //   } else {
+      //     setBtnDisabled(false);
+      //   }
+      //   break;
       default:
         break;
     }
@@ -1281,86 +1281,86 @@ export default function Register() {
                         </form>
                       </>
                     ),
-                    4: (
-                      <>
-                        {courses.length ? (
-                          <form>
-                            <div id="form-5">
-                              <div className="mb-3">
-                                <label htmlFor="course" className="form-label">
-                                  Course*
-                                </label>
-                                <select
-                                  className="form-select"
-                                  name="course_id"
-                                  id="course_id"
-                                  defaultValue={register.course_id || "default"}
-                                  required
-                                  onChange={(e) =>
-                                    onValueChange({
-                                      [e.target.name]: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <option
-                                    value="default"
-                                    disabled
-                                    selected
-                                    hidden
-                                  >
-                                    Select Course
-                                  </option>
-                                  {courses.map((course: any, index: number) => {
-                                    return (
-                                      <>
-                                        <option
-                                          value={course.course_id}
-                                          key={index}
-                                        >
-                                          {course.course_name}
-                                        </option>
-                                      </>
-                                    );
-                                  })}
-                                </select>
-                              </div>
+                    // 4: (
+                    //   <>
+                    //     {courses.length ? (
+                    //       <form>
+                    //         <div id="form-5">
+                    //           <div className="mb-3">
+                    //             <label htmlFor="course" className="form-label">
+                    //               Course*
+                    //             </label>
+                    //             <select
+                    //               className="form-select"
+                    //               name="course_id"
+                    //               id="course_id"
+                    //               defaultValue={register.course_id || "default"}
+                    //               required
+                    //               onChange={(e) =>
+                    //                 onValueChange({
+                    //                   [e.target.name]: e.target.value,
+                    //                 })
+                    //               }
+                    //             >
+                    //               <option
+                    //                 value="default"
+                    //                 disabled
+                    //                 selected
+                    //                 hidden
+                    //               >
+                    //                 Select Course
+                    //               </option>
+                    //               {courses.map((course: any, index: number) => {
+                    //                 return (
+                    //                   <>
+                    //                     <option
+                    //                       value={course.course_id}
+                    //                       key={index}
+                    //                     >
+                    //                       {course.course_name}
+                    //                     </option>
+                    //                   </>
+                    //                 );
+                    //               })}
+                    //             </select>
+                    //           </div>
 
-                              <div className="mb-3">
-                                <label htmlFor="course" className="form-label">
-                                  Course Mode*
-                                </label>
-                                <select
-                                  className="form-select"
-                                  name="course_mode"
-                                  id="course_mode"
-                                  defaultValue={register.course_mode || "3"}
-                                  required
-                                  onChange={(e) =>
-                                    onValueChange({
-                                      [e.target.name]: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <option
-                                    value="default"
-                                    disabled
-                                    selected
-                                    hidden
-                                  >
-                                    Select Course Mode
-                                  </option>
-                                  <option value="1">Online</option>
-                                  <option value="2">Offline</option>
-                                  <option value="3">Both</option>
-                                </select>
-                              </div>
-                            </div>
-                          </form>
-                        ) : (
-                          <></>
-                        )}
-                      </>
-                    ),
+                    //           <div className="mb-3">
+                    //             <label htmlFor="course" className="form-label">
+                    //               Course Mode*
+                    //             </label>
+                    //             <select
+                    //               className="form-select"
+                    //               name="course_mode"
+                    //               id="course_mode"
+                    //               defaultValue={register.course_mode || "3"}
+                    //               required
+                    //               onChange={(e) =>
+                    //                 onValueChange({
+                    //                   [e.target.name]: e.target.value,
+                    //                 })
+                    //               }
+                    //             >
+                    //               <option
+                    //                 value="default"
+                    //                 disabled
+                    //                 selected
+                    //                 hidden
+                    //               >
+                    //                 Select Course Mode
+                    //               </option>
+                    //               <option value="1">Online</option>
+                    //               <option value="2">Offline</option>
+                    //               <option value="3">Both</option>
+                    //             </select>
+                    //           </div>
+                    //         </div>
+                    //       </form>
+                    //     ) : (
+                    //       <></>
+                    //     )}
+                    //   </>
+                    // ),
                   }[screen]
                 }
                 <div className="flex-between">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import protectedApiService from "../../../../services/_protected_api";
+import { toast } from "react-toastify";
 
 export default function EditProfileDetails() {
   const location = useLocation();
@@ -12,16 +13,13 @@ export default function EditProfileDetails() {
     console.log(val);
     // console.log(register);
   };
-  const { getUserDetails } = protectedApiService();
-  useEffect(() => {
-    getDetails();
-  }, []);
-  const getDetails = async () => {
-    const res: any = await getUserDetails(profile?.user_id);
-    console.log(res);
-    setCreeds(res);
-  };
+  const { updateUserDetails } = protectedApiService();
 
+  const onSubmit = async () => {
+    const res: any = await updateUserDetails(creeds);
+    console.log(res);
+    toast.success("Updated");
+  };
   const role: any = ["", "super admin", "admin", "faculty", "sales", "student"];
   return (
     <>
@@ -41,7 +39,7 @@ export default function EditProfileDetails() {
                               creeds.profile_pic_path) ||
                             "https://bootdey.com/img/Content/avatar/avatar7.png"
                           }
-                          alt="Admin"
+                          alt=".."
                           width="150"
                         />
                         <div className="mt-3">
@@ -52,9 +50,14 @@ export default function EditProfileDetails() {
                           <p className="text-muted font-size-sm">
                             {creeds.address}
                           </p>
-                          <button className="btn btn-outline-primary">
-                            Message
-                          </button>
+                          <Link
+                            to="/Home/Students/Message"
+                            state={new Array(1).fill(creeds)}
+                          >
+                            <button className="btn btn-outline-primary">
+                              Message
+                            </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -115,10 +118,11 @@ export default function EditProfileDetails() {
                         </div>
                         <div className="col-sm-9 text-gray">
                           <input
-                            type="number"
+                            type="phone"
+                            maxLength={10}
                             className="form-control"
-                            name="contact_number"
-                            id="contact_number"
+                            name="contact_no"
+                            id="contact_no"
                             value={creeds.contact_no}
                             aria-describedby="namelHelp"
                             placeholder="0000 0000 00"
@@ -183,9 +187,12 @@ export default function EditProfileDetails() {
                       <hr />
                       <div className="row">
                         <div className="col-sm-12">
-                          <Link to="/Home/Edit Profile" state={creeds}>
-                            <button className="btn btn-info">Submit</button>
-                          </Link>
+                          <button
+                            onClick={() => onSubmit()}
+                            className="btn btn-info"
+                          >
+                            Submit
+                          </button>
                         </div>
                       </div>
                     </div>

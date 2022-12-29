@@ -3,6 +3,9 @@ import globalDataStore from "../../../../../store/_globalData";
 import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../../services/_protected_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
+import { Link } from "react-router-dom";
+import { Button } from "primereact/button";
+
 export default function ScheduledStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -36,9 +39,12 @@ export default function ScheduledStudents() {
       dataFilter: (data: any, key: any) => {
         return (
           <>
-            <button className="btn btn-outline-primary btn-sm">
-              Assign Teacher
-            </button>
+            <Link to="/Home/Students/live/Set Student Class" state={data}>
+              <Button className="p-btn-primary p-1" aria-label="Facebook">
+                <i className="pi pi-calendar-plus p-1"></i>
+                <span className="p-1">Set Class</span>
+              </Button>
+            </Link>
           </>
         );
       },
@@ -52,21 +58,12 @@ export default function ScheduledStudents() {
   const empt: any = [];
   const [allData, setAllData] = useState(empt);
   const getData = async () => {
-    if (allStudents) {
-      let data: any[] = allStudents.filter((x: any) => {
-        if (x.assign_class) {
-          return x;
-        }
-      });
-      setAllData(data.length ? [...data] : []);
-    } else {
-      getFromApi();
-    }
+    getFromApi();
   };
   const getFromApi = async () => {
     const res: any = await getAllStudents();
     let data: any[] = res.filter((x: any) => {
-      if (x.assign_class) {
+      if (x.class_assigned) {
         return x;
       }
     });
@@ -78,13 +75,14 @@ export default function ScheduledStudents() {
       <PrimeDataTable
         data={allData}
         structure={tablesStructure}
-        title={"Not Scheduled Students"}
+        title={"Scheduled Students"}
         isForStudent
         onRefresh={getFromApi}
         note
         message
         timeline
         options
+        view
       />
     </>
   );

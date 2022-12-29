@@ -1,28 +1,28 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-
 import { Ripple } from "primereact/ripple";
-
-import { InputText } from "primereact/inputtext";
-import { Avatar } from "primereact/avatar";
 import { CgRuler } from "react-icons/cg";
 import { VscBook } from "react-icons/vsc";
 import { AiOutlineRadiusSetting } from "react-icons/ai";
 import { TbMessage2, TbEye } from "react-icons/tb";
+import { MdDelete } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { classNames } from "primereact/utils";
 import { Columns } from "../interfaces/_common";
 import { BiRefresh } from "react-icons/bi";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import protectedApiService from "../services/_protected_api";
+import { Button } from "primereact/button";
 export default function PrimeDataTable({
   structure,
   data,
   isForStudent,
   title,
   onRefresh,
+  noSearch,
   view,
+  remove,
   viewclass,
   message,
   timeline,
@@ -55,7 +55,7 @@ export default function PrimeDataTable({
       menues[x].style.display = "none";
     });
   };
-
+  const { deleteUser } = protectedApiService();
   const [loading, setLoading] = useState("Loading....");
   const [changeableData, setChangeableData] = useState(data);
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function PrimeDataTable({
   }, [data]);
 
   const empt: any[] = [];
-  const [selectedData, setSelectedData] = useState(empt);
+  const [selectedData, setSelectedData] = useState<any[]>([]);
 
   //********************* */
   const [currentPage, setCurrentPage] = useState(1);
@@ -79,6 +79,13 @@ export default function PrimeDataTable({
   const onSearchValueChange = () => {};
 
   //***************** */
+  const onDelete = async (creeds: any) => {
+    const res: any = await deleteUser(creeds.user_id);
+    if (res) {
+      toast.success("Deleted");
+      onRefresh();
+    }
+  };
   const onPageInputKeyDown = (event: any, options: any) => {
     if (event.key === "Enter") {
       const page = currentPage;
@@ -119,11 +126,13 @@ export default function PrimeDataTable({
                   <span className="mx-1">Set Class</span>
                 </button>
               )}
-              {timeline && (
-                <button className="outlined-btn flex-start-center mx-1">
-                  <CgRuler size={20} />
-                  <span className="mx-1">Timeline</span>
-                </button>
+              {timeline && !(selectedData.length > 1) && (
+                <Link to={`/Home/Timeline`} state={selectedData}>
+                  <button className="outlined-btn flex-start-center mx-1">
+                    <CgRuler size={20} />
+                    <span className="mx-1">Timeline</span>
+                  </button>
+                </Link>
               )}
               {message && (
                 <Link to={`/Home/Message`} state={selectedData}>
@@ -134,11 +143,16 @@ export default function PrimeDataTable({
                 </Link>
               )}
 
-              {view && (
-                <button className="outlined-btn flex-start-center mx-1">
-                  <TbEye size={20} />
-                  <span className="mx-1">View</span>
-                </button>
+              {view && !(selectedData.length > 1) && (
+                <Link
+                  to={`/Home/Students/View Student Class`}
+                  state={selectedData}
+                >
+                  <button className="outlined-btn flex-start-center mx-1">
+                    <TbEye size={20} />
+                    <span className="mx-1">View Classes</span>
+                  </button>
+                </Link>
               )}
             </div>
           </>
@@ -154,28 +168,25 @@ export default function PrimeDataTable({
       "PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport",
     PrevPageLink: (options: any) => {
       return (
-        <button
-          type="button"
-          className={options.className}
+        <Button
+          icon="pi pi-angle-left"
           onClick={options.onClick}
+          className="p-button-rounded p-btn-info p-button-outlined   m-1"
           disabled={options.disabled}
-        >
-          <span className="p-3">{"<"}</span>
-        </button>
+        />
       );
     },
     NextPageLink: (options: any) => {
       return (
-        <button
-          type="button"
-          className={options.className}
+        <Button
+          icon="pi pi-angle-right"
           onClick={options.onClick}
+          className="p-button-rounded p-btn-info p-button-outlined   m-1"
           disabled={options.disabled}
-        >
-          <span className="p-3">{">"}</span>
-        </button>
+        />
       );
     },
+
     PageLinks: (options: any) => {
       if (
         (options.view.startPage === options.page &&
@@ -193,14 +204,13 @@ export default function PrimeDataTable({
       }
 
       return (
-        <button
-          type="button"
-          className={options.className}
-          onClick={options.onClick}
-        >
-          {options.page + 1}
-          <Ripple />
-        </button>
+        <>
+          <Button
+            label={options.page + 1}
+            onClick={options.onClick}
+            className="p-button-rounded p-btn-info p-button-outlined   m-1"
+          />
+        </>
       );
     },
     RowsPerPageDropdown: (options: any) => {
@@ -235,6 +245,41 @@ export default function PrimeDataTable({
     },
   };
 
+  const onSearch = (search: any) => {
+    let keys: any = Object.keys(data[0]);
+    // console.log(keys);
+    let searchedData: any[] = data.filter((d: any) => {
+      let checker: any[] = [];
+      keys.map((k: any) => {
+        var strRegExPattern = `${search}.*`;
+        if (d[k]) {
+          if (typeof d[k] != "string") {
+            if (
+              d[k]
+                .toString()
+                .toLowerCase()
+                .match(new RegExp(strRegExPattern, "g"))
+            )
+              checker.push(1);
+          } else {
+            if (
+              new RegExp(strRegExPattern.toLocaleLowerCase(), "g").test(
+                d[k].toLowerCase()
+              )
+            )
+              checker.push(1);
+          }
+        }
+        return 0;
+      });
+      if (checker.length) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setChangeableData(searchedData);
+  };
   return (
     <>
       <div className="table">
@@ -244,17 +289,22 @@ export default function PrimeDataTable({
               <div className="heading col-sm-4">
                 {title ? title : "All Details"}
               </div>
-              <div className="col-sm-8">
-                <div className="search">
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                  />
-                  <button className="btn btn-primary">Search</button>
+              {!noSearch && (
+                <div className="col-sm-8">
+                  <div className="search">
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="search"
+                      onChange={(e) => {
+                        onSearch(e.target.value);
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -316,7 +366,10 @@ export default function PrimeDataTable({
                                     <span className="mx-3">Edit</span>
                                   </button>
                                 </Link>
-                                <button className="flex-start text-danger option">
+                                <button
+                                  onClick={() => onDelete(e)}
+                                  className="flex-start text-danger option"
+                                >
                                   <img src="/assets/svg/trash.svg" alt="" />
                                   <span className="mx-3">Delete</span>
                                 </button>

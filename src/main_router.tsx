@@ -33,22 +33,27 @@ import ScheduledStudents from "./pages/home/admin/students/live_interactive/sche
 import NotScheduledStudents from "./pages/home/admin/students/live_interactive/not_scheduled_student";
 import InterviewNotCompleted from "./pages/home/admin/students/live_interactive/interview_not_completed";
 import AddAdmin from "./pages/home/admin/add_admin";
-import userState from "./store/_userState";
 import AllFaculty from "./pages/home/admin/faculty/all_faculty";
 import AddFaculty from "./pages/home/admin/faculty/add_faculty";
 import EditProfileDetails from "./pages/home/admin/common/edit_profile";
 import ViewProfileDetails from "./pages/home/admin/common/view_profile";
 import AddNewSchedule from "./pages/home/admin/students/live_interactive/new_schedule";
-import Calender from "./common/calender";
 import AddMarketing from "./pages/home/admin/marketing/add_marketing";
 import AllMarketing from "./pages/home/admin/marketing/all_marketing";
 import SetFacultyTiming from "./pages/home/admin/faculty/set_faculty_timing";
-import AllSales from "./pages/home/admin/sales/all_sales_data";
-import AddSales from "./pages/home/admin/sales/add_sales";
 import FacultyReport from "./pages/home/admin/reports/faculty_report";
 import ReportsOutlet from "./pages/home/admin/reports/outlet_reports";
 import { ToastContainer } from "react-toastify";
-import SetStudentClass from "./pages/home/admin/students/live_interactive/set_student_class";
+import SetStudentClass from "./pages/home/admin/students/live_interactive/set_get_schedule_calender/set_student_class";
+import StudentsReport from "./pages/home/admin/reports/student_report";
+import AddNews from "./pages/home/admin/news/mews_add";
+import NewsView from "./pages/home/admin/news/news_view";
+import Timeline from "./pages/home/admin/timeline";
+import ViewStudentClass from "./pages/home/admin/students/live_interactive/view_student_class";
+import ViewAllJobs from "./pages/home/admin/career/view_all_jobes";
+import CareerOutlet from "./pages/home/admin/career/outlet_career";
+import EditJobs from "./pages/home/admin/career/edit_jobs";
+import AddJobs from "./pages/home/admin/career/add_jobs";
 
 export const routings: any[] = [
   {
@@ -139,6 +144,13 @@ export const routings: any[] = [
             children: [],
             shortcut: true,
           },
+          {
+            route: "View Student Class",
+            path: "View Student Class",
+            element: <ViewStudentClass />,
+            children: [],
+            shortcut: false,
+          },
 
           {
             route: "Live Interactive Students",
@@ -178,7 +190,7 @@ export const routings: any[] = [
                 route: "Set Student Class",
                 path: "Set Student Class",
                 element: <SetStudentClass />,
-                shortcut: true,
+                shortcut: false,
                 children: [],
               },
               {
@@ -264,7 +276,7 @@ export const routings: any[] = [
         route: "Marketing",
         path: "Marketing",
         element: <AllMarketing />,
-        icon: <FaChalkboardTeacher />,
+        icon: <BiStats />,
         children: [],
         shortcut: true,
       },
@@ -273,22 +285,6 @@ export const routings: any[] = [
         path: "Add Marketing",
         element: <AddMarketing />,
         icon: <GoPerson />,
-        children: [],
-        shortcut: false,
-      },
-      {
-        route: "Sales",
-        path: "sales",
-        element: <AllSales />,
-        icon: <BiStats />,
-        children: [],
-        shortcut: true,
-      },
-      {
-        route: "Add Sales",
-        path: "Add Sales",
-        element: <AddSales />,
-        icon: <BiStats />,
         children: [],
         shortcut: false,
       },
@@ -306,15 +302,48 @@ export const routings: any[] = [
             children: [],
             shortcut: true,
           },
+          {
+            route: "Student Report",
+            path: "Student Report",
+            element: <StudentsReport />,
+            icon: <HiBriefcase />,
+            children: [],
+            shortcut: true,
+          },
         ],
         shortcut: true,
       },
       {
         route: "Career",
-        path: "career",
-        element: <DataTable />,
+        path: "Career",
+        element: <CareerOutlet />,
         icon: <HiBriefcase />,
-        children: [],
+        children: [
+          {
+            route: "View All Jobs",
+            path: "View All Jobs",
+            element: <ViewAllJobs />,
+            icon: <HiBriefcase />,
+            children: [],
+            shortcut: true,
+          },
+          {
+            route: "Edit Jobs",
+            path: "Edit Jobs",
+            element: <EditJobs />,
+            icon: <HiBriefcase />,
+            children: [],
+            shortcut: false,
+          },
+          {
+            route: "Add Jobs",
+            path: "Add Jobs",
+            element: <AddJobs />,
+            icon: <HiBriefcase />,
+            children: [],
+            shortcut: false,
+          },
+        ],
         shortcut: true,
       },
       {
@@ -328,23 +357,38 @@ export const routings: any[] = [
       {
         route: "News",
         path: "news",
-        element: <DataTable />,
+        element: <NewsView />,
         icon: <RiNewspaperLine />,
         children: [],
         shortcut: true,
       },
       {
-        route: "Notes",
-        path: "notes",
-        element: <DataTable />,
+        route: "Add News",
+        path: "add news",
+        element: <AddNews />,
         icon: <RiNewspaperLine />,
         children: [],
-        shortcut: true,
+        shortcut: false,
       },
+      // {
+      //   route: "Notes",
+      //   path: "notes",
+      //   element: <DataTable />,
+      //   icon: <RiNewspaperLine />,
+      //   children: [],
+      //   shortcut: true,
+      // },
       {
         route: "Message",
         path: "Message",
         element: <SendMessage />,
+        children: [],
+        shortcut: false,
+      },
+      {
+        route: "Timeline",
+        path: "Timeline",
+        element: <Timeline />,
         children: [],
         shortcut: false,
       },

@@ -36,8 +36,11 @@ export default function InterviewNotCompleted() {
       dataFilter: (data: any, key: any) => {
         return (
           <>
-            <button className="btn btn-outline-primary btn-sm">
-              Set Schedule
+            <button
+              onClick={() => {}}
+              className="btn btn-outline-primary btn-sm"
+            >
+              Change Status
             </button>
           </>
         );
@@ -66,7 +69,7 @@ export default function InterviewNotCompleted() {
   const getFromApi = async () => {
     const res: any = await getAllStudents();
     let data: any[] = res.filter((x: any) => {
-      if (!x.interview) {
+      if (!x.interview && x.project_assigned && x.course_completed) {
         return x;
       }
     });

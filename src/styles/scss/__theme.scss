@@ -4,7 +4,7 @@ $white: #fffffe;
 $dark: #222327;
 $gray: #7e7e7e;
 $dark-offset: #414141;
-$success-color: #00df1e;
+$success-color: #188627;
 $danger-color: #e46a51;
 $info-color: #33b5e5;
 $waring-color: #ffb701;
@@ -16,18 +16,18 @@ $shadow-3: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
 $shadow-inset: rgb(204, 219, 232) 3px 3px 6px 0px inset,
   rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 //font sizes
-// $s1: calc(65px + 0.390625vw);
-// $s2: calc(52px + 0.390625vw);
-// $s3: calc(38px + 0.390625vw);
-// $s4: calc(28px + 0.390625vw);
-// $s5: calc(15px + 0.390625vw);
-// $s6: calc(10px + 0.390625vw);
-$s1: 300%;
-$s2: 230%;
-$s3: 160%;
-$s4: 130%;
-$s5: 115%;
-$s6: 100%;
+$s1: calc(65px + 0.390625vw);
+$s2: calc(52px + 0.390625vw);
+$s3: calc(38px + 0.390625vw);
+$s4: calc(28px + 0.390625vw);
+$s5: calc(15px + 0.390625vw);
+$s6: calc(10px + 0.390625vw);
+// $s1: 300%;
+// $s2: 230%;
+// $s3: 160%;
+// $s4: 130%;
+// $s5: 115%;
+// $s6: 100%;
 ///colors
 $theme-colors: (
   "primary": $color-200,
