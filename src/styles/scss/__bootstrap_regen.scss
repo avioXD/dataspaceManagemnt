@@ -12,6 +12,10 @@
     box-shadow: $shadow-1 !important;
   }
 }
+.form-label {
+  font-size: $s6;
+  color: gray;
+}
 .form-select {
   padding: 0.7rem 1rem;
   border-radius: 4px !important;
@@ -67,4 +71,7 @@
 }
 .mr-2 {
   margin-right: 1rem;
+}
+.no-border {
+  border: 0px !important;
 }

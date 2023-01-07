@@ -412,9 +412,9 @@ export default function protectedApiService() {
       return res.data;
     } catch (e) {}
   };
+
   return {
     getAllStudents,
-
     getAllFaculty,
     getAllAdmins,
     getClassSummery,

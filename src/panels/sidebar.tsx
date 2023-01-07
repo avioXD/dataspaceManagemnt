@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import { FiCode, FiBookOpen } from "react-icons/fi";
 import { AiOutlineSchedule } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { routings } from "../main_router";
+import { Link, useLocation } from "react-router-dom";
+import { rootRouterPath } from "../routing/router_paths";
+import userState from "../store/_userState";
 
 export default function Sidebar(props: any) {
   const [togglerShow, setTogglerShow] = useState(true);
-
+  const { user } = userState();
   useEffect(() => {
     doQuerry();
     runJquery();
@@ -36,14 +37,14 @@ export default function Sidebar(props: any) {
       $(`#li${path}`).css("background-color", "red");
     }
   };
-
+  const { routings }: any = rootRouterPath();
   const RenderLi = ({ elements, sub, parentPath }: any) => {
     return elements.map((ele: any) => (
       <>
         {" "}
         {ele.shortcut && ele.path ? (
           <li id={`li${ele.path}`} className="list-item">
-            {ele.children.length ? (
+            {ele.children.length && ele?.collapse ? (
               <>
                 <a
                   href={`#link-${ele.path}`}
@@ -98,75 +99,78 @@ export default function Sidebar(props: any) {
       </>
     ));
   };
-
+  let location: any = useLocation();
+  console.log(location.pathname.split("/"));
+  useEffect(() => {
+    console.log("Paths", location.pathname.split("/"));
+    console.log(
+      routings.filter((x: any) => x.path == location.pathname.split("/")[1])
+    );
+    console.log("Routings ", routings);
+  }, [location]);
   return (
     <>
-      <div className="sidebar" data-aos="fade-right" data-aos-duration="1000">
-        <input
-          id="toggler"
-          className="checkbox"
-          type="checkbox"
-          name="toggler"
-          checked={togglerShow}
-          onChange={() => setTogglerShow(!togglerShow)}
-        />
-        <div className="open-close">
-          <div className="hamburger-lines">
-            <span className="line line1"></span>
-            <span className="line line2"></span>
-            <span className="line line3"></span>
-          </div>{" "}
-        </div>
+      {routings !== undefined && (
+        <>
+          <div
+            className="sidebar"
+            data-aos="fade-right"
+            data-aos-duration="1000"
+          >
+            <input
+              id="toggler"
+              className="checkbox"
+              type="checkbox"
+              name="toggler"
+              checked={togglerShow}
+              onChange={() => setTogglerShow(!togglerShow)}
+            />
+            <div className="open-close">
+              <div className="hamburger-lines">
+                <span className="line line1"></span>
+                <span className="line line2"></span>
+                <span className="line line3"></span>
+              </div>{" "}
+            </div>
 
-        <div className="options d-flex flex-column ">
-          <div className="s-menu">
-            <ul className="list-group">
-              <RenderLi
-                elements={routings[1].children}
-                parentPath={"/Home"}
-                sub={0}
-              />
-              {/* <li className="list">
-                <a
-                  href="#submenu1"
-                  data-toggle="collapse"
-                  aria-expanded="false"
-                  className="drop list-group-item list-group-item-action flex-column align-items-start"
-                >
-                  <div className="d-flex w-100 justify-content-start align-items-center">
-                    <FiCode className="icon" />
-                    <span className="mx-2">Self Learning</span>
-                    <span className="submenu-icon ml-auto"></span>
-                  </div>
-                </a>
-                <div id="submenu1" className="collapse sidebar-submenu">
-                  <Link
-                    to="/students"
-                    className="sub list-group-item list-group-item-action text-white"
-                  >
-                    {" "}
-                    <div className="menu-collapsed">
-                      {" "}
-                      <FiBookOpen className="icon " />
-                      <span>Students all</span>
-                    </div>
-                  </Link>
-                </div>
-              </li>
-              <li className="list">
-                <Link
-                  to="/faculty"
-                  aria-expanded="false"
-                  className="drop list-group-item list-group-item-action flex-column align-items-start"
-                >
-                  <AiOutlineSchedule className="icon" />
-                  <span className="menu-collapsed">Scheduled Class</span>
-                </Link>
-              </li> */}
-            </ul>
+            <div className="options d-flex flex-column ">
+              <div className="s-menu">
+                <ul className="list-group">
+                  <RenderLi
+                    elements={
+                      routings.filter(
+                        (x: any) => x.path == location.pathname.split("/")[1]
+                      )[0]?.children
+                    }
+                    parentPath={`/${location.pathname.split("/")[1]}`}
+                    sub={0}
+                  />
+                  {user?.role == "5" &&
+                    location.pathname
+                      .split("/")
+                      [location.pathname.split("/").length - 1].replaceAll(
+                        "%20",
+                        ""
+                      ) == "Dashboard" && (
+                      <div className="only-dashboard flex-center flex-column">
+                        <li className="list">
+                          <img
+                            className="sidebar-img"
+                            src="/assets/student/referal.png"
+                            alt=""
+                          />
+                        </li>
+                        <button className="btn btn-primary btn-sm mx-auto">
+                          Refer Now
+                        </button>
+                      </div>
+                    )}
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 }

@@ -3,9 +3,11 @@ import { HiBell } from "react-icons/hi";
 import { TbEye } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/_auth";
-
+import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai";
+import { RxTriangleDown } from "react-icons/rx";
 import userState from "../store/_userState";
-
+import { Badge } from "primereact/badge";
+import { Button } from "primereact/button";
 export default function Navbar() {
   const { user } = userState();
   const { logout } = AuthService();
@@ -20,50 +22,70 @@ export default function Navbar() {
       (document.getElementById("dropDown") as HTMLElement) || null;
     menu.style.display = "none";
   };
-
   return (
     <div className="container-fluid">
       <div className="nav flex-between ">
-        <img className="logo" src="/assets/svg/Logo.svg" alt="" />
-        <div className="nav-items">
+        <div className="flex-start left-side">
+          <img
+            className="img-fluid  "
+            src="/assets/img/menu@2x.png"
+            width={35}
+            height={35}
+          />
+          <img
+            className="logo"
+            style={{ marginLeft: "1rem" }}
+            src="/assets/svg/Logo.svg"
+            alt=""
+          />
+        </div>
+        <div className="nav-items d-none d-lg-block">
           <div
             className="flex-end right-side"
             style={{ marginRight: "2.8rem" }}
           >
-            <HiBell size={27} />
-            <div className="avater mx-3">
-              <img src="/assets/bg/register_bg.png" alt="" />
-            </div>
-            <div className="user">
-              <span>
+            <i
+              className="pi pi-bell mx-2 p-text-secondary p-overlay-badge"
+              style={{ fontSize: "1.3rem" }}
+              onClick={showMenu}
+            >
+              <Badge value="2"></Badge>
+            </i>
+            <i
+              className="pi pi-envelope mx-3  p-text-secondary p-overlay-badge"
+              style={{ fontSize: "1.3rem" }}
+            >
+              <Badge severity="danger"></Badge>
+            </i>
+            <div className="user-items  mx-3">
+              <div className="avater mx-3">
+                <img src="/assets/bg/register_bg.png" alt="" />
+              </div>
+              {/* <div className="user">
                 <h6>{user?.username}</h6>
-                Admin
-              </span>
+                <span>Admin</span>
+              </div> */}
             </div>
+
             <div className="nav-dropdown">
               <div className="nav-menu">
                 <button className="tbl-btn">
-                  <img
-                    className="press"
-                    onClick={showMenu}
-                    src="/assets/svg/more.svg"
-                    alt="..."
-                  />
+                  <RxTriangleDown size={28} onClick={showMenu} />
                 </button>
                 <div id="dropDown" className="menu" onMouseLeave={removeMenu}>
-                  {/* <button className="flex-start text-dark option">
-                    <TbEye size={20} />
-                    <span className="mx-3">View</span>
-                  </button>
-                  <button className="flex-start text-dark option">
-                    <img src="/assets/svg/edit.svg" alt="" />
-                    <span className="mx-3">Edit</span>
-                  </button> */}
+                  {!(user.role == 1) && (
+                    <Link to="View Profile" state={user}>
+                      <button className="flex-start text-primary option">
+                        <AiOutlineUser />
+                        <span className="mx-3">Profile</span>
+                      </button>
+                    </Link>
+                  )}
                   <button
                     onClick={logout}
                     className="flex-start text-danger option"
                   >
-                    <img src="/assets/svg/trash.svg" alt="" />
+                    <AiOutlineLogout />
                     <span className="mx-3">Logout</span>
                   </button>
                 </div>

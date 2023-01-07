@@ -20,7 +20,7 @@ export default function AddNewSchedule() {
   return (
     <>
       <div className=" mt-3">
-        <h4>New Class Schedule</h4>
+        <div className="heading col-sm-4">New Class Schedule</div>
         <div className="card shadow p-4">
           <div className="row mx-3">
             <div className="col-sm-6 ">

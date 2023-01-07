@@ -78,6 +78,7 @@ export default function FacultyReport() {
         isForStudent
         onRefresh={getFromApi}
         message
+        importable
       />
     </>
   );

@@ -78,6 +78,7 @@ export default function StudentsReport() {
         isForStudents
         onRefresh={getFromApi}
         message
+        importable
       />
     </>
   );

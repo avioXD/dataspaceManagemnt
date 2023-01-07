@@ -92,3 +92,184 @@
     color: gray;
   }
 }
+.s-dashboard {
+  .image {
+    img {
+      object-fit: contain;
+      width: 100%;
+      transition: $transition-all;
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+}
+.enrolled {
+  overflow-y: auto;
+
+  .course-card {
+    overflow: hidden;
+    img {
+      width: 100%;
+      aspect-ratio: 2/1;
+      object-fit: cover;
+    }
+    .details {
+      span {
+        font-size: $s6;
+      }
+    }
+  }
+}
+
+.class-card {
+  border: 1px solid rgb(218, 218, 218);
+  min-width: 28rem;
+  h6 {
+    font-weight: 800;
+  }
+  .details {
+    span {
+      font-size: $s6;
+    }
+  }
+}
+.schedule {
+  font-size: $s6;
+  color: $white;
+  border-radius: 20px;
+  padding: 0.4rem 0.8rem;
+  width: max-content;
+  height: max-content;
+  background-color: $color-200;
+}
+.course-card {
+  min-width: 25rem;
+}
+.assignment-card {
+  margin-top: 1rem;
+  min-height: 10rem;
+  border: 1px solid rgb(204, 203, 203);
+  img {
+    aspect-ratio: 1/1;
+    padding: 2rem !important;
+    object-fit: contain;
+    width: 100%;
+  }
+}
+.track {
+  position: relative;
+  height: 2px;
+  display: flex;
+  margin-bottom: 60px;
+  margin-top: 40px;
+  color: $dark-offset;
+  transition: all 0.4s;
+  .step {
+    flex-grow: 1;
+    width: 25%;
+    margin-top: -25px;
+    text-align: center;
+    position: relative;
+    &::before {
+      height: 2px;
+      position: absolute;
+      background: $gray;
+      content: "";
+      width: 100%;
+      left: 50%;
+      top: 25px;
+    }
+    transition: all 0.4s;
+    .text {
+      font-weight: 400;
+      font-size: $s6;
+    }
+  }
+  .no-before {
+    &::before {
+      display: none;
+    }
+  }
+  .step.active {
+    transition: all 0.4s;
+    &:before {
+      background: $success-color;
+      // box-shadow: 0px 0px 10px $success-color;
+    }
+    .icon {
+      background: $success-color;
+      color: $color-100;
+    }
+    .text {
+      font-weight: 400;
+      color: $success-color;
+      font-size: $s6;
+    }
+    &:hover {
+      cursor: pointer;
+      filter: drop-shadow(0px 0px 10px $success-color);
+      .icon {
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+        line-height: 48px;
+      }
+      .text {
+        font-size: 15px;
+      }
+    }
+  }
+  .icon {
+    transition: all 0.4s;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    line-height: 45px;
+    position: relative;
+    border-radius: 100%;
+    background: rgb(209, 209, 209);
+    color: $gray;
+  }
+  .text {
+    transition: all 0.4s;
+    display: block;
+    margin-top: 7px;
+    color: $gray;
+  }
+}
+.jobs-card {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid rgb(219, 219, 219);
+  .chips {
+    width: max-content;
+    margin: 4px;
+    border: 1px solid $gray;
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-radius: 4px;
+    color: $gray;
+    transition: $transition-all;
+  }
+  .p-chip.custom-chip {
+    background: rgb(179, 179, 179);
+    color: rgb(44, 44, 44);
+    border-radius: 4px;
+    font-size: $s6;
+    margin-right: 4px;
+  }
+}
+.certificate {
+  background-image: url("../../assets/bg/Background\ Pattern.png");
+  background-position: center;
+  background-size: cover;
+  img {
+    object-fit: contain;
+    width: 80%;
+    margin: auto;
+  }
+}

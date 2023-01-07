@@ -4,9 +4,9 @@ import { Ripple } from "primereact/ripple";
 import { CgRuler } from "react-icons/cg";
 import { VscBook } from "react-icons/vsc";
 import { AiOutlineRadiusSetting } from "react-icons/ai";
-import { TbMessage2, TbEye } from "react-icons/tb";
+import { TbMessage2, TbEye, TbFileImport } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { classNames } from "primereact/utils";
 import { Columns } from "../interfaces/_common";
 import { BiRefresh } from "react-icons/bi";
@@ -28,6 +28,7 @@ export default function PrimeDataTable({
   timeline,
   setclass,
   options,
+  importable,
 }: any) {
   const location = useLocation();
   // console.log(location);
@@ -159,6 +160,15 @@ export default function PrimeDataTable({
         ) : (
           <></>
         )}
+        {importable && (
+          <button
+            onClick={() => exportCSV(false)}
+            className="outlined-btn flex-start-center mx-1"
+          >
+            <TbFileImport size={20} />
+            <span className="mx-1">Import</span>
+          </button>
+        )}
       </div>
     </div>
   );
@@ -280,6 +290,22 @@ export default function PrimeDataTable({
     });
     setChangeableData(searchedData);
   };
+  const dt = useRef<any>(null);
+  const exportCSV = (selectionOnly: any) => {
+    dt.current.exportCSV({ selectionOnly });
+  };
+  const header: any = (
+    <div className="flex align-items-center export-buttons">
+      <Button
+        type="button"
+        icon="pi pi-file"
+        onClick={() => exportCSV(false)}
+        className="mr-2"
+        data-pr-tooltip="CSV"
+      />
+    </div>
+  );
+
   return (
     <>
       <div className="table">
@@ -312,6 +338,7 @@ export default function PrimeDataTable({
             <>
               <div className="table-body mx-auto">
                 <DataTable
+                  ref={dt}
                   className="live-session"
                   value={changeableData || null}
                   sortMode="multiple"

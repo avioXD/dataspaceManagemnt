@@ -1,5 +1,5 @@
 import React from "react";
-import MainRouter from "./main_router";
+import MainRouter from "./routing/main_router";
 function App() {
   return (
     <div className="App">

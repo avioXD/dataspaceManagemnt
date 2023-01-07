@@ -52,12 +52,12 @@ export default function AdminDashboard() {
   };
   return (
     <>
-      <div className="p-3 admin-dashboard">
+      <div className="admin-dashboard">
         <div className="row">
           {classSummery ? (
             <>
               {/* part */}
-              <div className="col-sm-6 p-2 flex-start box  ">
+              <div className="col-sm-6 flex-start box  ">
                 <div className="box">
                   <h6 className="box-header">Class Summery</h6>
                   <div className="card box-blue">
@@ -138,7 +138,7 @@ export default function AdminDashboard() {
           {adminReports ? (
             <>
               {/* part */}
-              <div className="col-sm-6 p-2 flex-start box">
+              <div className="col-sm-6   flex-start box">
                 <div>
                   <h6 className="box-header">Student Summery</h6>
                   <div className="card box-green">
@@ -222,7 +222,7 @@ export default function AdminDashboard() {
           {facultyReports ? (
             <>
               {/* part */}
-              <div className="col-sm-6 p-2 flex-start box  ">
+              <div className="col-sm-6  flex-start box  ">
                 <div>
                   <h6 className="box-header">Faculty Summery</h6>
                   <div className="card box-red">
@@ -300,20 +300,22 @@ export default function AdminDashboard() {
           {adminReports ? (
             <>
               {/* part */}
-              <div className="col-sm-6 p-2  flex-start box  ">
+              <div className="col-sm-6   flex-start box  ">
                 <div>
-                  <h6 className="box-header">Total Courses</h6>
-                  <div className="card    box box-green p-5">
+                  <h6 className="box-header">Course Summery</h6>
+                  <div className="card box-green ">
                     <div className="row">
                       {/* section */}
                       <div className="col-sm-6   ">
                         <div className="data flex-center flex-column">
-                          <div className="item flex-center ">
+                          <div className=" flex-center flex-column ">
                             <img
-                              src="/assets/png/Total_Registered_Students.png"
+                              src="/assets/png/total_courses.png"
                               alt=""
+                              style={{ width: "7rem" }}
                             />
-                            <div className="text ">
+                            <div className="text text-center">
+                              <h6> Total Courses </h6>
                               <h3>{adminReports.total_courses || 0} </h3>
                             </div>
                           </div>

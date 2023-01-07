@@ -232,11 +232,8 @@ export default function SetStudentClass() {
       {!renderloading ? (
         <div className="mt-3" style={{ paddingBottom: "20vh" }}>
           <div className="flex-between">
-            <div>
-              <h5>
-                Set Student Class Schedule ({student.name} id: {student.user_id}
-                )
-              </h5>
+            <div className="heading col-sm-4">
+              Set Student Class Schedule ({student.name} id: {student.user_id})
             </div>
           </div>
           <div className="card p-4 shadow mt-3">

@@ -13,3 +13,9 @@
 .text-sm {
   font-size: $s6;
 }
+.heading {
+  display: flex;
+  align-items: flex-end;
+  font-weight: 600;
+  text-align: start;
+}
