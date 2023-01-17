@@ -29,6 +29,7 @@ export default function PrimeDataTable({
   setclass,
   options,
   importable,
+  filterDropdown,
 }: any) {
   const location = useLocation();
   // console.log(location);
@@ -315,19 +316,37 @@ export default function PrimeDataTable({
               <div className="heading col-sm-4">
                 {title ? title : "All Details"}
               </div>
-              {!noSearch && (
-                <div className="col-sm-8">
-                  <div className="search">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="search"
-                      onChange={(e) => {
-                        onSearch(e.target.value);
-                      }}
-                    />
+
+              {!noSearch && data && (
+                <div className="col-sm-8 row  ">
+                  <div className="col-sm-7 p-1">
+                    <div className="filter flex-end mr-2">
+                      {filterDropdown &&
+                        filterDropdown.map((fil: any) => (
+                          <>
+                            <FilterDropdown
+                              allData={data}
+                              filterField={fil.filter}
+                              setChangeableData={setChangeableData}
+                              header={fil.header}
+                            />
+                          </>
+                        ))}
+                    </div>
+                  </div>
+                  <div className="col-sm-5    p-1">
+                    <div className="search ">
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        placeholder="search"
+                        onChange={(e) => {
+                          onSearch(e.target.value);
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               )}
@@ -436,3 +455,67 @@ export default function PrimeDataTable({
     </>
   );
 }
+const FilterDropdown = ({
+  allData,
+  filterField,
+  setChangeableData,
+  header,
+}: any) => {
+  const [uniqueItems, setUniqueItems] = useState<any>(null);
+  function groupBy(arr: any, property: any) {
+    return arr.reduce(function (memo: any, x: any) {
+      if (!memo[x[property]]) {
+        memo[x[property]] = [];
+      }
+      memo[x[property]].push(x);
+      return memo;
+    }, {});
+  }
+  const setRunningCourses = () => {
+    var course_set: any = [];
+    allData.forEach((element: any) => {
+      course_set.push(element[filterField]);
+    });
+    let unique: any = [...new Set(course_set)];
+    // let items = groupBy(allData, "course_name");
+    console.log(unique);
+    setUniqueItems(unique);
+  };
+  const onValueChange = (value: any) => {
+    if (value == "all") {
+      setChangeableData(allData);
+    } else {
+      const newValue: any[] = [];
+      allData.map((data: any) => {
+        if (data[filterField] == value) {
+          newValue.push(data);
+        }
+      });
+      console.log(newValue);
+      setChangeableData(newValue);
+    }
+  };
+  useEffect(() => {
+    setRunningCourses();
+  }, []);
+  return (
+    <>
+      <select
+        className="form-select"
+        name="course_mode"
+        style={{ maxWidth: "15rem" }}
+        id="course_mode"
+        onChange={(e) => onValueChange(e.target.value)}
+      >
+        <option value="default" disabled selected hidden>
+          Select {header || ""}
+        </option>
+        <option value="all">All</option>
+        {uniqueItems &&
+          uniqueItems.map((item: any) => (
+            <>{item && <option value={item}>{item}</option>}</>
+          ))}
+      </select>
+    </>
+  );
+};

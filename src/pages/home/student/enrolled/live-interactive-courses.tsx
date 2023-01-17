@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ProgressBar } from "primereact/progressbar";
-import { useEffect, useState } from "react";
+
+import { useEffect, useState, useCallback } from "react";
 import { AiOutlineProject } from "react-icons/ai";
 import { SiGoogleclassroom } from "react-icons/si";
 import { MdOutlinePersonPin, MdOutlineDoneOutline } from "react-icons/md";
@@ -8,6 +8,7 @@ import { GiArchiveRegister } from "react-icons/gi";
 import { GoChecklist } from "react-icons/go";
 import protectedStudentApiService from "../../../../services/_protected_student_api";
 import studentGlobalDataStore from "../../../../store/_global_studentData";
+import { ProgressBar } from "react-bootstrap";
 export default function LiveInteractiveClasses() {
   const navigate: any = useNavigate();
   const [filtered_courses, set_Filtered_course] = useState<any[]>([]);
@@ -19,15 +20,15 @@ export default function LiveInteractiveClasses() {
   const { getStudentClasses, getStudentProgress } =
     protectedStudentApiService();
   const { setAllCoursesGroup, setLiveClass } = studentGlobalDataStore();
-  const getProgress = async () => {
+  const getProgress = useCallback(async () => {
     const res: any = await getStudentProgress();
     setProgressSteps(res);
-  };
+  }, [progress_steps]);
 
-  const getCourses = async () => {
+  const getCourses = useCallback(async () => {
     const res: any = await getStudentClasses();
     setRunningCourses(res);
-  };
+  }, [filtered_courses]);
   function groupBy(arr: any, property: any) {
     return arr.reduce(function (memo: any, x: any) {
       if (!memo[x[property]]) {
@@ -218,11 +219,10 @@ export default function LiveInteractiveClasses() {
                         </button>
                         <div className="my-3">
                           <ProgressBar
-                            value={x.class_completed}
-                            style={{ height: "10px" }}
-                            color={"green"}
-                            displayValueTemplate={(value) => <>{value}</>}
-                          ></ProgressBar>
+                            variant="success"
+                            now={x.class_completed}
+                            label={`${x.class_completed}%`}
+                          />
                         </div>
                       </div>
                     </div>

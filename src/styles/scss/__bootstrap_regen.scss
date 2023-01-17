@@ -16,6 +16,19 @@
   font-size: $s6;
   color: gray;
 }
+.p-inputtext {
+  padding: 0.7rem 1rem;
+  border-radius: 4px !important;
+  max-width: 25rem;
+  min-width: 15rem;
+  border: 1px solid $color-100 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: $s6;
+  &:focus {
+    box-shadow: $shadow-1 !important;
+  }
+}
 .form-select {
   padding: 0.7rem 1rem;
   border-radius: 4px !important;
@@ -40,12 +53,12 @@
   display: flex;
   justify-content: center;
   align-items: start;
-  align-content: center;
+  align-items: center;
 }
 .flex-start {
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: start;
 }
 
 .flex-between {

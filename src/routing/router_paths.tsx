@@ -13,6 +13,8 @@ import StudentDashboard from "../pages/home/student/student-dashboard";
 import AllCertificates from "../pages/home/student/all-certificates";
 import enrolledCourseRoutings from "./studednt/enrolled_courses_route";
 import liveClassesRoutings from "./studednt/active_course_paths";
+import { GoPerson } from "react-icons/go";
+import skillUpCoursePaths from "./studednt/skillup_course_paths";
 
 export const rootRouterPath = () => {
   const { user } = userState();
@@ -34,9 +36,9 @@ export const rootRouterPath = () => {
           ? superAdminRoutings()
           : user?.role == 2
           ? adminRoutings()
-          : user?.role == 3
-          ? marketingRoutings()
           : user?.role == 4
+          ? marketingRoutings()
+          : user?.role == 3
           ? facultyRoutings()
           : user?.role == 5
           ? studentRoutings()
@@ -86,7 +88,24 @@ export const rootRouterPath = () => {
               },
             ],
     },
-
+    {
+      route: "SkillUpModule",
+      path: "SkillUpModule",
+      element: <Home />,
+      shortcut: false,
+      children:
+        user?.role == 5
+          ? skillUpCoursePaths()
+          : [
+              {
+                route: "",
+                path: "",
+                shortcut: false,
+                Element: <Navigate to="login" />,
+                children: [],
+              },
+            ],
+    },
     {
       route: "Register",
       path: "register",

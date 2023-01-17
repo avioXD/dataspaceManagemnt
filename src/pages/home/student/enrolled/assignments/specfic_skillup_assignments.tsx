@@ -4,15 +4,15 @@ import { useEffect, useState } from "react";
 import studentCommonApi from "../../../../../services/_student_skillup_api";
 import studentGlobalDataStore from "../../../../../store/_global_studentData";
 
-export default function AllAssignments() {
+export default function SkillUpAssignment() {
   const { getStudentAssignments } = studentCommonApi();
-  const { liveClass } = studentGlobalDataStore();
+  const { skillUpModule } = studentGlobalDataStore();
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     getData();
   }, []);
   const getData = async () => {
-    const res: any = await getStudentAssignments(liveClass.course_id);
+    const res: any = await getStudentAssignments(skillUpModule[0].course_id);
     setData(res);
   };
   return (

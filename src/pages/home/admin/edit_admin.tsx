@@ -66,6 +66,7 @@ export default function EditAdmin() {
         title={"All Admins"}
         isForStudent
         onRefresh={getFromApi}
+        filterDropdown={[{ filter: "designation", header: "designation" }]}
       />
     </>
   );

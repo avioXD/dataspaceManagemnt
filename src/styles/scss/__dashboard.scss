@@ -1,7 +1,7 @@
 @import "./__functions.scss";
 .portal-board {
   width: 100%;
-  height: 90vh;
+  height: 93vh;
   overflow: auto;
   // border: 1px solid $color-100;
 
@@ -36,9 +36,8 @@
   .body {
     padding-left: 1.8rem;
     padding-right: 1.8rem;
-    padding-bottom: 10vh;
+    padding-bottom: 5vh;
     width: 100%;
-    height: 100%;
   }
   .admin-dashboard {
     .box-red {

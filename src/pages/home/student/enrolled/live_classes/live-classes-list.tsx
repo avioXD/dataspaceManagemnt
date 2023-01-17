@@ -1,8 +1,18 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { useState } from "react";
 import studentGlobalDataStore from "../../../../../store/_global_studentData";
+import { CgNotes } from "react-icons/cg";
+import { FiDownload } from "react-icons/fi";
+import { VscFeedback } from "react-icons/vsc";
+import { Modal } from "react-bootstrap";
+import { Button } from "primereact/button";
 export default function LiveClassesList() {
   const { liveClass } = studentGlobalDataStore();
-  console.log(liveClass);
+  const [show, setShow] = useState(false);
+  const [selectedClass, setSelectedClass] = useState<any>(null);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const giveFeedback = () => {};
+
   return (
     <>
       <>
@@ -60,11 +70,6 @@ export default function LiveClassesList() {
                               <img src="/assets/svg/Notes.svg" alt="" />
                             </button>
                           </div> */}
-                            <div className="col-sm-2 flex-center">
-                              <button className="icon-btn btn-sm mt-2">
-                                <BsThreeDotsVertical size={23} />
-                              </button>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -109,16 +114,12 @@ export default function LiveClassesList() {
                           <span className="text-gray">
                             Date : {e.date} | Time : {e.start_time}
                           </span>
-                          <div className="buttons row  ">
-                            <div className="col-sm">
-                              <a href={e.link}>
+                          <div className="buttons flex-between  ">
+                            <div className="w-100 mr-2">
+                              <a href={e.recorded_link}>
                                 <div className="btn mt-2 btn-primary flex-center btn-sm btn-wide">
-                                  <img
-                                    src="/assets/svg/LiveClass.svg"
-                                    className="mx-1"
-                                    alt=""
-                                  />
-                                  Join Class
+                                  <FiDownload size={23} className="mr-2" />{" "}
+                                  Download
                                 </div>
                               </a>
                             </div>
@@ -127,9 +128,22 @@ export default function LiveClassesList() {
                               <img src="/assets/svg/Notes.svg" alt="" />
                             </button>
                           </div> */}
-                            <div className="col-sm-2 flex-center">
-                              <button className="icon-btn btn-sm mt-2">
-                                <BsThreeDotsVertical size={23} />
+                            <div className=" flex-center mr-2">
+                              <a href={e.note_docs}>
+                                <button className="icon-btn btn-sm mt-2">
+                                  <CgNotes size={23} />
+                                </button>
+                              </a>
+                            </div>
+                            <div className=" flex-center">
+                              <button
+                                onClick={() => {
+                                  setSelectedClass(e);
+                                  handleShow();
+                                }}
+                                className="icon-btn btn-sm mt-2"
+                              >
+                                <VscFeedback size={23} />
                               </button>
                             </div>
                           </div>
@@ -141,6 +155,22 @@ export default function LiveClassesList() {
               ))}
           </div>
         </div>
+        <Modal
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={show}
+          onHide={handleClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Give Feedback</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleClose}>Close</Button>
+            <Button onClick={giveFeedback}>Feedback</Button>
+          </Modal.Footer>
+        </Modal>
       </>
     </>
   );

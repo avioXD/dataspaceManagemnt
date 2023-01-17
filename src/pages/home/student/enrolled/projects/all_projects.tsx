@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ProgressBar } from "primereact/progressbar";
 import { useEffect, useState } from "react";
-import studentCommonApi from "../../../../../services/_student_common_api";
+import studentCommonApi from "../../../../../services/_student_skillup_api";
 import studentGlobalDataStore from "../../../../../store/_global_studentData";
 
 export default function AllProjects() {

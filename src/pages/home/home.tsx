@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import userState from "../../store/_userState";
 import protectedApiService from "../../services/_protected_api";
 import StudentNav from "../../panels/student_nav";
-
+import { AnimatePresence, motion } from "framer-motion";
 export default function Home() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,31 +33,41 @@ export default function Home() {
           <div className="d-flex">
             <Sidebar />
             <div className="portal-board ">
-              <div className="header">
-                <h4 className="user-type">
-                  {location.pathname
-                    .split("/")
-                    [location.pathname.split("/").length - 1].replaceAll(
-                      "%20",
-                      ""
-                    )}
-                </h4>
-                <span className="breadcrumb">
-                  {/* <a href="">Home </a> */}
-                  <a href="#" className="text-capitalize">
-                    <Link to={location.pathname} className="text-link">
-                      {final_path}{" "}
-                      {
-                        <span className="active">
-                          {locationPath[locationPath.length - 1]}
-                        </span>
-                      }
-                      {/* {location.pathname.replaceAll("/", " > ")} */}
-                    </Link>
-                  </a>
-                </span>
-              </div>
-              <div className="body mb-4">{accessToken && <Outlet />}</div>
+              {" "}
+              <motion.div
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+              >
+                {" "}
+                <div className="header">
+                  <h4 className="user-type">
+                    {location.pathname
+                      .split("/")
+                      [location.pathname.split("/").length - 1].replaceAll(
+                        "%20",
+                        ""
+                      )}
+                  </h4>
+                  <span className="breadcrumb">
+                    {/* <a href="">Home </a> */}
+                    <a href="#" className="text-capitalize">
+                      <Link to={location.pathname} className="text-link">
+                        {final_path}{" "}
+                        {
+                          <span className="active">
+                            {locationPath[locationPath.length - 1]}
+                          </span>
+                        }
+                        {/* {location.pathname.replaceAll("/", " > ")} */}
+                      </Link>
+                    </a>
+                  </span>
+                </div>
+                <div className="body mb-4">{accessToken && <Outlet />}</div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -65,3 +75,26 @@ export default function Home() {
     </>
   );
 }
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    x: "-100vw",
+    scale: 0.8,
+  },
+  in: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+  },
+  out: {
+    opacity: 0,
+    x: "100vw",
+    scale: 1.2,
+  },
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.5,
+};

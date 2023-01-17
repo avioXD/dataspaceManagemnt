@@ -1,4 +1,4 @@
-import { Navigate, RouterProvider } from "react-router-dom";
+import { Navigate, Outlet, RouterProvider } from "react-router-dom";
 import AdminDashboard from "../pages/home/admin/admin_dashboard";
 import { RiDashboardFill, RiNewspaperLine } from "react-icons/ri";
 import EditAdmin from "../pages/home/admin/edit_admin";
@@ -98,6 +98,7 @@ export default function superAdminRoutings() {
       element: <StudentIndex />,
       icon: <FaUserGraduate />,
       shortcut: true,
+
       children: [
         {
           route: "Base",
@@ -127,7 +128,6 @@ export default function superAdminRoutings() {
           children: [],
           shortcut: false,
         },
-
         {
           route: "Live Interactive Students",
           path: "live",
@@ -227,43 +227,64 @@ export default function superAdminRoutings() {
     {
       route: "Faculties",
       path: "faculties",
-      element: <AllFaculty />,
+      element: <Outlet />,
       icon: <FaChalkboardTeacher />,
-      children: [],
+      no_collapse: true,
+      children: [
+        {
+          route: "",
+          path: "",
+          element: <AllFaculty />,
+          icon: <GoPerson />,
+          children: [],
+        },
+        {
+          route: "Set Faculty Timing",
+          path: "Set Faculty Timing",
+          element: <SetFacultyTiming />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Add Faculty",
+          path: "Add Faculty",
+          element: <AddFaculty />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+      ],
       shortcut: true,
     },
-    {
-      route: "Set Faculty Timing",
-      path: "Set Faculty Timing",
-      element: <SetFacultyTiming />,
-      icon: <GoPerson />,
-      children: [],
-      shortcut: false,
-    },
-    {
-      route: "Add Faculty",
-      path: "Add Faculty",
-      element: <AddFaculty />,
-      icon: <GoPerson />,
-      children: [],
-      shortcut: false,
-    },
+
     {
       route: "Marketing",
       path: "Marketing",
-      element: <AllMarketing />,
+      element: <Outlet />,
       icon: <BiStats />,
-      children: [],
+      no_collapse: true,
+      children: [
+        {
+          route: "",
+          path: "",
+          element: <AllMarketing />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Add Marketing",
+          path: "Add Marketing",
+          element: <AddMarketing />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+      ],
       shortcut: true,
     },
-    {
-      route: "Add Marketing",
-      path: "Add Marketing",
-      element: <AddMarketing />,
-      icon: <GoPerson />,
-      children: [],
-      shortcut: false,
-    },
+
     {
       route: "Reports",
       path: "reports",
@@ -332,19 +353,30 @@ export default function superAdminRoutings() {
     {
       route: "News",
       path: "news",
-      element: <NewsView />,
+      element: <Outlet />,
       icon: <RiNewspaperLine />,
-      children: [],
+      no_collapse: true,
+      children: [
+        {
+          route: "",
+          path: "",
+          element: <NewsView />,
+          icon: <RiNewspaperLine />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Add News",
+          path: "Add News",
+          element: <AddNews />,
+          icon: <RiNewspaperLine />,
+          children: [],
+          shortcut: false,
+        },
+      ],
       shortcut: true,
     },
-    {
-      route: "Add News",
-      path: "add news",
-      element: <AddNews />,
-      icon: <RiNewspaperLine />,
-      children: [],
-      shortcut: false,
-    },
+
     // {
     //   route: "Notes",
     //   path: "notes",

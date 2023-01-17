@@ -1,3 +1,4 @@
+@import "~video-react/styles/scss/video-react";
 .view-student {
   .main-body {
     padding: 15px;
@@ -79,13 +80,7 @@
     }
   }
 }
-.limited-char {
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 13ch;
-}
+
 .timeline-text {
   span {
     font-size: 10px;
@@ -108,6 +103,9 @@
   overflow-y: auto;
 
   .course-card {
+    .card {
+      overflow: hidden;
+    }
     overflow: hidden;
     img {
       width: 100%;
@@ -241,10 +239,12 @@
 }
 .jobs-card {
   width: 100%;
+  min-width: 20rem;
   border-radius: 6px;
   border: 1px solid rgb(219, 219, 219);
   .chips {
     width: max-content;
+    max-width: 20rem;
     margin: 4px;
     border: 1px solid $gray;
     background-color: transparent;
@@ -271,5 +271,79 @@
     object-fit: contain;
     width: 80%;
     margin: auto;
+  }
+}
+.skillup-dashboard {
+  position: relative;
+  overflow: hidden;
+  min-height: 90vh;
+  .frame {
+    width: 100%;
+    max-width: 1440px;
+  }
+  .side-panel {
+    .switch {
+      width: 3rem;
+      height: 3rem;
+      background-color: rgb(255, 255, 255);
+      position: absolute;
+      left: -3rem;
+      box-shadow: -5px 0px 10px rgba(104, 104, 104, 0.267);
+      top: 0px;
+      z-index: 3;
+      border-radius: 10px 0px 0px 10px;
+      cursor: pointer;
+    }
+    width: 23rem;
+    min-height: 70vh;
+    border-radius: 0px 0px 0px 10px;
+    border: 1px solid rgba(128, 128, 128, 0.445);
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 0;
+    right: 0rem;
+    z-index: 4;
+    transition: $transition-all;
+    .modules {
+      .items {
+        cursor: pointer;
+        margin-top: 0.8rem;
+        width: 100%;
+
+        padding: 0.5rem;
+        border-radius: 8px;
+        &:hover {
+          background-color: rgb(231, 246, 255);
+        }
+      }
+      .details {
+        position: relative;
+        padding: 0.3rem;
+        padding-left: 5px;
+        width: 10rem;
+        height: max-content;
+
+        p {
+          position: relative;
+          color: $dark-offset;
+        }
+        h6 {
+          position: relative;
+          line-height: 0px;
+          font-weight: "800";
+          color: $dark;
+          font-size: $s6;
+        }
+        span {
+          position: relative;
+          line-height: 0px;
+          font-size: 10px;
+          color: $gray;
+        }
+      }
+      .progress {
+        width: 8rem;
+      }
+    }
   }
 }

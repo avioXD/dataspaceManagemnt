@@ -14,3 +14,15 @@
 @import "primeicons/primeicons.css";
 @import "./styles/scss/__student.scss";
 @import "./styles/scss/__calender.scss";
+@import "./styles/scss/__video_player.scss";
+@media screen and (min-width: 600px) {
+  .cust_sec {
+    width: 20%;
+  }
+}
+.faculty_dash_card {
+  border-radius: 10px;
+}
+.cust_sec img {
+  padding: 7px 10px;
+}

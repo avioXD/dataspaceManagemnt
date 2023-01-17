@@ -44,7 +44,7 @@ export default function liveClassesRoutings() {
       path: "Courses",
       element: <Outlet />,
       icon: <MdClass />,
-      collapse: false,
+      no_collapse: true,
       children: [
         {
           route: "Base",
@@ -70,7 +70,7 @@ export default function liveClassesRoutings() {
       path: "Assignments",
       element: <Outlet />,
       icon: <MdAssignment />,
-      collapse: false,
+      no_collapse: true,
       children: [
         {
           route: "Base",
@@ -84,7 +84,7 @@ export default function liveClassesRoutings() {
           path: "Assigned",
           element: <AllAssignments />,
           icon: <MdAccountBalanceWallet />,
-          collapse: false,
+          no_collapse: true,
           children: [],
           shortcut: false,
         },
@@ -93,7 +93,7 @@ export default function liveClassesRoutings() {
           path: "Assignment Details",
           element: <SpecificAssignments />,
           icon: <MdAccountBalanceWallet />,
-          collapse: false,
+          no_collapse: true,
           children: [],
           shortcut: false,
         },
@@ -105,7 +105,7 @@ export default function liveClassesRoutings() {
       path: "Projects",
       element: <Outlet />,
       icon: <CgGoogleTasks />,
-      collapse: false,
+      no_collapse: true,
       children: [
         {
           route: "Base",
@@ -119,7 +119,7 @@ export default function liveClassesRoutings() {
           path: "AssignedProjects",
           element: <AllProjects />,
           icon: <MdAccountBalanceWallet />,
-          collapse: false,
+          no_collapse: true,
           children: [],
           shortcut: false,
         },
@@ -128,7 +128,7 @@ export default function liveClassesRoutings() {
           path: "AssignedProjectsDetails",
           element: <SpecificProjects />,
           icon: <MdAccountBalanceWallet />,
-          collapse: false,
+          no_collapse: true,
           children: [],
           shortcut: false,
         },
@@ -140,7 +140,7 @@ export default function liveClassesRoutings() {
       path: "Resources",
       element: <Outlet />,
       icon: <HiFolderOpen />,
-      collapse: false,
+      no_collapse: true,
       children: [
         {
           route: "Base",
@@ -154,7 +154,7 @@ export default function liveClassesRoutings() {
           path: "AllResources",
           element: <AllResources />,
           icon: <MdAccountBalanceWallet />,
-          collapse: false,
+          no_collapse: true,
           children: [],
           shortcut: false,
         },
@@ -163,7 +163,7 @@ export default function liveClassesRoutings() {
           path: "SelectedResource",
           element: <SelectedResource />,
           icon: <MdAccountBalanceWallet />,
-          collapse: false,
+          no_collapse: true,
           children: [],
           shortcut: false,
         },
@@ -175,7 +175,7 @@ export default function liveClassesRoutings() {
       path: "Certificates",
       element: <CourseCertificate />,
       icon: <TbCertificate />,
-      collapse: false,
+      no_collapse: true,
       children: [],
       shortcut: true,
     },

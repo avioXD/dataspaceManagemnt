@@ -3,6 +3,7 @@ import "react-image-picker-editor/dist/index.css";
 import protectedApiService from "../../../../services/_protected_api";
 import { toast } from "react-toastify";
 import { Link, useLocation } from "react-router-dom";
+import { Chips } from "primereact/chips";
 export default function AddJobs() {
   const init: any = {
     job_id: "",
@@ -14,6 +15,7 @@ export default function AddJobs() {
     job_role: "",
     job_description: "",
     terms_condition: "",
+    skills: "",
   };
   const [creeds, setCreeds] = useState(init);
   const { postAddJob } = protectedApiService();
@@ -22,7 +24,10 @@ export default function AddJobs() {
     setCreeds({ ...creeds, ...val });
   };
   const onSubmit = async () => {
-    const res: any = await postAddJob(creeds);
+    const res: any = await postAddJob({
+      ...creeds,
+      skills: JSON.stringify(creeds.skills),
+    });
     if (res == 1) {
       toast.success("Job Added");
       setCreeds(init);
@@ -115,7 +120,7 @@ export default function AddJobs() {
                   id="education"
                   value={creeds.education}
                   aria-describedby="namelHelp"
-                  placeholder="B.Tech"
+                  placeholder="Education Details"
                   //   onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
                   onChange={(e) =>
                     onValueChange({
@@ -139,6 +144,28 @@ export default function AddJobs() {
                   value={creeds.location}
                   aria-describedby="namelHelp"
                   placeholder="14H Road, example "
+                  //   onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
+                  onChange={(e) =>
+                    onValueChange({
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">
+                  Qualification
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="qualification"
+                  id="qualification"
+                  value={creeds.job_role}
+                  aria-describedby="namelHelp"
+                  placeholder="B.tech"
                   //   onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
                   onChange={(e) =>
                     onValueChange({
@@ -211,6 +238,17 @@ export default function AddJobs() {
                       [e.target.name]: e.target.value,
                     })
                   }
+                />
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <div className="mb-3 ">
+                <p className="form-label">Skills</p>
+                <Chips
+                  width={"100%"}
+                  separator=","
+                  value={creeds.skills}
+                  onChange={(e) => onValueChange({ skills: e.value })}
                 />
               </div>
             </div>

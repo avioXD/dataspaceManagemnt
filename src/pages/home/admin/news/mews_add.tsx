@@ -13,8 +13,9 @@ export default function AddNews() {
     course_id: "",
   };
   const [creeds, setCreeds] = useState(init);
-  const { allCourses } = globalDataStore();
+  const { allCourses, setAllCourses } = globalDataStore();
   const { postAddNews } = protectedApiService();
+  const { getAllCourses } = commonApiService();
   const onValueChange = (val: any) => {
     console.log(val);
     setCreeds({ ...creeds, ...val });
@@ -28,7 +29,15 @@ export default function AddNews() {
       toast.error("Creation failed!");
     }
   };
-
+  const getData = async () => {
+    const res: any = await getAllCourses();
+    setAllCourses(res);
+  };
+  useEffect(() => {
+    if (!allCourses) {
+      getData();
+    }
+  }, []);
   return (
     <>
       <div className=" mt-3">
@@ -77,15 +86,16 @@ export default function AddNews() {
                   <option value="default" disabled selected hidden>
                     Select Course
                   </option>
-                  {allCourses.map((course: any, index: number) => {
-                    return (
-                      <>
-                        <option value={course.course_id} key={index}>
-                          {course.course_name}
-                        </option>
-                      </>
-                    );
-                  })}
+                  {allCourses &&
+                    allCourses.map((course: any, index: number) => {
+                      return (
+                        <>
+                          <option value={course.course_id} key={index}>
+                            {course.course_name}
+                          </option>
+                        </>
+                      );
+                    })}
                 </select>
               </div>
             </div>

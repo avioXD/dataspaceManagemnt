@@ -56,7 +56,7 @@ import EditJobs from "../pages/home/admin/career/edit_jobs";
 import AddJobs from "../pages/home/admin/career/add_jobs";
 import { rootRouterPath } from "./router_paths";
 import adminRoutings from "./admin_route_paths";
-
+import { AnimatePresence, motion } from "framer-motion";
 export default function MainRouter() {
   let routes;
   const { routings } = rootRouterPath();
@@ -80,7 +80,11 @@ export default function MainRouter() {
       />
       {/* Same as */}
       <ToastContainer />
-      {routes && <RouterProvider router={routes} />}
+      {routes && (
+        <AnimatePresence>
+          <RouterProvider router={routes} />
+        </AnimatePresence>
+      )}
     </>
   );
 }

@@ -5,6 +5,8 @@ import PrimeDataTable from "../../../../common/prime_data_table";
 import { Link } from "react-router-dom";
 import { RiDeleteBack2Line } from "react-icons/ri";
 import { toast } from "react-toastify";
+import { Modal } from "react-bootstrap";
+import { Button } from "primereact/button";
 export default function NewsView() {
   const tablesStructure: Columns[] = [
     {
@@ -37,7 +39,10 @@ export default function NewsView() {
         return (
           <>
             <button
-              onClick={() => deleteNews(data)}
+              onClick={() => {
+                setDeletable(data);
+                handleShow();
+              }}
               className="btn btn-outline-danger btn-sm"
             >
               <RiDeleteBack2Line />{" "}
@@ -48,11 +53,20 @@ export default function NewsView() {
     },
   ];
 
-  const { getAllNews, deleteOneNews } = protectedApiService();
-  const deleteNews = (data: any) => {
-    const res: any = deleteOneNews(data.news_id);
+  const [show, setShow] = useState(false);
+  const [deletable, setDeletable] = useState<any>();
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const onDelete = async () => {
+    const res: any = await deleteOneNews(deletable.news_id);
+    if (res) {
+      toast.success("Deleted");
+    }
     getFromApi();
   };
+
+  const { getAllNews, deleteOneNews } = protectedApiService();
+
   const [allData, setAllData] = useState(null);
   useEffect(() => {
     getData();
@@ -69,7 +83,7 @@ export default function NewsView() {
     <>
       <div className="das-exs  ">
         <div className="flex-end mx-4">
-          <Link to="/Home/Add News">
+          <Link to="Add News">
             <button className="btn btn-primary">Add News</button>
           </Link>
         </div>
@@ -82,6 +96,25 @@ export default function NewsView() {
         onRefresh={getFromApi}
         remove
       />
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        centered
+      >
+        <div className="p-4">
+          <h5 className="text-center mb-4">Are you sure?</h5>
+          <div className="flex-center">
+            <button onClick={handleClose} className="btn btn-sm btn-info mx-1">
+              Close
+            </button>
+            <button onClick={onDelete} className="btn btn-sm btn-danger">
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }

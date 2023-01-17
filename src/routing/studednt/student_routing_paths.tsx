@@ -6,6 +6,8 @@ import StudentDashboard from "../../pages/home/student/student-dashboard";
 import StudentJobs from "../../pages/home/student/jobs/student-jobs";
 import AllCertificates from "../../pages/home/student/all-certificates";
 import SelectedJobs from "../../pages/home/student/jobs/selected_job";
+import ViewProfileDetails from "../../pages/home/admin/common/view_profile";
+import EditProfileDetails from "../../pages/home/admin/common/edit_profile";
 export default function studentRoutings() {
   const routes: any[] = [
     {
@@ -28,6 +30,7 @@ export default function studentRoutings() {
       path: "Jobs",
       element: <Outlet />,
       icon: <GoPerson />,
+      no_collapse: true,
       children: [
         {
           route: "Base",
@@ -40,7 +43,7 @@ export default function studentRoutings() {
           route: "All Jobs",
           path: "All Jobs",
           element: <Outlet />,
-          collapse: false,
+          no_collapse: true,
           children: [
             {
               route: "Base",
@@ -53,7 +56,7 @@ export default function studentRoutings() {
               route: "Selected Job",
               path: "Selected Job",
               element: <SelectedJobs />,
-              collapse: false,
+              no_collapse: true,
               children: [],
               shortcut: false,
             },
@@ -85,6 +88,31 @@ export default function studentRoutings() {
       element: <></>,
       icon: <FaChalkboardTeacher />,
       children: [],
+      shortcut: false,
+    },
+    {
+      route: "Profile",
+      path: "Profile",
+      element: <Outlet />,
+      icon: <GoPerson />,
+      children: [
+        {
+          route: "",
+          path: "",
+          element: <ViewProfileDetails />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Edit",
+          path: "Edit",
+          element: <EditProfileDetails />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+      ],
       shortcut: false,
     },
   ];

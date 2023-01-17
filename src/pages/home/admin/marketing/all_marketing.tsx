@@ -72,7 +72,7 @@ export default function AllMarketing() {
     <>
       <div className="das-exs  ">
         <div className="flex-end mx-4">
-          <Link to="/Home/Add Marketing">
+          <Link to="Add Marketing">
             <button className="btn btn-primary">Add Marketing</button>
           </Link>
         </div>

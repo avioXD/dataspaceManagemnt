@@ -13,9 +13,11 @@ export default function StudentDashboard() {
             </Link>
           </div>
           <div className="col-sm-6 ">
-            <div className="image m-2">
-              <img src="/assets/student/skill_up_course.png" alt="" />
-            </div>
+            <Link to="/Enrolled/SkillUp Courses">
+              <div className="image m-2">
+                <img src="/assets/student/skill_up_course.png" alt="" />
+              </div>
+            </Link>
           </div>
           <div className="col-sm-12  ">
             <div className="image m-2">

@@ -174,7 +174,7 @@ export default function SetFacultyTiming() {
     <>
       {currentFacultyDetails?.faculty_timing ? (
         <div className="mt-3" style={{ paddingBottom: "20vh" }}>
-          <h5>Faculty Details</h5>
+          <p className="heading mx-2">Faculty Details</p>
           <div className="card p-4 shadow mt-3">
             <FullCalendar
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

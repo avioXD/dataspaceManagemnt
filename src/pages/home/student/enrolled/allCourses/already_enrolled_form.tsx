@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-image-picker-editor/dist/index.css";
 import { IoCalendarOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { Link, useLocation } from "react-router-dom";
+import { Modal } from "react-bootstrap";
+import studentCommonApi from "../../../../../services/_student_skillup_api";
+import PrimeDataTable from "../../../../../common/prime_data_table";
+import { Columns } from "../../../../../interfaces/_common";
+import protectedStudentApiService from "../../../../../services/_protected_student_api";
 export default function AlreadyEnrolledForm() {
   const init: any = {
     job_id: "",
@@ -15,7 +20,52 @@ export default function AlreadyEnrolledForm() {
     job_description: "",
     terms_condition: "",
   };
+  const tablesStructure: Columns[] = [
+    {
+      data_name: "course_name",
+      header: "Course Name",
+      sortable: true,
+      dataFilter: (data: any, key: any) => data[key] || <></>,
+    },
+    {
+      data_name: "date",
+      header: "Date",
+      sortable: false,
+      dataFilter: (data: any, key: any) => data[key] || <></>,
+    },
+    {
+      data_name: "time",
+      header: "Timing",
+      sortable: false,
+      dataFilter: (data: any, key: any) => data[key] || <></>,
+    },
+    {
+      data_name: "instructor_name",
+      header: "Instructor",
+      sortable: false,
+      dataFilter: (data: any, key: any) => data[key] || <></>,
+    },
+    {
+      data_name: "location",
+      header: "Location",
+      sortable: true,
+      dataFilter: (data: any, key: any) => data[key] || <></>,
+    },
+  ];
   const [creeds, setCreeds] = useState(init);
+  const [show, setShow] = useState(false);
+  const [allSchedules, setAllSchedules] = useState<any>();
+  const { getAllSchedule } = protectedStudentApiService();
+  useEffect(() => {
+    getSchedule();
+  }, []);
+  const getSchedule = async () => {
+    const res: any = await getAllSchedule();
+    console.log(res);
+    setAllSchedules(res);
+  };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const onValueChange = (val: any) => {
     console.log(val);
     setCreeds({ ...creeds, ...val });
@@ -56,9 +106,12 @@ export default function AlreadyEnrolledForm() {
                   <option value="default" disabled selected hidden>
                     Select Branch
                   </option>
-                  <option value="1">A</option>
-                  <option value="2">B</option>
-                  <option value="3">C</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Guwahati">Guwahati</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="KSA">KSA</option>
+                  <option value="Durgapur">Durgapur</option>
+                  <option value="Dhanbad">Dhanbad</option>
                 </select>
               </div>
             </div>
@@ -109,7 +162,10 @@ export default function AlreadyEnrolledForm() {
 
             <div className="col-sm-3">
               <div className="mb-3">
-                <button className="btn icon-btn btn-sm btn-outline-primary btn-wide">
+                <button
+                  onClick={handleShow}
+                  className="btn icon-btn btn-sm btn-outline-primary btn-wide"
+                >
                   <IoCalendarOutline size={28} className="mx-2" />
                   See All Scheduled Batch
                 </button>
@@ -123,6 +179,16 @@ export default function AlreadyEnrolledForm() {
           </div>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <PrimeDataTable
+            data={allSchedules || []}
+            structure={tablesStructure}
+            title={"All Scheduled"}
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

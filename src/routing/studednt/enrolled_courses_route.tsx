@@ -2,7 +2,11 @@ import { Navigate, Outlet } from "react-router-dom";
 import { RiDashboardFill, RiPagesFill, RiNewspaperLine } from "react-icons/ri";
 import { GoPerson, GoThreeBars } from "react-icons/go";
 import { FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
-import { MdAccountBalanceWallet, MdStickyNote2 } from "react-icons/md";
+import {
+  MdAccountBalanceWallet,
+  MdArrowBack,
+  MdStickyNote2,
+} from "react-icons/md";
 import StudentDashboard from "../../pages/home/student/student-dashboard";
 import StudentJobs from "../../pages/home/student/jobs/student-jobs";
 import AllCertificates from "../../pages/home/student/all-certificates";
@@ -12,6 +16,8 @@ import AllFaculty from "../../pages/home/admin/faculty/all_faculty";
 
 import AllCourseList from "../../pages/home/student/enrolled/allCourses/all_course_list";
 import AlreadyEnrolledForm from "../../pages/home/student/enrolled/allCourses/already_enrolled_form";
+import AllSkillUpCourseList from "../../pages/home/student/skillup/all_skillup_course";
+import SelectedJobs from "../../pages/home/student/jobs/selected_job";
 export default function enrolledCourseRoutings() {
   const routes: any[] = [
     {
@@ -22,10 +28,10 @@ export default function enrolledCourseRoutings() {
       shortcut: true,
     },
     {
-      route: "Main Menu",
+      route: "Back",
       path: "Home",
       element: <Navigate to="/Home" />,
-      icon: <GoThreeBars />,
+      icon: <MdArrowBack />,
       children: [],
       shortcut: true,
     },
@@ -34,7 +40,7 @@ export default function enrolledCourseRoutings() {
       path: "Live Interactive Courses",
       element: <Outlet />,
       icon: <MdAccountBalanceWallet />,
-      collapse: false,
+      no_collapse: true,
       children: [
         {
           route: "Base",
@@ -48,7 +54,7 @@ export default function enrolledCourseRoutings() {
           path: "Active Courses",
           element: <LiveInteractiveClasses />,
           icon: <MdAccountBalanceWallet />,
-          collapse: false,
+          no_collapse: true,
           children: [],
           shortcut: false,
         },
@@ -60,7 +66,7 @@ export default function enrolledCourseRoutings() {
       path: "All Courses",
       element: <Outlet />,
       icon: <RiPagesFill />,
-      collapse: false,
+      no_collapse: true,
       children: [
         {
           route: "Base",
@@ -74,7 +80,7 @@ export default function enrolledCourseRoutings() {
           path: "Courses",
           element: <Outlet />,
           icon: <MdAccountBalanceWallet />,
-          collapse: false,
+          no_collapse: true,
           children: [
             {
               route: "Base",
@@ -88,7 +94,7 @@ export default function enrolledCourseRoutings() {
               path: "Already Enrolled",
               element: <AlreadyEnrolledForm />,
               icon: <MdAccountBalanceWallet />,
-              collapse: false,
+              no_collapse: true,
               children: [],
               shortcut: false,
             },
@@ -101,25 +107,43 @@ export default function enrolledCourseRoutings() {
     {
       route: "SkillUp Courses",
       path: "SkillUp Courses",
-      element: <AllCertificates />,
+      element: <Outlet />,
       icon: <FaUserGraduate />,
-      children: [],
+      no_collapse: true,
+      children: [
+        {
+          route: "Base",
+          path: "",
+          element: <AllSkillUpCourseList />,
+          children: [],
+          shortcut: false,
+        },
+      ],
       shortcut: true,
     },
     {
       route: "Jobs",
       path: "Jobs",
-      element: <></>,
+      no_collapse: true,
+      element: <Outlet />,
       icon: <FaChalkboardTeacher />,
-      children: [],
-      shortcut: true,
-    },
-    {
-      route: "Articles",
-      path: "Articles",
-      element: <></>,
-      icon: <MdStickyNote2 />,
-      children: [],
+      children: [
+        {
+          route: "Base",
+          path: "",
+          element: <StudentJobs />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Selected Job",
+          path: "Selected Job",
+          element: <SelectedJobs />,
+          no_collapse: true,
+          children: [],
+          shortcut: false,
+        },
+      ],
       shortcut: true,
     },
   ];

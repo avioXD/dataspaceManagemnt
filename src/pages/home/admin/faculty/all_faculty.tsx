@@ -57,7 +57,7 @@ export default function AllFaculty() {
       dataFilter: (data: any, key: any) => {
         return (
           <>
-            <Link to="/Home/Set Faculty Timing" state={data.user_id}>
+            <Link to="Set Faculty Timing" state={data.user_id}>
               <Button className="p-button-danger p-1" aria-label="Youtube">
                 <i className="pi pi-clock "></i>
                 <span className="px-1">Schedule</span>
@@ -90,7 +90,7 @@ export default function AllFaculty() {
     <>
       <div className="das-exs ">
         <div className="flex-end mx-4">
-          <Link to="/Home/Add Faculty">
+          <Link to="Add Faculty">
             <button className="btn btn-primary">Add Faculty</button>
           </Link>
         </div>

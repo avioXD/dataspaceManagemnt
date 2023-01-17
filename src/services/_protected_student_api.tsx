@@ -28,6 +28,9 @@ export default function protectedStudentApiService() {
         "/student_class_get/" + user?.user_id,
         authHeader
       );
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
       return res.data;
     } catch (e) {
       console.log(e);
@@ -39,13 +42,72 @@ export default function protectedStudentApiService() {
         "/get_student_student_steps/" + accessToken,
         authHeader
       );
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
       return res.data;
     } catch (e) {
       console.log(e);
     }
   };
+  const getStudentDetailsAll = async () => {
+    try {
+      const res1 = await _https.get(
+        "/get_student_atten/" + accessToken,
+        authHeader
+      );
+      const res2 = await _https.get(
+        "/get_student_details_all/" + accessToken,
+        authHeader
+      );
+      if (res1.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      if (res2.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return { ...res1.data, ...res2.data };
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const getAllSchedule = async () => {
+    try {
+      const res = await _https.get(
+        "/get_available_schedule_link_data_filter_date",
+        authHeader
+      );
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return res.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const getAllJobs = async () => {
+    try {
+      const res = await _https.get("/get_jobs", authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return res.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const postApplyJob = async (creeds: any) => {
+    try {
+      const res = await _https.post("/job_apply", creeds, authHeader);
+      return res.data;
+    } catch (e) {}
+  };
   return {
     getStudentClasses,
     getStudentProgress,
+    getAllSchedule,
+    getAllJobs,
+    postApplyJob,
+    getStudentDetailsAll,
   };
 }

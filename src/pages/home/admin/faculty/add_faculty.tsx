@@ -29,7 +29,7 @@ export default function AddFaculty() {
   return (
     <>
       <div className=" mt-3">
-        <h4>Faculty Details</h4>
+        <p className="heading mx-2">Add Faculty Details</p>
         <div className="card shadow  p-4">
           <div className="row mx-3">
             <div className="col-sm-6 ">

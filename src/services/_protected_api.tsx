@@ -245,7 +245,36 @@ export default function protectedApiService() {
       //console.log(e);
     }
   };
-
+  const getNotifications = async () => {
+    try {
+      const res = await _https.get(
+        "/get_notification_data/" + accessToken,
+        authHeader
+      );
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch (e) {
+      //console.log(e);
+    }
+  };
+  const getMessages = async () => {
+    try {
+      const res = await _https.get(
+        "/student-message/" + accessToken,
+        authHeader
+      );
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch (e) {
+      //console.log(e);
+    }
+  };
   ////// all protected post requests
   const postUpdateJob = async (creeds: any) => {
     try {
@@ -413,6 +442,97 @@ export default function protectedApiService() {
     } catch (e) {}
   };
 
+  const getFacultyevents = async () => {
+    try {
+      const res = await _https.get("/get_live_link_data_param", authHeader);
+      // console.log(res.data);
+      //setAllStudents(res.data);
+      return res.data;
+    } catch (e: any) {
+      if (e.msg === "you are not an authorised user") {
+        logout();
+      }
+      //  console.log("details", e);
+    }
+  };
+
+  const get_student_remarks = async (user_id: any) => {
+    try {
+      const res = await _https.get(
+        "/get_all_students_feedback/" + user_id,
+        authHeader
+      );
+      return res.data;
+    } catch (e: any) {
+      if (e.msg === "you are not an authorised user") {
+        logout();
+      }
+    }
+  };
+
+  const get_faculty_tming = async (id: any) => {
+    // console.log(id);
+    try {
+      const res = await _https.get("get_faculty_tming/" + id, authHeader);
+      //console.log(res.data);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch {}
+  };
+
+  const get_faculty_upcoming_classes = async (id: any) => {
+    try {
+      const res = await _https.get(
+        "get_faculty_upcomming_classes/" + id,
+        authHeader
+      );
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch {}
+  };
+
+  const get_faculty_project = async (id: any) => {
+    try {
+      const res = await _https.get("faculty_project_assign/" + id, authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch {}
+  };
+
+  const faculty_project_assign_accepted = async (id: any) => {
+    try {
+      const res = await _https.get(
+        "faculty_project_assign_final/" + id,
+        authHeader
+      );
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch {}
+  };
+
+  const student_present_absent_data_submit = async (data: any) => {
+    try {
+      const res = await _https.post("class_present_absent", data, authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch {}
+  };
+
   return {
     getAllStudents,
     getAllFaculty,
@@ -426,6 +546,8 @@ export default function protectedApiService() {
     postDeleteFacultyTiming,
     getFacultyTimingAll,
     getAllNews,
+    getNotifications,
+    getMessages,
     getJobsAll,
     getStudentNotes,
     getStudentMessages,
@@ -452,5 +574,12 @@ export default function protectedApiService() {
     updateUserDetails,
     deleteUser,
     deleteStudentClass,
+    getFacultyevents,
+    get_student_remarks,
+    get_faculty_tming,
+    get_faculty_upcoming_classes,
+    get_faculty_project,
+    faculty_project_assign_accepted,
+    student_present_absent_data_submit,
   };
 }
