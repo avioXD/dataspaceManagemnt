@@ -2,7 +2,7 @@ import axios from "axios";
 import globalDataStore from "../store/_globalData";
 export default function commonApiService() {
   const _https = axios.create({
-    baseURL: "http://dataspaceacademy.com/api",
+    baseURL: "https://dataspaceacademy.com/api",
   });
   const { setAllCourses } = globalDataStore();
   const getAllCourses = async () => {
