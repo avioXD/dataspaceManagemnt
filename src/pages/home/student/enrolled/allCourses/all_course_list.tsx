@@ -3,34 +3,52 @@ import { ProgressBar } from "primereact/progressbar";
 import { useEffect, useState, useCallback } from "react";
 import commonApiService from "../../../../../services/_common_api";
 import globalDataStore from "../../../../../store/_globalData";
+import { FilterDropdown } from "../../../../../common/prime_data_table";
 
 export default function AllCourseList() {
   const { getAllCourses } = commonApiService();
   const { allCourses, setAllCourses } = globalDataStore();
-
+  const [changeableData, setChangeableData] = useState<any>(null);
   useEffect(() => {
     if (!allCourses) {
       fetchCourses();
+    } else {
+      setChangeableData(allCourses);
     }
   }, []);
   const fetchCourses = useCallback(async () => {
     const res: any = await getAllCourses();
     setAllCourses(res);
-  }, [allCourses]);
+    setChangeableData(res);
+  }, [allCourses, changeableData]);
+
   return (
     <>
       <>
         <div className="card  enrolled p-4">
           <h5 className="heading">All Courses</h5>
+          <div className="d-flex justify-content-end my-2">
+            {allCourses && (
+              <FilterDropdown
+                allData={allCourses}
+                filterField={"page_name"}
+                setChangeableData={setChangeableData}
+                header={"Course"}
+              />
+            )}
+          </div>
           <div className="row">
-            {allCourses &&
-              allCourses.map((x: any) => (
+            {changeableData &&
+              changeableData.map((x: any) => (
                 <div className="col-sm-4 flex-center course-card">
                   <div className="card shadow m-2  ">
-                    <img src="/assets/bg/register_bg.png" alt="" />
+                    <img
+                      src={x.featured_image || "/assets/bg/register_bg.png"}
+                      alt=""
+                    />
                     <div className="details p-4">
                       <h5 className="heading">
-                        {x.course_name || "Test Course"}
+                        {x.page_name || "Test Course"}
                       </h5>
                       <div className="sub">
                         <div className="flex-between">
@@ -61,7 +79,7 @@ export default function AllCourseList() {
                             </Link>
                           </div>
                           <div className="col-sm-6 mt-2">
-                            <Link to="Already Enrolled" state={x.classList}>
+                            <Link to="Already Enrolled" state={x}>
                               <button className="btn btn-sm btn-primary btn-wide">
                                 Already Enrolled
                               </button>
