@@ -47,7 +47,7 @@ export default function Timeline() {
           <h4 className="text-capitalize">
             <span className="mx-2"> {student.name}</span>
           </h4>
-          <div style={{ height: "40vh" }} className="p-2 editor">
+          <div style={{ height: "40vh", overflow: "auto" }} className="p-2  ">
             {notes &&
               notes.map((x: any) => (
                 <div className="timeline-text">
@@ -57,7 +57,7 @@ export default function Timeline() {
               ))}
           </div>
         </div>
-        <div className="mb-3">
+        <div className="my-3">
           <input
             type="text"
             className="form-control"

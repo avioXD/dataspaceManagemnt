@@ -223,7 +223,7 @@ export default function Sidebar(props: any) {
                           "Enrolled" && (
                           <>
                             {stdAtt && (
-                              <div className="only-dashboard mx-3 flex-start mt-5 pt-4  flex-column">
+                              <div className="only-dashboard mx-3 mb-4 flex-start mt-5 pt-4  flex-column">
                                 <p className="heading text-start">
                                   Course completed:{" "}
                                 </p>
