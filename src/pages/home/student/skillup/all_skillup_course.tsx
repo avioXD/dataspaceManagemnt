@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ProgressBar } from "primereact/progressbar";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import studentCommonApi from "../../../../services/_student_skillup_api";
 import studentGlobalDataStore from "../../../../store/_global_studentData";
 import { FilterDropdown } from "../../../../common/prime_data_table";
@@ -14,11 +14,15 @@ export default function AllSkillUpCourseList() {
   useEffect(() => {
     fetchCourses();
   }, []);
-  const fetchCourses = useCallback(async () => {
+  const fetchCourses = async () => {
     const res: any = await getAllSkillUpCourses();
     setCourses(res);
+<<<<<<< HEAD
     setChangeableData(res);
   }, [allCourses, changeableData]);
+=======
+  };
+>>>>>>> 6b6a38b161bfd292024b62161798998342ae3bd4
   const redirectToModule = (x: any) => {
     setSkillUpModule(x);
     navigate("/SkillUpModule");

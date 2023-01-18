@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ProgressBar } from "primereact/progressbar";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import commonApiService from "../../../../../services/_common_api";
 import globalDataStore from "../../../../../store/_globalData";
 import { FilterDropdown } from "../../../../../common/prime_data_table";
@@ -16,12 +16,10 @@ export default function AllCourseList() {
       setChangeableData(allCourses);
     }
   }, []);
-  const fetchCourses = useCallback(async () => {
+  const fetchCourses = async () => {
     const res: any = await getAllCourses();
     setAllCourses(res);
-    setChangeableData(res);
-  }, [allCourses, changeableData]);
-
+  }, [allCourses]);
   return (
     <>
       <>

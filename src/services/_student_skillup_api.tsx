@@ -56,14 +56,6 @@ export default function studentSkillUpApi() {
       console.log(e);
     }
   };
-  const getSingleVideo = async (module_id: any) => {
-    try {
-      const res = await _https.get("/get_module_data/" + module_id, authHeader);
-      return res.data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
   const getCourseProgress = async () => {
     try {
       const res = await _https.get(
@@ -85,15 +77,7 @@ export default function studentSkillUpApi() {
       return res.data;
     } catch (e) {}
   };
-  const updateModulePlayer = async (creeds: any) => {
-    try {
-      const res = await _https.get(
-        `/update_user_data_to_module_time/${user.user_id}/${creeds.module_id}/${creeds.total_duration}/${creeds.completed_duration}`,
-        authHeader
-      );
-      return res.data;
-    } catch (e) {}
-  };
+
   return {
     getStudentAssignments,
     getStudentProjects,
@@ -101,7 +85,5 @@ export default function studentSkillUpApi() {
     postAssignment,
     getCourseModules,
     getCourseProgress,
-    updateModulePlayer,
-    getSingleVideo,
   };
 }

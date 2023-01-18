@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import studentGlobalDataStore from "../../../../store/_global_studentData";
 import ModuleVideoPlayer from "./video_player";
 import { GiPadlock, GiPadlockOpen } from "react-icons/gi";
@@ -9,7 +9,6 @@ import studentSkillUpApi from "../../../../services/_student_skillup_api";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { RxDoubleArrowLeft } from "react-icons/rx";
 import $ from "jquery";
-
 export default function VideoModuleDashboard() {
   const { skillUpModule } = studentGlobalDataStore();
   const { getCourseModules, getCourseProgress } = studentSkillUpApi();
@@ -20,7 +19,7 @@ export default function VideoModuleDashboard() {
     getData();
   }, []);
   const [playable, setPlayable] = useState<any>(null);
-  const getData = useCallback(async () => {
+  const getData = async () => {
     if (!skillUpModule) {
       navigate("/Enrolled/SkillUp Courses");
     }
@@ -36,7 +35,15 @@ export default function VideoModuleDashboard() {
       res2.data.filter((x: any) => x.course_id == skillUpModule.course_id)[0]
     );
     setPlayable(res1.data[0]);
-  }, [modules, progress]);
+  };
+
+  const controls = {
+    playing: false,
+    volume: 0,
+    mute: false,
+    seek: 0,
+    currentTime: 0,
+  };
 
   const onHoverIn = () => {
     $("#side-bar").css("right", "0rem");
@@ -44,13 +51,7 @@ export default function VideoModuleDashboard() {
   const onHoverOut = () => {
     $("#side-bar").css("right", "-23rem");
   };
-  const onNext = () => {
-    if (playable.index < modules.length)
-      setPlayable({
-        ...modules[playable.index + 1],
-        index: playable.index + 1,
-      });
-  };
+
   return (
     <>
       {progress ? (
@@ -102,10 +103,10 @@ export default function VideoModuleDashboard() {
             <div className="modules  ">
               <span className="p-2">Course Modules:</span>
               {modules &&
-                modules.map((x: any, index: any) => (
+                modules.map((x: any) => (
                   <div
                     className="items flex-between"
-                    onClick={() => setPlayable({ ...x, index: index })}
+                    onClick={() => setPlayable(x)}
                   >
                     {x.video_completed && x.video_completed > 0 ? (
                       <GiPadlockOpen color={"#2BBB10"} size={27} />
@@ -113,26 +114,17 @@ export default function VideoModuleDashboard() {
                       <GiPadlock color={"#B4B4B4"} size={27} />
                     )}
 
-                    <div className="details align-items-start flex-column">
-                      <div className="mb-auto  ">
-                        <span className="name">{x.title}</span>
-                      </div>
-                      <div className=" ">
-                        <div
-                          className="heading "
-                          dangerouslySetInnerHTML={{
-                            __html: x.description
-                              .replaceAll("<p>", "")
-                              .replaceAll("</p>", ""),
-                          }}
-                        ></div>
-                      </div>
-                      <div className=" time">
-                        <span>
-                          {Math.floor(x.video_duration / 60)}:
-                          {Math.floor(x.video_duration % 60)} mins
-                        </span>
-                      </div>
+                    <div className="details">
+                      <h6>{x.title}</h6>
+                      <div
+                        className="heading mt-4"
+                        dangerouslySetInnerHTML={{ __html: x.description }}
+                      ></div>
+
+                      <span>
+                        {Math.floor(x.video_duration / 60)}:
+                        {Math.floor(x.video_duration % 60)} mins
+                      </span>
                     </div>
                     <div className="progress flex-center">
                       <ProgressBar
@@ -146,7 +138,7 @@ export default function VideoModuleDashboard() {
             </div>
           </div>
           <div className="frame" onMouseEnter={onHoverOut}>
-            <ModuleVideoPlayer playNext={onNext} playable={playable} />
+            <ModuleVideoPlayer playable={playable} />
           </div>
         </div>
       ) : (
