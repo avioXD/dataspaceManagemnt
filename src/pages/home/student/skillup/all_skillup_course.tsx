@@ -3,13 +3,11 @@ import { ProgressBar } from "primereact/progressbar";
 import { useEffect, useState } from "react";
 import studentCommonApi from "../../../../services/_student_skillup_api";
 import studentGlobalDataStore from "../../../../store/_global_studentData";
-import { FilterDropdown } from "../../../../common/prime_data_table";
 
 export default function AllSkillUpCourseList() {
   const { getAllSkillUpCourses } = studentCommonApi();
   const [allCourses, setCourses] = useState<any>(null);
   const { setAllCoursesGroup, setSkillUpModule } = studentGlobalDataStore();
-  const [changeableData, setChangeableData] = useState<any>(null);
   const navigate = useNavigate();
   useEffect(() => {
     fetchCourses();
@@ -17,12 +15,7 @@ export default function AllSkillUpCourseList() {
   const fetchCourses = async () => {
     const res: any = await getAllSkillUpCourses();
     setCourses(res);
-<<<<<<< HEAD
-    setChangeableData(res);
-  }, [allCourses, changeableData]);
-=======
   };
->>>>>>> 6b6a38b161bfd292024b62161798998342ae3bd4
   const redirectToModule = (x: any) => {
     setSkillUpModule(x);
     navigate("/SkillUpModule");
@@ -32,19 +25,9 @@ export default function AllSkillUpCourseList() {
       <>
         <div className="card  enrolled p-4">
           <h5 className="heading">All Skill Up Courses</h5>
-          <div className="d-flex justify-content-end my-2">
-            {allCourses && (
-              <FilterDropdown
-                allData={allCourses}
-                filterField={"course_name"}
-                setChangeableData={setChangeableData}
-                header={"Course"}
-              />
-            )}
-          </div>
           <div className="row">
-            {changeableData &&
-              changeableData.map((x: any) => (
+            {allCourses &&
+              allCourses.map((x: any) => (
                 <div className="col-sm-4 flex-center course-card">
                   <div className="card shadow-sm m-2  ">
                     <img src={x.img || "/assets/bg/register_bg.png"} alt="" />

@@ -2,39 +2,41 @@ import { useEffect, useState } from "react";
 import "react-image-picker-editor/dist/index.css";
 import { IoCalendarOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import studentCommonApi from "../../../../../services/_student_skillup_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
 import { Columns } from "../../../../../interfaces/_common";
 import protectedStudentApiService from "../../../../../services/_protected_student_api";
 export default function AlreadyEnrolledForm() {
-  const location = useLocation();
-  const course = location.state;
-  const navigate = useNavigate();
   const init: any = {
+    job_id: "",
     branch_name: "",
-    counsellor: "",
-    transaction_id: "",
-    schedule_timing: "",
-    course_name: course?.page_name || "",
+    education: "",
+    location: "",
+    company: "",
+    experience: "",
+    job_role: "",
+    job_description: "",
+    terms_condition: "",
   };
   const tablesStructure: Columns[] = [
     {
       data_name: "course_name",
       header: "Course Name",
-      sortable: false,
+      sortable: true,
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
       data_name: "date",
       header: "Date",
-      sortable: true,
+      sortable: false,
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
       data_name: "time",
       header: "Timing",
-      sortable: true,
+      sortable: false,
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
@@ -46,34 +48,8 @@ export default function AlreadyEnrolledForm() {
     {
       data_name: "location",
       header: "Location",
-      sortable: false,
-      dataFilter: (data: any, key: any) => data[key] || <></>,
-    },
-    {
-      data_name: "location",
-      header: "Location",
-      sortable: false,
-      dataFilter: (data: any, key: any) => data[key] || <></>,
-    },
-    {
-      data_name: "Select",
-      header: "Select",
       sortable: true,
-      dataFilter: (data: any, key: any) => {
-        return (
-          <>
-            <button
-              onClick={() => {
-                onValueChange({ schedule: data });
-                handleClose();
-              }}
-              className="btn btn-outline-success btn-sm"
-            >
-              Select
-            </button>
-          </>
-        );
-      },
+      dataFilter: (data: any, key: any) => data[key] || <></>,
     },
   ];
   const [creeds, setCreeds] = useState(init);
@@ -81,18 +57,13 @@ export default function AlreadyEnrolledForm() {
   const [allSchedules, setAllSchedules] = useState<any>();
   const { getAllSchedule } = protectedStudentApiService();
   useEffect(() => {
-    if (!course?.page_name) {
-      navigate(-1);
-    }
     getSchedule();
   }, []);
   const getSchedule = async () => {
     const res: any = await getAllSchedule();
     console.log(res);
-
-    setAllSchedules(res.filter((r: any) => r.course_name == course.page_name));
+    setAllSchedules(res);
   };
-  const onSubmit = () => {};
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const onValueChange = (val: any) => {
@@ -122,8 +93,8 @@ export default function AlreadyEnrolledForm() {
                 </label>
                 <select
                   className="form-select"
-                  name="branch_name"
-                  id="branch_name"
+                  name="course_mode"
+                  id="course_mode"
                   defaultValue={creeds.branch_name || "3"}
                   required
                   onChange={(e) =>
@@ -142,28 +113,6 @@ export default function AlreadyEnrolledForm() {
                   <option value="Durgapur">Durgapur</option>
                   <option value="Dhanbad">Dhanbad</option>
                 </select>
-              </div>
-            </div>
-            <div className="col-sm-6">
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                  Course Name
-                </label>
-                <input
-                  disabled
-                  type="text"
-                  className="form-control"
-                  name="course_name"
-                  id="course_name"
-                  value={creeds.course_name}
-                  placeholder="Course Name"
-                  //  onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
-                  onChange={(e) =>
-                    onValueChange({
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
               </div>
             </div>
             <div className="col-sm-6">
@@ -191,7 +140,7 @@ export default function AlreadyEnrolledForm() {
             <div className="col-sm-6">
               <div className="mb-3">
                 <label htmlFor="contact_no" className="form-label">
-                  Transaction Id
+                  Experience
                 </label>
                 <input
                   type="text"
@@ -222,49 +171,21 @@ export default function AlreadyEnrolledForm() {
                 </button>
               </div>
             </div>
-            <div className="col-sm-6">
-              <div className="mb-3">
-                <label htmlFor="contact_no" className="form-label">
-                  {creeds.schedule && (
-                    <>
-                      {" "}
-                      {creeds?.schedule?.date || ""} ||{" "}
-                      {creeds?.schedule.time || ""} ||{" "}
-                      {creeds?.schedule.instructor_name || ""} ||{" "}
-                      {creeds?.schedule.location || ""}
-                    </>
-                  )}
-                </label>
-              </div>
-            </div>
           </div>
           <div className="flex-start p-3 mx-3">
-            <button
-              onClick={() => {
-                onSubmit();
-              }}
-              className="btn btn-primary"
-            >
+            <button onClick={() => {}} className="btn btn-primary">
               Submit
             </button>
           </div>
         </div>
       </div>
-      <Modal
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        show={show}
-        onHide={handleClose}
-      >
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <PrimeDataTable
             data={allSchedules || []}
             structure={tablesStructure}
             title={"All Scheduled"}
-            noSearch
-            noChecks
           />
         </Modal.Body>
       </Modal>

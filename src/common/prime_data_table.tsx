@@ -30,8 +30,6 @@ export default function PrimeDataTable({
   options,
   importable,
   filterDropdown,
-  onSelect,
-  noChecks,
 }: any) {
   const location = useLocation();
   // console.log(location);
@@ -375,12 +373,10 @@ export default function PrimeDataTable({
                   selection={selectedData}
                   onSelectionChange={(e) => setSelectedData(e.value)}
                 >
-                  {!noChecks && (
-                    <Column
-                      selectionMode="multiple"
-                      headerStyle={{ width: "3em" }}
-                    ></Column>
-                  )}
+                  <Column
+                    selectionMode="multiple"
+                    headerStyle={{ width: "3em" }}
+                  ></Column>
                   {options && (
                     <Column
                       headerStyle={{ width: "3em" }}
@@ -459,7 +455,7 @@ export default function PrimeDataTable({
     </>
   );
 }
-export const FilterDropdown = ({
+const FilterDropdown = ({
   allData,
   filterField,
   setChangeableData,
@@ -507,7 +503,7 @@ export const FilterDropdown = ({
       <select
         className="form-select"
         name="course_mode"
-        style={{ maxWidth: "18rem" }}
+        style={{ maxWidth: "15rem" }}
         id="course_mode"
         onChange={(e) => onValueChange(e.target.value)}
       >
