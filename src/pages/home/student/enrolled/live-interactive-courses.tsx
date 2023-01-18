@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineProject } from "react-icons/ai";
 import { SiGoogleclassroom } from "react-icons/si";
 import { MdOutlinePersonPin, MdOutlineDoneOutline } from "react-icons/md";
@@ -20,15 +20,15 @@ export default function LiveInteractiveClasses() {
   const { getStudentClasses, getStudentProgress } =
     protectedStudentApiService();
   const { setAllCoursesGroup, setLiveClass } = studentGlobalDataStore();
-  const getProgress = useCallback(async () => {
+  const getProgress = async () => {
     const res: any = await getStudentProgress();
     setProgressSteps(res);
-  }, [progress_steps]);
+  };
 
-  const getCourses = useCallback(async () => {
+  const getCourses = async () => {
     const res: any = await getStudentClasses();
     setRunningCourses(res);
-  }, [filtered_courses]);
+  };
   function groupBy(arr: any, property: any) {
     return arr.reduce(function (memo: any, x: any) {
       if (!memo[x[property]]) {

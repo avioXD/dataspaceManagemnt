@@ -42,6 +42,9 @@ import NewsView from "../pages/home/admin/news/news_view";
 import AddNews from "../pages/home/admin/news/mews_add";
 import Timeline from "../pages/home/admin/timeline";
 import { IoMdWallet } from "react-icons/io";
+import EditCourse from "../pages/settings/edit_course";
+import AddCourse from "../pages/settings/add_course";
+import Courses from "../pages/settings/courses";
 
 export default function superAdminRoutings() {
   const routes: any[] = [
@@ -342,6 +345,50 @@ export default function superAdminRoutings() {
       ],
       shortcut: true,
     },
+    {
+      route: "Settings",
+      path: "settings",
+      element: <Outlet />,
+      icon: <FaChalkboardTeacher />,
+      no_collapse: false,
+      children: [
+        {
+          route: "",
+          path: "",
+          element: <AllFaculty />,
+          icon: <GoPerson />,
+          children: [],
+        },
+        {
+          route: "Courses",
+          path: "Courses",
+          element: <Courses />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: true,
+        },
+        {
+          route: "Add Course",
+          path: "Add Course",
+          element: <AddCourse />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+
+        {
+          route: "Edit Course",
+          path: "Edit Course",
+          element: <EditCourse />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+        
+      ],
+      shortcut: true,
+    },
+
     {
       route: "Payment Gateway",
       path: "p_gateway",

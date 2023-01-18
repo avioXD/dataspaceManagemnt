@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ProgressBar } from "primereact/progressbar";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import commonApiService from "../../../../../services/_common_api";
 import globalDataStore from "../../../../../store/_globalData";
 
@@ -13,10 +13,10 @@ export default function AllCourseList() {
       fetchCourses();
     }
   }, []);
-  const fetchCourses = useCallback(async () => {
+  const fetchCourses = async () => {
     const res: any = await getAllCourses();
     setAllCourses(res);
-  }, [allCourses]);
+  };
   return (
     <>
       <>
