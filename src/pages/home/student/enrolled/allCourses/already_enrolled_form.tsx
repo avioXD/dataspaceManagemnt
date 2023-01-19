@@ -114,13 +114,17 @@ export default function AlreadyEnrolledForm() {
     setCreeds({ ...creeds, ...val });
   };
   const onSubmit = async () => {
-    const res: any = await postRequestSchedule(creeds);
-    if (res.status == 1) {
-      toast.success("Applied");
-      setCreeds(init);
-      navigate(-1);
+    if (creeds?.schedule?.date) {
+      const res: any = await postRequestSchedule(creeds);
+      if (res.status == 1) {
+        toast.success("Applied");
+        setCreeds(init);
+        navigate(-1);
+      } else {
+        toast.error("failed!");
+      }
     } else {
-      toast.error("failed!");
+      toast.error("Fill All fields");
     }
   };
 
