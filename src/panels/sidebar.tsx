@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import { FiCode, FiBookOpen } from "react-icons/fi";
 import { AiOutlineLogout, AiOutlineSchedule } from "react-icons/ai";
@@ -14,10 +14,11 @@ export default function Sidebar(props: any) {
   const { user } = userState();
   const [stdAtt, setStdAtt] = useState<any>();
   const { getStudentDetailsAll } = protectedStudentApiService();
-  const getData = useCallback(async () => {
+  const getData = async () => {
     const res: any = await getStudentDetailsAll();
     setStdAtt(res);
-  }, [stdAtt]);
+    console.log(res);
+  };
   useEffect(() => {
     doQuerry();
     runJquery();

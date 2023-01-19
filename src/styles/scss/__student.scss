@@ -306,7 +306,6 @@
     transition: $transition-all;
     .modules {
       .items {
-        cursor: pointer;
         margin-top: 0.8rem;
         width: 100%;
 
@@ -321,21 +320,24 @@
         padding: 0.3rem;
         padding-left: 5px;
         width: 10rem;
-        height: max-content;
-
+        height: 40px;
         p {
-          position: relative;
+          position: absolute;
+          top: 23px;
+          line-height: 0px;
           color: $dark-offset;
         }
         h6 {
-          position: relative;
+          position: absolute;
+          top: 5px;
           line-height: 0px;
           font-weight: "800";
           color: $dark;
           font-size: $s6;
         }
         span {
-          position: relative;
+          position: absolute;
+          bottom: 5px;
           line-height: 0px;
           font-size: 10px;
           color: $gray;

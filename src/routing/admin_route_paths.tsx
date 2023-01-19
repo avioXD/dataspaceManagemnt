@@ -288,39 +288,7 @@ export default function adminRoutings() {
       ],
       shortcut: true,
     },
-    {
-      route: "Career",
-      path: "Career",
-      element: <CareerOutlet />,
-      icon: <HiBriefcase />,
-      children: [
-        {
-          route: "View All Jobs",
-          path: "View All Jobs",
-          element: <ViewAllJobs />,
-
-          children: [],
-          shortcut: true,
-        },
-        {
-          route: "Edit Jobs",
-          path: "Edit Jobs",
-          element: <EditJobs />,
-
-          children: [],
-          shortcut: false,
-        },
-        {
-          route: "Add Jobs",
-          path: "Add Jobs",
-          element: <AddJobs />,
-
-          children: [],
-          shortcut: false,
-        },
-      ],
-      shortcut: true,
-    },
+  
     {
       route: "Payment Gateway",
       path: "p_gateway",
