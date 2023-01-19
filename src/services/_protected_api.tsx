@@ -606,6 +606,29 @@ return res.data;
     
   }
 
+  const stud_update_details = async(data:any)=>{
+    try{
+    const res = await _https.post("stud_update_details",data,authHeader);
+    if (res.data?.msg === "you are not an authorised user") {
+      logout();
+    }
+  }catch{
+
+  }
+
+  }
+
+  const fac_update_details = async(data:any)=>{
+    try{
+      const res = await _https.post("fac_update_details",data,authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+    }catch{
+
+    }
+  }
+
   return {
     getAllStudents,
     getAllFaculty,
@@ -659,6 +682,8 @@ return res.data;
     course_add,
     course_update,
     course_delete,
-    update_student_details
+    update_student_details,
+    stud_update_details,
+    fac_update_details
   };
 }
