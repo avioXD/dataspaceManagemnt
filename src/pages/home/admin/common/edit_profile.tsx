@@ -6,18 +6,52 @@ import { toast } from "react-toastify";
 export default function EditProfileDetails() {
   const location = useLocation();
   const profile = location.state;
+  console.log(profile);
   const [creeds, setCreeds] = useState<any>(profile);
+  const [courses, allcourses] = useState<any[]>([])
+  const [selected_courses, setselected_courses] = useState<any[]>([]);
   const onValueChange = (val: any) => {
     // console.log(val);
     setCreeds({ ...creeds, ...val });
     console.log(val);
     // console.log(register);
   };
-  const { updateUserDetails } = protectedApiService();
+  const { updateUserDetails, get_student_all_courses, fac_update_details, stud_update_details } = protectedApiService();
+
+useEffect(()=>{
+  get_all_course();
+},[])
+
+  const get_all_course = async()=>{
+    const as = await get_student_all_courses();
+    allcourses(as);
+  }
+
+  const onMultipleSelect = (e:any)=>{
+    let value:any = Array.from(
+      e.target.selectedOptions,
+      (option:any) => option.value
+    );
+    //console.log(value);
+    setselected_courses(value);
+  }
+
+//   const onSingleSelect = (e:any)=>{
+// console.log(e.target.value);
+//   }
 
   const onSubmit = async () => {
-    const res: any = await updateUserDetails(creeds);
-    console.log(res);
+    if(profile.role==5){
+      const res:any = await stud_update_details(creeds);
+    }else if(profile.role==3){
+      creeds['course'] = selected_courses.join();
+      const res: any = await fac_update_details(creeds);
+
+    }else{
+      const res: any = await updateUserDetails(creeds);
+    }
+    
+  //  console.log(res);
     toast.success("Updated");
   };
   const role: any = ["", "super admin", "admin", "faculty", "sales", "student"];
@@ -183,7 +217,100 @@ export default function EditProfileDetails() {
                           />
                         </div>
                       </div>
+                      <hr />
+                    {(()=>{
+                      if(profile.role==5){
+                        return(
+                          <>
 
+
+<div className="row">
+                        <div className="col-sm-3">
+                          <h6 className="mb-0">Course Name</h6>
+                        </div>
+                        <div className="col-sm-9 text-gray">
+                        <select
+                    id="course"
+                    name="course"
+                    className="form-select  m-2"
+                     
+                   // defaultValue={creeds.course}
+                    onChange={(e) =>
+                      onValueChange({
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+
+                    // onChange={(e)=>{
+                    //   onSingleSelect(e);
+                    // }}
+                    
+                  >
+                    <option value={0} disabled selected hidden>
+                      Select Mode
+                    </option>
+                    {courses.map((course,index)=>{
+                       return(
+                        <>
+                         <option value={course.course_id}  selected={course.course_id==profile.course_id}>{course.course_name}</option>
+                        </>
+                       )
+                    })}
+                   
+                   
+                  </select>
+                        </div>
+                      </div>
+
+                          </>
+                        )
+                      }else if(profile.role==3){
+                        return(
+                          <>
+
+
+<div className="row">
+                        <div className="col-sm-3">
+                          <h6 className="mb-0">Course Name</h6>
+                        </div>
+                        <div className="col-sm-9 text-gray">
+                        <select
+                    id="course_id"
+                    name="course_id"
+                    className="form-select  m-2"
+                    multiple
+                     
+                    defaultValue={creeds.course_id}
+                    // onChange={(e) =>
+                    //   onValueChange({
+                    //     [e.target.name]: e.target.value,
+                    //   })
+                    // }
+
+                    onChange={(e)=>{
+                      onMultipleSelect(e);
+                    }}
+                    
+                  >
+                    <option value={0} disabled selected hidden>
+                      Select Mode
+                    </option>
+                    {courses.map((course,index)=>{
+                       return(
+                        <>
+                         <option value={course.course_id}>{course.course_name}</option>
+                        </>
+                       )
+                    })}
+                   
+                   
+                  </select>
+                        </div>
+                      </div>
+                          </>
+                        )
+                      }
+                    })()}
                       <hr />
                       <div className="row">
                         <div className="col-sm-12">

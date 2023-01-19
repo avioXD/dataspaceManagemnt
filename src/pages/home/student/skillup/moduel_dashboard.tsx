@@ -9,7 +9,6 @@ import studentSkillUpApi from "../../../../services/_student_skillup_api";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { RxDoubleArrowLeft } from "react-icons/rx";
 import $ from "jquery";
-
 export default function VideoModuleDashboard() {
   const { skillUpModule } = studentGlobalDataStore();
   const { getCourseModules, getCourseProgress } = studentSkillUpApi();

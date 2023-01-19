@@ -254,7 +254,7 @@ export default function adminRoutings() {
       element: <AllMarketing />,
       icon: <BiStats />,
       children: [],
-      shortcut: true,
+      shortcut: false,
     },
     {
       route: "Add Marketing",
