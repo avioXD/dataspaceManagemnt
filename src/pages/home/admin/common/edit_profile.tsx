@@ -9,13 +9,14 @@ export default function EditProfileDetails() {
   console.log(profile);
   const [creeds, setCreeds] = useState<any>(profile);
   const [courses, allcourses] = useState<any[]>([])
+  const [selected_courses, setselected_courses] = useState<any[]>([]);
   const onValueChange = (val: any) => {
     // console.log(val);
     setCreeds({ ...creeds, ...val });
     console.log(val);
     // console.log(register);
   };
-  const { updateUserDetails, get_student_all_courses } = protectedApiService();
+  const { updateUserDetails, get_student_all_courses, fac_update_details, stud_update_details } = protectedApiService();
 
 useEffect(()=>{
   get_all_course();
@@ -27,16 +28,30 @@ useEffect(()=>{
   }
 
   const onMultipleSelect = (e:any)=>{
-
+    let value:any = Array.from(
+      e.target.selectedOptions,
+      (option:any) => option.value
+    );
+    //console.log(value);
+    setselected_courses(value);
   }
 
-  const onSingleSelect = (e:any)=>{
-
-  }
+//   const onSingleSelect = (e:any)=>{
+// console.log(e.target.value);
+//   }
 
   const onSubmit = async () => {
-    const res: any = await updateUserDetails(creeds);
-    console.log(res);
+    if(profile.role==5){
+      const res:any = await stud_update_details(creeds);
+    }else if(profile.role==3){
+      creeds['course'] = selected_courses.join();
+      const res: any = await fac_update_details(creeds);
+
+    }else{
+      const res: any = await updateUserDetails(creeds);
+    }
+    
+  //  console.log(res);
     toast.success("Updated");
   };
   const role: any = ["", "super admin", "admin", "faculty", "sales", "student"];
