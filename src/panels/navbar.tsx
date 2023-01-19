@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { HiBell } from "react-icons/hi";
 import { TbEye } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,17 +29,14 @@ export default function Navbar() {
     menu.style.display = "none";
   };
   useEffect(() => {
-    getNoti();
-    geMsg();
+    getData();
   }, []);
-  const getNoti = useCallback(async () => {
+  const getData = async () => {
     const res: any = await getNotifications();
-    setNotifications(res);
-  }, [notifications]);
-  const geMsg = useCallback(async () => {
     const res2: any = await getMessages();
+    setNotifications(res);
     setMessages(res2);
-  }, [messages]);
+  };
   return (
     <div className="container-fluid">
       <div className="nav flex-between ">

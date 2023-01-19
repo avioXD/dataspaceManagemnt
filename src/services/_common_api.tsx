@@ -7,7 +7,7 @@ export default function commonApiService() {
   const { setAllCourses } = globalDataStore();
   const getAllCourses = async () => {
     try {
-      const res = await _https.get("/all_courses/");
+      const res = await _https.get("/get_all_courses/");
       // console.log(res.data);
       setAllCourses(res.data);
       return res.data;

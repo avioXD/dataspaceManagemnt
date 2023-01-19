@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import protectedApiService from "../../../../services/_protected_api";
 import { toast } from "react-toastify";
 
@@ -10,22 +10,48 @@ export default function AddFaculty() {
     address: "",
     password: "",
     email: "",
-    mode: "",
+    mode: "1",
+    course:""
   };
   const [creeds, setCreeds] = useState(init);
+  const [courses, allcourses] = useState<any[]>([])
+  const [selected_courses,setselected_courses] = useState<any[]>([]);
   const onValueChange = (val: any) => {
     // console.log(val);
     setCreeds({ ...creeds, ...val });
-    console.log(val);
+   // console.log(val);
     // console.log(register);
   };
-  const { postAddFaculty } = protectedApiService();
+  const { postAddFaculty,get_student_all_courses } = protectedApiService();
+
+  useEffect(()=>{
+    get_all_course();
+  },[])
+
+
+  const get_all_course = async()=>{
+    const as = await get_student_all_courses();
+    allcourses(as);
+  }
+
+
   const onSubmit = async () => {
-    const res: any = await postAddFaculty(creeds);
+    creeds['course'] = selected_courses.join();
+   const res: any = await postAddFaculty(creeds);
     if (res) {
       toast.success("Added");
     }
   };
+
+const onMultipleSelect = (e:any)=>{
+  let value = Array.from(
+    e.target.selectedOptions,
+    (option:any) => option.value
+  );
+  //console.log(value);
+  setselected_courses(value);
+}
+
   return (
     <>
       <div className=" mt-3">
@@ -144,6 +170,47 @@ export default function AddFaculty() {
                 />
               </div>
             </div>
+
+            <div className="col-sm-6">
+              <div className="mb-3">
+                <label htmlFor="experince" className="form-label">
+                  Course Name
+                </label>
+                <div id="experince" className="flex-start flex-between ">
+                  <select
+                    id="course"
+                    name="course"
+                    className="form-select  m-2"
+                     multiple
+                   // defaultValue={creeds.course}
+                    // onChange={(e) =>
+                    //   onValueChange({
+                    //     [e.target.name]: e.target.value,
+                    //   })
+                    // }
+
+                    onChange={(e)=>{
+                      onMultipleSelect(e);
+                    }}
+                    
+                  >
+                    <option value={0} disabled selected hidden>
+                      Select Mode
+                    </option>
+                    {courses.map((course,index)=>{
+                       return(
+                        <>
+                         <option value={course.course_id}>{course.course_name}</option>
+                        </>
+                       )
+                    })}
+                   
+                   
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <div className="col-sm-6">
               <div className="mb-3">
                 <label htmlFor="experince" className="form-label">

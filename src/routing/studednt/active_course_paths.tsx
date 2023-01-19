@@ -75,19 +75,11 @@ export default function liveClassesRoutings() {
         {
           route: "Base",
           path: "",
-          element: <Navigate to="Assigned" />,
+          element: <AllAssignments />,
           children: [],
           shortcut: true,
         },
-        {
-          route: "Assigned",
-          path: "Assigned",
-          element: <AllAssignments />,
-          icon: <MdAccountBalanceWallet />,
-          no_collapse: true,
-          children: [],
-          shortcut: false,
-        },
+
         {
           route: "Assignment Details",
           path: "Assignment Details",
@@ -110,18 +102,9 @@ export default function liveClassesRoutings() {
         {
           route: "Base",
           path: "",
-          element: <Navigate to="AssignedProjects" />,
+          element: <AllProjects />,
           children: [],
           shortcut: true,
-        },
-        {
-          route: "AssignedProjects",
-          path: "AssignedProjects",
-          element: <AllProjects />,
-          icon: <MdAccountBalanceWallet />,
-          no_collapse: true,
-          children: [],
-          shortcut: false,
         },
         {
           route: "AssignedProjectsDetails",

@@ -1,42 +1,43 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "react-image-picker-editor/dist/index.css";
 import { IoCalendarOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import studentCommonApi from "../../../../../services/_student_skillup_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
 import { Columns } from "../../../../../interfaces/_common";
 import protectedStudentApiService from "../../../../../services/_protected_student_api";
 export default function AlreadyEnrolledForm() {
+  const location = useLocation();
+  const course = location.state;
+  const navigate = useNavigate();
   const init: any = {
-    job_id: "",
+    user_id: "",
     branch_name: "",
-    education: "",
-    location: "",
-    company: "",
-    experience: "",
-    job_role: "",
-    job_description: "",
-    terms_condition: "",
+    counsellor: "",
+    transaction_id: "",
+    schedule_timing: "",
+    counsellor_name: "",
+    schedule: {},
+    course_name: course?.page_name || "",
   };
   const tablesStructure: Columns[] = [
     {
       data_name: "course_name",
       header: "Course Name",
-      sortable: true,
+      sortable: false,
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
       data_name: "date",
       header: "Date",
-      sortable: false,
+      sortable: true,
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
       data_name: "time",
       header: "Timing",
-      sortable: false,
+      sortable: true,
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
     {
@@ -48,144 +49,280 @@ export default function AlreadyEnrolledForm() {
     {
       data_name: "location",
       header: "Location",
-      sortable: true,
+      sortable: false,
       dataFilter: (data: any, key: any) => data[key] || <></>,
+    },
+    {
+      data_name: "location",
+      header: "Location",
+      sortable: false,
+      dataFilter: (data: any, key: any) => data[key] || <></>,
+    },
+    {
+      data_name: "Select",
+      header: "Select",
+      sortable: true,
+      dataFilter: (data: any, key: any) => {
+        return (
+          <>
+            <button
+              onClick={() => {
+                onValueChange({ schedule: data });
+                handleClose();
+              }}
+              className="btn btn-outline-success btn-sm"
+            >
+              Select
+            </button>
+          </>
+        );
+      },
     },
   ];
   const [creeds, setCreeds] = useState(init);
   const [show, setShow] = useState(false);
   const [allSchedules, setAllSchedules] = useState<any>();
-  const { getAllSchedule } = protectedStudentApiService();
+  const [branch, setBranch] = useState<any>({
+    counsellors: null,
+    branches: null,
+  });
+  const { getAllSchedule, getAllBranch, postRequestSchedule } =
+    protectedStudentApiService();
   useEffect(() => {
+    if (!course?.page_name) {
+      navigate(-1);
+    }
     getSchedule();
+    getBranch();
   }, []);
-  const getSchedule = async () => {
+  const getSchedule = useCallback(async () => {
     const res: any = await getAllSchedule();
     console.log(res);
-    setAllSchedules(res);
-  };
+
+    setAllSchedules(res.filter((r: any) => r.course_name == course.page_name));
+  }, [allSchedules]);
+
+  const getBranch = useCallback(async () => {
+    const res: any = await getAllBranch();
+    setBranch(res);
+  }, [branch]);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const onValueChange = (val: any) => {
     console.log(val);
     setCreeds({ ...creeds, ...val });
   };
-  //   const onSubmit = async () => {
-  //     const res: any = await postAddJob(creeds);
-  //     if (res == 1) {
-  //       toast.success("Job Added");
-  //       setCreeds(init);
-  //     } else {
-  //       toast.error("Adding failed!");
-  //     }
-  //   };
+  const onSubmit = async () => {
+    if (creeds?.schedule?.date) {
+      const res: any = await postRequestSchedule(creeds);
+      if (res.status == 1) {
+        toast.success("Applied");
+        setCreeds(init);
+        navigate(-1);
+      } else {
+        toast.error("failed!");
+      }
+    } else {
+      toast.error("Fill All fields");
+    }
+  };
 
   return (
     <>
       <div className=" mt-3">
         <h6 className="heading">Complete Enrollment</h6>
-        <div className="card shadow mt-3 p-4">
-          <div className="row mx-3">
-            <div className="col-sm-6 ">
-              <div className="mb-3">
-                <label htmlFor="course" className="form-label">
-                  Branch
-                </label>
-                <select
-                  className="form-select"
-                  name="course_mode"
-                  id="course_mode"
-                  defaultValue={creeds.branch_name || "3"}
-                  required
-                  onChange={(e) =>
-                    onValueChange({
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                >
-                  <option value="default" disabled selected hidden>
-                    Select Branch
-                  </option>
-                  <option value="Kolkata">Kolkata</option>
-                  <option value="Guwahati">Guwahati</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="KSA">KSA</option>
-                  <option value="Durgapur">Durgapur</option>
-                  <option value="Dhanbad">Dhanbad</option>
-                </select>
+        {branch?.counsellors && (
+          <div className="card shadow mt-3 p-4">
+            <div className="row mx-3">
+              {branch?.counsellors && branch?.branches && (
+                <>
+                  {" "}
+                  <div className="col-sm-6 ">
+                    <div className="mb-3">
+                      <label htmlFor="course" className="form-label">
+                        Branch
+                      </label>
+                      <select
+                        className="form-select"
+                        name="branch_name"
+                        id="branch_name"
+                        defaultValue={creeds.branch_name || "3"}
+                        required
+                        onChange={(e) =>
+                          onValueChange({
+                            [e.target.name]: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="default" disabled selected hidden>
+                          Select Branch
+                        </option>
+                        {branch.branches &&
+                          branch.branches.map((x: any) => (
+                            <option value={x.branch}>{x.branch}</option>
+                          ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    <div className="mb-3">
+                      <label htmlFor="name" className="form-label">
+                        Counsellor Name
+                      </label>
+                      {branch?.counsellors.length ? (
+                        <>
+                          {" "}
+                          <select
+                            className="form-select"
+                            name="counsellor_name"
+                            id="counsellor_name"
+                            defaultValue={creeds.counsellor_name || "3"}
+                            required
+                            onChange={(e) =>
+                              onValueChange({
+                                [e.target.name]: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="default" disabled selected hidden>
+                              Select Counsellor
+                            </option>
+                            {branch.counsellors &&
+                              branch.counsellors.map((x: any) => (
+                                <option value={x.counsellor_name}>
+                                  {x.counsellor_name}
+                                </option>
+                              ))}
+                          </select>
+                        </>
+                      ) : (
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="counsellor_name"
+                          id="counsellor_name"
+                          value={creeds.counsellor}
+                          aria-describedby="namelHelp"
+                          placeholder="Enter Counsellor Name"
+                          //  onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
+                          onChange={(e) =>
+                            onValueChange({
+                              [e.target.name]: e.target.value,
+                            })
+                          }
+                        />
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+              <div className="col-sm-6">
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">
+                    Course Name
+                  </label>
+                  <input
+                    disabled
+                    type="text"
+                    className="form-control"
+                    name="course_name"
+                    id="course_name"
+                    value={creeds.course_name}
+                    placeholder="Course Name"
+                    //  onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
+                    onChange={(e) =>
+                      onValueChange({
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </div>
               </div>
-            </div>
-            <div className="col-sm-6">
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                  Counsellor Name
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="counsellor"
-                  id="counsellor"
-                  value={creeds.counsellor}
-                  aria-describedby="namelHelp"
-                  placeholder="Enter Counsellor Name"
-                  //  onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
-                  onChange={(e) =>
-                    onValueChange({
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
+              <div className="col-sm-6">
+                <div className="mb-3">
+                  <label htmlFor="contact_no" className="form-label">
+                    Transaction Id
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="transaction_id"
+                    id="transaction_id"
+                    value={creeds.transaction_id}
+                    aria-describedby="namelHelp"
+                    placeholder="Enter Transaction ID"
+                    //   onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
+                    onChange={(e) =>
+                      onValueChange({
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </div>
               </div>
-            </div>
-            <div className="col-sm-6">
-              <div className="mb-3">
-                <label htmlFor="contact_no" className="form-label">
-                  Experience
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="transaction_id"
-                  id="transaction_id"
-                  value={creeds.transaction_id}
-                  aria-describedby="namelHelp"
-                  placeholder="Enter Transaction ID"
-                  //   onBlur={(e) => onBlur({ [e.target.name]: e.target.value })}
-                  onChange={(e) =>
-                    onValueChange({
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </div>
 
-            <div className="col-sm-3">
-              <div className="mb-3">
-                <button
-                  onClick={handleShow}
-                  className="btn icon-btn btn-sm btn-outline-primary btn-wide"
-                >
-                  <IoCalendarOutline size={28} className="mx-2" />
-                  See All Scheduled Batch
-                </button>
+              <div className="col-sm-3">
+                <div className="mb-3">
+                  <button
+                    onClick={() => {
+                      getAllSchedule();
+                      handleShow();
+                    }}
+                    className="btn icon-btn btn-sm btn-outline-primary btn-wide"
+                  >
+                    <IoCalendarOutline size={28} className="mx-2" />
+                    See All Scheduled Batch
+                  </button>
+                </div>
+              </div>
+              <div className="col-sm-6">
+                <div className="mb-3">
+                  <label htmlFor="contact_no" className="form-label">
+                    {creeds.schedule.date && (
+                      <>
+                        <p>
+                          Selected
+                          {creeds?.schedule?.date || ""} ||{" "}
+                          {creeds?.schedule.time || ""} ||{" "}
+                          {creeds?.schedule.instructor_name || ""} ||{" "}
+                          {creeds?.schedule.location || ""} ||{" "}
+                          {creeds?.schedule.timing || ""}
+                        </p>
+                      </>
+                    )}
+                  </label>
+                </div>
               </div>
             </div>
+            <div className="flex-start p-3 mx-3">
+              <button
+                onClick={() => {
+                  onSubmit();
+                }}
+                className="btn btn-primary"
+              >
+                Submit
+              </button>
+            </div>
           </div>
-          <div className="flex-start p-3 mx-3">
-            <button onClick={() => {}} className="btn btn-primary">
-              Submit
-            </button>
-          </div>
-        </div>
+        )}
       </div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        show={show}
+        onHide={handleClose}
+      >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <PrimeDataTable
             data={allSchedules || []}
             structure={tablesStructure}
             title={"All Scheduled"}
+            noSearch
+            noChecks
           />
         </Modal.Body>
       </Modal>
