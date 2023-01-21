@@ -84,6 +84,7 @@ export default function AllFaculty() {
   };
   const getFromApi = async () => {
     const res: any = await getAllFaculty();
+    //console.log(res);
     setAllData(res);
   };
   return (

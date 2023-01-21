@@ -9,10 +9,12 @@ import { GoChecklist } from "react-icons/go";
 import protectedStudentApiService from "../../../../services/_protected_student_api";
 import studentGlobalDataStore from "../../../../store/_global_studentData";
 import { ProgressBar } from "react-bootstrap";
+import { FilterDropdown } from "../../../../common/prime_data_table";
 export default function LiveInteractiveClasses() {
   const navigate: any = useNavigate();
   const [filtered_courses, set_Filtered_course] = useState<any[]>([]);
   const [progress_steps, setProgressSteps] = useState<any>([]);
+  const [changeableData, setChangeableData] = useState<any>([]);
   useEffect(() => {
     getCourses();
     getProgress();
@@ -70,17 +72,19 @@ export default function LiveInteractiveClasses() {
       };
     });
     set_Filtered_course(grouped_course);
+    setChangeableData(grouped_course);
   };
   const redirectToLiveClass = (x: any) => {
     setLiveClass(x);
     navigate("/StudentClasses/Courses/LiveClass");
   };
+
   return (
     <>
       <>
         <div className="card  enrolled p-4">
           <div className="row">
-            <div className="col-sm-3 flex-start">
+            <div className="col-sm-3 flex-between">
               <h5 className="heading">Enrolled Courses</h5>
             </div>
             <div className="col-sm-9">
@@ -196,40 +200,53 @@ export default function LiveInteractiveClasses() {
                 })}
               </div>
             </div>
+            <div className="d-flex justify-content-end my-2">
+              {filtered_courses && (
+                <FilterDropdown
+                  allData={filtered_courses}
+                  filterField={"course_name"}
+                  setChangeableData={setChangeableData}
+                  header={"Course"}
+                />
+              )}
+            </div>
           </div>
           <div className="row">
-            {filtered_courses.map((x: any) => (
-              <>
-                <div className="col-sm-6 flex-center">
-                  <div className="card shadow m-2 course-card">
-                    <img src="/assets/bg/register_bg.png" alt="" />
-                    <div className="details p-4">
-                      <h5 className="heading">{x.course_name}</h5>
-                      <div className="sub">
-                        <span className="text-gray">Faculty : {x.faculty}</span>
-                        <br />
-                        <span className="text-gray">
-                          Class Duration : {x.duration} Months
-                        </span>
-                        <button
-                          onClick={() => redirectToLiveClass(x)}
-                          className="btn mt-2 btn-primary btn-wide"
-                        >
-                          View Details
-                        </button>
-                        <div className="my-3">
-                          <ProgressBar
-                            variant="success"
-                            now={x.class_completed}
-                            label={`${x.class_completed}%`}
-                          />
+            {changeableData &&
+              changeableData.map((x: any) => (
+                <>
+                  <div className="col-sm-6 flex-center">
+                    <div className="card shadow m-2 course-card">
+                      <img src="/assets/bg/register_bg.png" alt="" />
+                      <div className="details p-4">
+                        <h5 className="heading">{x.course_name}</h5>
+                        <div className="sub">
+                          <span className="text-gray">
+                            Faculty : {x.faculty}
+                          </span>
+                          <br />
+                          <span className="text-gray">
+                            Class Duration : {x.duration} Months
+                          </span>
+                          <button
+                            onClick={() => redirectToLiveClass(x)}
+                            className="btn mt-2 btn-primary btn-wide"
+                          >
+                            View Details
+                          </button>
+                          <div className="my-3">
+                            <ProgressBar
+                              variant="success"
+                              now={x.class_completed}
+                              label={`${x.class_completed}%`}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </>
-            ))}
+                </>
+              ))}
           </div>
         </div>
       </>

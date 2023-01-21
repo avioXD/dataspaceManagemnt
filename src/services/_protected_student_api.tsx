@@ -71,6 +71,17 @@ export default function protectedStudentApiService() {
       console.log(e);
     }
   };
+  const getAllBranch = async () => {
+    try {
+      const res = await _https.get("/counsellor_branches", authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return res.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const getAllSchedule = async () => {
     try {
       const res = await _https.get(
@@ -102,6 +113,16 @@ export default function protectedStudentApiService() {
       return res.data;
     } catch (e) {}
   };
+  const postRequestSchedule = async (creeds: any) => {
+    try {
+      const res = await _https.post(
+        "/add_user_applied_schedule",
+        { ...creeds, user_id: user.user_id },
+        authHeader
+      );
+      return res.data;
+    } catch (e) {}
+  };
   return {
     getStudentClasses,
     getStudentProgress,
@@ -109,5 +130,7 @@ export default function protectedStudentApiService() {
     getAllJobs,
     postApplyJob,
     getStudentDetailsAll,
+    getAllBranch,
+    postRequestSchedule,
   };
 }

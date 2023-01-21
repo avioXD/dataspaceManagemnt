@@ -37,7 +37,7 @@
     display: none;
     position: absolute;
     right: 10%;
-    top: 100%;
+    top: 170%;
     min-width: 4rem;
     border-radius: 3px;
     z-index: 10000;
@@ -111,10 +111,10 @@
   }
   .dropdown-menu {
     width: max-content;
-    min-width: 15rem;
+    min-width: 18rem;
     max-width: 22rem;
     min-height: 25rem;
-    margin-top: 1rem;
+    margin-top: 1.7rem;
   }
   .dropdown-toggle::after {
     display: none;
@@ -183,9 +183,9 @@
   }
   .dropdown-menu {
     width: max-content;
-    min-width: 15rem;
+    min-width: 18rem;
     max-width: 22rem;
-    margin-top: 1rem;
+    margin-top: 1.7rem;
   }
   .dropdown-toggle::after {
     display: none;

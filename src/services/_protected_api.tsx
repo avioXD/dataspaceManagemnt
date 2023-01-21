@@ -533,6 +533,102 @@ export default function protectedApiService() {
     } catch {}
   };
 
+  const get_student_all_courses = async()=>{
+    try{
+    const res = await _https.get("get_courses");
+    if (res.data?.msg === "you are not an authorised user") {
+      logout();
+    }
+    // console.log(res.data);
+    return res.data;
+    }catch{
+
+    }
+  }
+
+  const getAppliedJob = async()=>{
+try{
+  const res = await _https.get("get_user_job_apply",authHeader);
+  if (res.data?.msg === "you are not an authorised user") {
+    logout();
+  }
+  // console.log(res.data);
+  return res.data;
+}catch{
+
+}
+  }
+
+
+  const course_add = async(data:any)=>{
+    try{
+    const res = await _https.post("add_course",data, authHeader);
+
+    if (res.data?.msg === "you are not an authorised user") {
+      logout();
+    }
+    // console.log(res.data);
+    return res.data;
+  } catch (e) {
+    //console.log(e);
+  }
+
+  }
+
+  const course_update = async(data:any)=>{
+    try{
+      const res = await _https.post("update_course",data, authHeader);
+  
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch (e) {
+      //console.log(e);
+    }
+  }
+
+  const course_delete = async(id:any)=>{
+try{
+const res = await _https.get("delete_course/"+id,authHeader);
+if (res.data?.msg === "you are not an authorised user") {
+  logout();
+}
+// console.log(res.data);
+return res.data;
+}catch{
+
+}
+  }
+
+  const update_student_details = ()=>{
+    
+  }
+
+  const stud_update_details = async(data:any)=>{
+    try{
+    const res = await _https.post("stud_update_details",data,authHeader);
+    if (res.data?.msg === "you are not an authorised user") {
+      logout();
+    }
+  }catch{
+
+  }
+
+  }
+
+  const fac_update_details = async(data:any)=>{
+    try{
+      const res = await _https.post("fac_update_details",data,authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+    }catch{
+
+    }
+  }
+
   return {
     getAllStudents,
     getAllFaculty,
@@ -581,5 +677,13 @@ export default function protectedApiService() {
     get_faculty_project,
     faculty_project_assign_accepted,
     student_present_absent_data_submit,
+    get_student_all_courses,
+    getAppliedJob,
+    course_add,
+    course_update,
+    course_delete,
+    update_student_details,
+    stud_update_details,
+    fac_update_details
   };
 }

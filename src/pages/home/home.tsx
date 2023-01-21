@@ -4,7 +4,6 @@ import Sidebar from "../../panels/sidebar";
 import React, { useEffect, useState } from "react";
 import userState from "../../store/_userState";
 import protectedApiService from "../../services/_protected_api";
-import StudentNav from "../../panels/student_nav";
 import { AnimatePresence, motion } from "framer-motion";
 export default function Home() {
   const location = useLocation();
