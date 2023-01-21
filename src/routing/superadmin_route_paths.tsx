@@ -45,6 +45,7 @@ import { IoMdWallet } from "react-icons/io";
 import EditCourse from "../pages/settings/edit_course";
 import AddCourse from "../pages/settings/add_course";
 import Courses from "../pages/settings/courses";
+import ViewStudentProfile from "../pages/home/student/student_profile";
 
 export default function superAdminRoutings() {
   const routes: any[] = [
@@ -228,6 +229,31 @@ export default function superAdminRoutings() {
       ],
     },
     {
+      route: "Profile",
+      path: "Profile",
+      element: <Outlet />,
+      icon: <GoPerson />,
+      children: [
+        {
+          route: "",
+          path: "",
+          element: <ViewStudentProfile />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Edit",
+          path: "Edit",
+          element: <ViewStudentProfile editable={true} />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+      ],
+      shortcut: false,
+    },
+    {
       route: "Faculties",
       path: "faculties",
       element: <Outlet />,
@@ -384,7 +410,6 @@ export default function superAdminRoutings() {
           children: [],
           shortcut: false,
         },
-        
       ],
       shortcut: true,
     },

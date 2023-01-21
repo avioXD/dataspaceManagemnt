@@ -8,6 +8,7 @@ import AllCertificates from "../../pages/home/student/all-certificates";
 import SelectedJobs from "../../pages/home/student/jobs/selected_job";
 import ViewProfileDetails from "../../pages/home/admin/common/view_profile";
 import EditProfileDetails from "../../pages/home/admin/common/edit_profile";
+import ViewStudentProfile from "../../pages/home/student/student_profile";
 export default function studentRoutings() {
   const routes: any[] = [
     {
@@ -99,7 +100,7 @@ export default function studentRoutings() {
         {
           route: "",
           path: "",
-          element: <ViewProfileDetails />,
+          element: <ViewStudentProfile />,
           icon: <GoPerson />,
           children: [],
           shortcut: false,
@@ -107,7 +108,7 @@ export default function studentRoutings() {
         {
           route: "Edit",
           path: "Edit",
-          element: <EditProfileDetails />,
+          element: <ViewStudentProfile editable={true} />,
           icon: <GoPerson />,
           children: [],
           shortcut: false,

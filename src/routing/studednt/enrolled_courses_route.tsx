@@ -36,7 +36,7 @@ export default function enrolledCourseRoutings() {
       shortcut: true,
     },
     {
-      route: "Enrolled",
+      route: "Active Courses",
       path: "Live Interactive Courses",
       element: <Outlet />,
       icon: <MdAccountBalanceWallet />,
@@ -50,7 +50,7 @@ export default function enrolledCourseRoutings() {
           shortcut: true,
         },
         {
-          route: "Enrolled",
+          route: "Active Courses",
           path: "Active Courses",
           element: <LiveInteractiveClasses />,
           icon: <MdAccountBalanceWallet />,

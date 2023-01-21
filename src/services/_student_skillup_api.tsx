@@ -16,6 +16,11 @@ export default function studentSkillUpApi() {
         "$2y$10$YRZaKwpyhCMDIOAFdzyYq.WlMutbIjyBjzjlhwB81ibCL3uFhPyZi",
     },
   };
+  const createForm = (creeds: any) => {
+    let formData = new FormData();
+    Object.keys(creeds).map((item) => formData.append(item + "", creeds[item]));
+    return formData;
+  };
   // console.log(authHeader);
   ////////////////////student requests
   const getStudentAssignments = async (course_id: any) => {
@@ -58,7 +63,10 @@ export default function studentSkillUpApi() {
   };
   const getSingleVideo = async (module_id: any) => {
     try {
-      const res = await _https.get("/get_module_data/" + module_id, authHeader);
+      const res = await _https.get(
+        "/get_module_data/" + module_id + "/" + user.user_id,
+        authHeader
+      );
       return res.data;
     } catch (e) {
       console.log(e);
@@ -75,11 +83,30 @@ export default function studentSkillUpApi() {
       console.log(e);
     }
   };
+  const getCourseResource = async (course_id: any) => {
+    try {
+      const res = await _https.get("/get_resources/" + course_id, authHeader);
+      return res.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const postAssignment = async (creeds: any) => {
     try {
       const res = await _https.post(
         "/submit_student_assigment",
         creeds,
+        accessToken
+      );
+      return res.data;
+    } catch (e) {}
+  };
+  const postProject = async (creeds: any) => {
+    try {
+      const formData = createForm(creeds);
+      const res = await _https.post(
+        "/submit_student_assigment",
+        formData,
         accessToken
       );
       return res.data;
@@ -99,7 +126,9 @@ export default function studentSkillUpApi() {
     getStudentProjects,
     getAllSkillUpCourses,
     postAssignment,
+    postProject,
     getCourseModules,
+    getCourseResource,
     getCourseProgress,
     updateModulePlayer,
     getSingleVideo,

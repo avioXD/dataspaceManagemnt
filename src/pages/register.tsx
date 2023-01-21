@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import AuthService from "../services/_auth";
-
+import { Password } from "primereact/password";
 import CommonApiService from "../services/_common_api";
 import { toast } from "react-toastify";
 const regex: any = {
@@ -21,7 +21,7 @@ export default function Register() {
     name: "",
     email: "",
     contact_no: "",
-    number_prefix: "",
+    number_prefix: "91",
     password: "",
     course_id: "",
     course_mode: "",
@@ -85,24 +85,28 @@ export default function Register() {
     }
   };
 
-  const onValueChange = (val: any) => {
-    // console.log(val);
-    setRegister({ ...register, ...val });
-    console.log(val);
+  const onValueChange = useCallback(
+    (val: any) => {
+      // console.log(val);
+      setRegister({ ...register, ...val });
+      console.log({ ...register, ...val });
 
-    let ele: any = document.getElementById(
-      `${[Object.keys(val)[0]]}`
-    ) as HTMLDivElement | null;
-    if (ele) {
-      ele.classList.remove("invalid");
-      setFormError(false);
-      console.log("valid");
-    }
+      let ele: any = document.getElementById(
+        `${[Object.keys(val)[0]]}`
+      ) as HTMLDivElement | null;
+      if (ele) {
+        ele.classList.remove("invalid");
+        setFormError(false);
+        console.log("valid");
+      }
 
-    // console.log(register);
-  };
+      // console.log(register);
+    },
+    [register]
+  );
   const onNextPage = () => {
     console.log(register);
+    console.log(screen);
     if (screen == 1) {
       if (register.tc && !register.agreement && !formError) {
         setShow(true);
@@ -113,11 +117,12 @@ export default function Register() {
     } else if (screen > 1 && screen < 3) {
       setScreen(screen + 1);
       setBtnDisabled(true);
-    } else if (screen == 4) {
+    } else if (screen == 3) {
       registerUser();
     }
   };
   const registerUser = async () => {
+    console.log("REgister", register);
     if (!formError) {
       const res: any = await signUp(register);
       if (res.status) {
@@ -127,12 +132,12 @@ export default function Register() {
     }
   };
 
-  const resetPanel = () => {
+  const resetPanel = useCallback(() => {
     setRegister(initial);
     setScreen(1);
     setFormError(false);
     setBtnDisabled(true);
-  };
+  }, [register, screen, formError, btnDisabled]);
   const checkForm = () => {
     setBtnDisabled(true);
     switch (screen) {
@@ -259,7 +264,7 @@ export default function Register() {
                               id="number_prefix"
                               name="number_prefix"
                               className="form-select "
-                              defaultValue={register.number_prefix || "+91"}
+                              defaultValue={register.number_prefix || "91"}
                               onChange={(e) =>
                                 onValueChange({
                                   [e.target.name]: e.target.value,
@@ -267,8 +272,13 @@ export default function Register() {
                               }
                               style={{ width: "9rem" }}
                             >
-                              <option value={0} disabled selected hidden>
-                                YY
+                              <option
+                                data-countryCode="IN"
+                                hidden
+                                value="91"
+                                selected
+                              >
+                                India (+91)
                               </option>
                               <option data-countryCode="DZ" value="213">
                                 Algeria (+213)
@@ -525,7 +535,7 @@ export default function Register() {
                               <option data-countryCode="IS" value="354">
                                 Iceland (+354)
                               </option>
-                              <option data-countryCode="IN" value="91">
+                              <option data-countryCode="IN" value="91" selected>
                                 India (+91)
                               </option>
                               <option data-countryCode="ID" value="62">
@@ -942,21 +952,19 @@ export default function Register() {
                           <label htmlFor="password" className="form-label">
                             Password{" "}
                           </label>
-                          <input
-                            type="password"
-                            className="form-control"
+                          <Password
                             name="password"
                             id="password"
-                            value={register.password}
-                            aria-describedby="passwordHelp"
-                            placeholder="***********"
                             onChange={(e) =>
                               onValueChange({
                                 [e.target.name]: e.target.value,
                               })
                             }
-                            required
+                            value={register.password}
+                            className="w-100"
+                            toggleMask
                           />
+
                           <p className=" mt-1">
                             *Use upper & lower case with minimum one number and
                             one symbol{" "}
@@ -1389,7 +1397,7 @@ export default function Register() {
                     }}
                     className="btn btn-primary btn-wide "
                   >
-                    {screen == 4 ? "Submit" : "Next"}
+                    {screen == 3 ? "Submit" : "Next"}
                   </button>
                 </div>
               </div>
@@ -1402,18 +1410,24 @@ export default function Register() {
           </div>
         </div>
       </div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        show={show}
+        onHide={handleClose}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Read Terms & Conditions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h5>
+          <h6 className="mx-3 text-center">
             I hereby declare that during/ after the course if I indulge in any
             kind of illegal/ unethical ground, any trainer or employee of
             DataSpace Security or the company itself will not be liable for any
             of that. It is solely my responsibility and only I, Myself will be
             liable for that.
-          </h5>
+          </h6>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

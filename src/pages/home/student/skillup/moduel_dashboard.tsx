@@ -20,7 +20,7 @@ export default function VideoModuleDashboard() {
     getData();
   }, []);
   const [playable, setPlayable] = useState<any>(null);
-  const getData = useCallback(async () => {
+  const getData = async () => {
     if (!skillUpModule) {
       navigate("/Enrolled/SkillUp Courses");
     }
@@ -36,8 +36,12 @@ export default function VideoModuleDashboard() {
       res2.data.filter((x: any) => x.course_id == skillUpModule.course_id)[0]
     );
     setPlayable(res1.data[0]);
-  }, [modules, progress]);
-
+  };
+  const onRefresh = async () => {
+    const res1: any = await getCourseModules(skillUpModule.course_id);
+    console.log(res1.data);
+    setModules(res1.data);
+  };
   const onHoverIn = () => {
     $("#side-bar").css("right", "0rem");
   };
@@ -99,15 +103,17 @@ export default function VideoModuleDashboard() {
                 )}
               </div>
             </div>
-            <div className="modules  ">
+            <div className="modules">
               <span className="p-2">Course Modules:</span>
               {modules &&
                 modules.map((x: any, index: any) => (
                   <div
-                    className="items flex-between"
+                    className={`items flex-between ${
+                      playable.title == x.title ? "active" : ""
+                    }`}
                     onClick={() => setPlayable({ ...x, index: index })}
                   >
-                    {x.video_completed && x.video_completed > 0 ? (
+                    {x.video_completed > 0 ? (
                       <GiPadlockOpen color={"#2BBB10"} size={27} />
                     ) : (
                       <GiPadlock color={"#B4B4B4"} size={27} />
@@ -138,7 +144,7 @@ export default function VideoModuleDashboard() {
                       <ProgressBar
                         variant="success"
                         now={x.completed_percent}
-                        label={`${x.completed_percent}%`}
+                        label={`${Math.floor(x.completed_percent)}%`}
                       />
                     </div>
                   </div>
@@ -146,7 +152,11 @@ export default function VideoModuleDashboard() {
             </div>
           </div>
           <div className="frame" onMouseEnter={onHoverOut}>
-            <ModuleVideoPlayer playNext={onNext} playable={playable} />
+            <ModuleVideoPlayer
+              onRefresh={onRefresh}
+              playNext={onNext}
+              playable={playable}
+            />
           </div>
         </div>
       ) : (

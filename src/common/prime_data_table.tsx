@@ -404,7 +404,7 @@ export default function PrimeDataTable({
                                 className="menu"
                                 onMouseLeave={removeMenu}
                               >
-                                <Link to="/Home/View Profile" state={e}>
+                                <Link to="/Home/Profile" state={e}>
                                   <button className="flex-start text-dark option">
                                     <TbEye size={20} />
                                     <span className="mx-3">View</span>

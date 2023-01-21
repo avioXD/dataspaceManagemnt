@@ -1,4 +1,4 @@
-import { Navigate, RouterProvider } from "react-router-dom";
+import { Navigate, Outlet, RouterProvider } from "react-router-dom";
 import AdminDashboard from "../pages/home/admin/admin_dashboard";
 import { RiDashboardFill, RiNewspaperLine } from "react-icons/ri";
 import EditAdmin from "../pages/home/admin/edit_admin";
@@ -42,6 +42,7 @@ import NewsView from "../pages/home/admin/news/news_view";
 import AddNews from "../pages/home/admin/news/mews_add";
 import Timeline from "../pages/home/admin/timeline";
 import { IoMdWallet } from "react-icons/io";
+import ViewStudentProfile from "../pages/home/student/student_profile";
 
 export default function adminRoutings() {
   const routes: any[] = [
@@ -225,6 +226,31 @@ export default function adminRoutings() {
       ],
     },
     {
+      route: "Profile",
+      path: "Profile",
+      element: <Outlet />,
+      icon: <GoPerson />,
+      children: [
+        {
+          route: "",
+          path: "",
+          element: <ViewStudentProfile />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Edit",
+          path: "Edit",
+          element: <ViewStudentProfile editable={true} />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+      ],
+      shortcut: false,
+    },
+    {
       route: "Faculties",
       path: "faculties",
       element: <AllFaculty />,
@@ -288,7 +314,7 @@ export default function adminRoutings() {
       ],
       shortcut: true,
     },
-  
+
     {
       route: "Payment Gateway",
       path: "p_gateway",

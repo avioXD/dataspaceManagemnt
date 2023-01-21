@@ -295,7 +295,7 @@
       cursor: pointer;
     }
     width: 23rem;
-    min-height: 70vh;
+    min-height: 55vh;
     border-radius: 0px 0px 0px 10px;
     border: 1px solid rgba(128, 128, 128, 0.445);
     background-color: rgb(255, 255, 255);
@@ -305,11 +305,15 @@
     z-index: 4;
     transition: $transition-all;
     .modules {
+      .active {
+        background-color: rgb(231, 246, 255) !important;
+      }
+      height: 50vh;
+      overflow: auto;
       .items {
         cursor: pointer;
         margin-top: 0.8rem;
         width: 100%;
-
         padding: 0.5rem;
         border-radius: 8px;
         &:hover {

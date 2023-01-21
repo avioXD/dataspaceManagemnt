@@ -21,6 +21,7 @@ export default function AlreadyEnrolledForm() {
     counsellor_name: "",
     schedule: {},
     course_name: course?.page_name || "",
+    course_id: course?.course_id,
   };
   const tablesStructure: Columns[] = [
     {
@@ -99,8 +100,12 @@ export default function AlreadyEnrolledForm() {
   const getSchedule = useCallback(async () => {
     const res: any = await getAllSchedule();
     console.log(res);
-
-    setAllSchedules(res.filter((r: any) => r.course_name == course.page_name));
+    setAllSchedules(
+      res.filter(
+        (r: any) =>
+          r.course_name.toLowerCase() == course.page_name.toLowerCase()
+      )
+    );
   }, [allSchedules]);
 
   const getBranch = useCallback(async () => {

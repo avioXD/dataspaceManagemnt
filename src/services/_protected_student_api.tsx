@@ -50,6 +50,27 @@ export default function protectedStudentApiService() {
       console.log(e);
     }
   };
+  const getStudentDetails = async (student_id: any = user.user_id) => {
+    try {
+      const res = await _https.get(
+        "/get_student_details/" + student_id,
+        authHeader
+      );
+      const res1 = await _https.get(
+        "/get_student_atten/" + accessToken,
+        authHeader
+      );
+      if (res1.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return { ...res.data, ...res1.data };
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const getStudentDetailsAll = async () => {
     try {
       const res1 = await _https.get(
@@ -109,7 +130,8 @@ export default function protectedStudentApiService() {
   };
   const postApplyJob = async (creeds: any) => {
     try {
-      const res = await _https.post("/job_apply", creeds, authHeader);
+      const formData = createForm(creeds);
+      const res = await _https.post("/job_apply", formData, authHeader);
       return res.data;
     } catch (e) {}
   };
@@ -128,6 +150,7 @@ export default function protectedStudentApiService() {
     getStudentProgress,
     getAllSchedule,
     getAllJobs,
+    getStudentDetails,
     postApplyJob,
     getStudentDetailsAll,
     getAllBranch,

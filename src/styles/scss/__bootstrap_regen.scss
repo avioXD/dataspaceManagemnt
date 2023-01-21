@@ -19,8 +19,8 @@
 .p-inputtext {
   padding: 0.7rem 1rem;
   border-radius: 4px !important;
-  max-width: 25rem;
-  min-width: 15rem;
+  max-width: 22 rem;
+  min-width: 100%;
   border: 1px solid $color-100 !important;
   outline: none !important;
   box-shadow: none !important;
@@ -91,4 +91,9 @@
 option {
   padding: 0px 2px 8px;
   font-size: $s6;
+}
+.block-ui {
+  width: 100%;
+  height: 60vh;
+  background-color: rgb(241, 241, 241);
 }

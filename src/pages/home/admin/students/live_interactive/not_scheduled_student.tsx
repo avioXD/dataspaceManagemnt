@@ -71,7 +71,7 @@ export default function NotScheduledStudents() {
   const getFromApi = async () => {
     const res: any = await getAllStudents();
     let data: any[] = res.filter((x: any) => {
-      if (!x.class_assigned && !x.assign_teacher) {
+      if (!x.class_assigned && !x.assign_teacher && x.course_id) {
         return x;
       }
     });

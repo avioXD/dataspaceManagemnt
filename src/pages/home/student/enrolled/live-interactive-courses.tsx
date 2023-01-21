@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { AiOutlineProject } from "react-icons/ai";
 import { SiGoogleclassroom } from "react-icons/si";
 import { MdOutlinePersonPin, MdOutlineDoneOutline } from "react-icons/md";
+import { CiLock } from "react-icons/ci";
 import { GiArchiveRegister } from "react-icons/gi";
 import { GoChecklist } from "react-icons/go";
 import protectedStudentApiService from "../../../../services/_protected_student_api";
@@ -83,171 +84,189 @@ export default function LiveInteractiveClasses() {
     <>
       <>
         <div className="card  enrolled p-4">
-          <div className="row">
-            <div className="col-sm-3 flex-between">
-              <h5 className="heading">Enrolled Courses</h5>
-            </div>
-            <div className="col-sm-9">
-              <div id="setps" className="steps">
-                {progress_steps.map((ps: any, index: any) => {
-                  return (
+          {filtered_courses?.length ? (
+            <>
+              <div className="row">
+                <div className="col-sm-3 flex-between">
+                  <h5 className="heading">Active Courses</h5>
+                </div>
+                <div className="col-sm-9">
+                  <div id="setps" className="steps">
+                    {progress_steps &&
+                      progress_steps.map((ps: any, index: any) => {
+                        return (
+                          <>
+                            <div className="row">
+                              <div className="col-sm-12">
+                                <div className="track">
+                                  <div
+                                    className="step active"
+                                    data-aos="zoom-in"
+                                    data-aos-offset="300"
+                                    data-aos-easing="ease-in-sine"
+                                  >
+                                    {" "}
+                                    <span className="icon">
+                                      {" "}
+                                      <GiArchiveRegister className="" />
+                                    </span>{" "}
+                                    <span className="text">Enrolled</span>{" "}
+                                  </div>
+                                  <div
+                                    className={`step ${
+                                      ps.assign_class == 1 ? "active" : ""
+                                    }`}
+                                    data-aos="zoom-in"
+                                    data-aos-offset="300"
+                                    data-aos-anchor="#right-screen"
+                                    data-aos-easing="ease-in-sine"
+                                  >
+                                    {" "}
+                                    <span className="icon">
+                                      {" "}
+                                      <SiGoogleclassroom />
+                                    </span>{" "}
+                                    <span className="text">
+                                      {" "}
+                                      Assigned Class
+                                    </span>{" "}
+                                  </div>
+                                  <div
+                                    className={`step ${
+                                      ps.course_completed == 1 ? "active" : ""
+                                    }`}
+                                    data-aos="zoom-in"
+                                    data-aos-offset="300"
+                                    data-aos-anchor="#right-screen"
+                                    data-aos-easing="ease-in-sine"
+                                  >
+                                    {" "}
+                                    <span className="icon">
+                                      {" "}
+                                      <GoChecklist />
+                                    </span>{" "}
+                                    <span className="text">
+                                      Course Completed
+                                    </span>{" "}
+                                  </div>
+                                  <div
+                                    className={`step ${
+                                      ps.project_assigned == 1 ? "active" : ""
+                                    }`}
+                                    data-aos="zoom-in"
+                                    data-aos-anchor="#right-screen"
+                                    data-aos-offset="300"
+                                    data-aos-easing="ease-in-sine"
+                                  >
+                                    {" "}
+                                    <span className="icon">
+                                      {" "}
+                                      <AiOutlineProject />
+                                    </span>{" "}
+                                    <span className="text">
+                                      Project Assigned
+                                    </span>{" "}
+                                  </div>
+                                  <div
+                                    className={`step ${
+                                      ps.interview == 1 ? "active" : ""
+                                    }`}
+                                    data-aos="zoom-in"
+                                    data-aos-anchor="#right-screen"
+                                    data-aos-offset="300"
+                                    data-aos-easing="ease-in-sine"
+                                  >
+                                    {" "}
+                                    <span className="icon">
+                                      {" "}
+                                      <MdOutlinePersonPin />
+                                    </span>{" "}
+                                    <span className="text">Interview</span>{" "}
+                                  </div>
+                                  <div
+                                    className={`step no-before${
+                                      ps.placement == 1 ? "active" : ""
+                                    }`}
+                                    data-aos="zoom-in"
+                                    data-aos-anchor="#right-screen"
+                                    data-aos-offset="300"
+                                    data-aos-easing="ease-in-sine"
+                                  >
+                                    {" "}
+                                    <span className="icon">
+                                      {" "}
+                                      <MdOutlineDoneOutline />
+                                    </span>{" "}
+                                    <span className="text">Placement</span>{" "}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </div>
+                </div>
+                <div className="d-flex justify-content-end my-2">
+                  {filtered_courses && (
+                    <FilterDropdown
+                      allData={filtered_courses}
+                      filterField={"course_name"}
+                      setChangeableData={setChangeableData}
+                      header={"Course"}
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="row">
+                {changeableData &&
+                  changeableData.map((x: any) => (
                     <>
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <div className="track">
-                            <div
-                              className="step active"
-                              data-aos="zoom-in"
-                              data-aos-offset="300"
-                              data-aos-easing="ease-in-sine"
-                            >
-                              {" "}
-                              <span className="icon">
-                                {" "}
-                                <GiArchiveRegister className="" />
-                              </span>{" "}
-                              <span className="text">Enrolled</span>{" "}
-                            </div>
-                            <div
-                              className={`step ${
-                                ps.assign_class == 1 ? "active" : ""
-                              }`}
-                              data-aos="zoom-in"
-                              data-aos-offset="300"
-                              data-aos-anchor="#right-screen"
-                              data-aos-easing="ease-in-sine"
-                            >
-                              {" "}
-                              <span className="icon">
-                                {" "}
-                                <SiGoogleclassroom />
-                              </span>{" "}
-                              <span className="text"> Assigned Class</span>{" "}
-                            </div>
-                            <div
-                              className={`step ${
-                                ps.course_completed == 1 ? "active" : ""
-                              }`}
-                              data-aos="zoom-in"
-                              data-aos-offset="300"
-                              data-aos-anchor="#right-screen"
-                              data-aos-easing="ease-in-sine"
-                            >
-                              {" "}
-                              <span className="icon">
-                                {" "}
-                                <GoChecklist />
-                              </span>{" "}
-                              <span className="text">
-                                Course Completed
-                              </span>{" "}
-                            </div>
-                            <div
-                              className={`step ${
-                                ps.project_assigned == 1 ? "active" : ""
-                              }`}
-                              data-aos="zoom-in"
-                              data-aos-anchor="#right-screen"
-                              data-aos-offset="300"
-                              data-aos-easing="ease-in-sine"
-                            >
-                              {" "}
-                              <span className="icon">
-                                {" "}
-                                <AiOutlineProject />
-                              </span>{" "}
-                              <span className="text">
-                                Project Assigned
-                              </span>{" "}
-                            </div>
-                            <div
-                              className={`step ${
-                                ps.interview == 1 ? "active" : ""
-                              }`}
-                              data-aos="zoom-in"
-                              data-aos-anchor="#right-screen"
-                              data-aos-offset="300"
-                              data-aos-easing="ease-in-sine"
-                            >
-                              {" "}
-                              <span className="icon">
-                                {" "}
-                                <MdOutlinePersonPin />
-                              </span>{" "}
-                              <span className="text">Interview</span>{" "}
-                            </div>
-                            <div
-                              className={`step no-before${
-                                ps.placement == 1 ? "active" : ""
-                              }`}
-                              data-aos="zoom-in"
-                              data-aos-anchor="#right-screen"
-                              data-aos-offset="300"
-                              data-aos-easing="ease-in-sine"
-                            >
-                              {" "}
-                              <span className="icon">
-                                {" "}
-                                <MdOutlineDoneOutline />
-                              </span>{" "}
-                              <span className="text">Placement</span>{" "}
+                      <div className="col-sm-6 flex-center">
+                        <div className="card shadow m-2 course-card">
+                          <img src="/assets/bg/register_bg.png" alt="" />
+                          <div className="details p-4">
+                            <h5 className="heading">{x.course_name}</h5>
+                            <div className="sub">
+                              <span className="text-gray">
+                                Faculty : {x.faculty}
+                              </span>
+                              <br />
+                              <span className="text-gray">
+                                Class Duration : {x.duration} Months
+                              </span>
+                              <button
+                                onClick={() => redirectToLiveClass(x)}
+                                className="btn mt-2 btn-primary btn-wide"
+                              >
+                                View Details
+                              </button>
+                              <div className="my-3">
+                                <ProgressBar
+                                  variant="success"
+                                  now={x.class_completed}
+                                  label={`${x.class_completed}%`}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </>
-                  );
-                })}
+                  ))}
               </div>
-            </div>
-            <div className="d-flex justify-content-end my-2">
-              {filtered_courses && (
-                <FilterDropdown
-                  allData={filtered_courses}
-                  filterField={"course_name"}
-                  setChangeableData={setChangeableData}
-                  header={"Course"}
-                />
-              )}
-            </div>
-          </div>
-          <div className="row">
-            {changeableData &&
-              changeableData.map((x: any) => (
-                <>
-                  <div className="col-sm-6 flex-center">
-                    <div className="card shadow m-2 course-card">
-                      <img src="/assets/bg/register_bg.png" alt="" />
-                      <div className="details p-4">
-                        <h5 className="heading">{x.course_name}</h5>
-                        <div className="sub">
-                          <span className="text-gray">
-                            Faculty : {x.faculty}
-                          </span>
-                          <br />
-                          <span className="text-gray">
-                            Class Duration : {x.duration} Months
-                          </span>
-                          <button
-                            onClick={() => redirectToLiveClass(x)}
-                            className="btn mt-2 btn-primary btn-wide"
-                          >
-                            View Details
-                          </button>
-                          <div className="my-3">
-                            <ProgressBar
-                              variant="success"
-                              now={x.class_completed}
-                              label={`${x.class_completed}%`}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ))}
-          </div>
+            </>
+          ) : (
+            <>
+              <div className="flex-center flex-column block-ui">
+                <CiLock size={35} />
+                <p className="heading">You don't have any active course</p>
+                <Link to="/Enrolled/All Courses/Courses">
+                  <button className="btn btn-primary">Enroll Now</button>
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </>
     </>

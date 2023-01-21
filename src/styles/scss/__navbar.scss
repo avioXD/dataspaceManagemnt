@@ -243,3 +243,39 @@
     }
   }
 }
+.header-menu {
+  .item-content {
+    padding: 0 !important;
+  }
+  overflow: visible;
+  .item-header {
+    text-align: center;
+    border-bottom: 1px solid $gray;
+  }
+  .dropdown-menu {
+    width: max-content;
+    max-width: 22rem;
+    margin-top: 1.7rem;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
+  z-index: 10000;
+  .option {
+    padding: 0.5rem 0.5rem;
+    color: $dark;
+    border: 0;
+    background-color: #f8f8f8;
+    width: 100%;
+    span {
+      font-size: 14px;
+      text-align: start;
+    }
+    img {
+      width: 20px;
+    }
+    &:hover {
+      background-color: #eeeeee;
+    }
+  }
+}

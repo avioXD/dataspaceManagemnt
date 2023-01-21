@@ -33,7 +33,9 @@ export default function StudentJobs() {
                       <h5 className="heading text-dark">
                         {x.title || "Front-End Engineer React JS"}
                       </h5>
-                      <h5 className="heading text-primary">Rs. 10 - 15 LPA</h5>
+                      <h5 className="heading text-primary">
+                        {x.package || "Rs. 10 - 15 LPA"}
+                      </h5>
                     </div>
                     <p className="text-gray">
                       {" "}
@@ -53,8 +55,8 @@ export default function StudentJobs() {
                         {x.location || "Hyderabad"}
                       </div>
                       <div className="chips btn-sm   ">
-                        <SlGraduation className="mx-2" /> Education:{" "}
-                        {x.education || ""}
+                        <SlGraduation className="mx-2" />
+                        {x.qualification || ""}
                       </div>
                     </div>
                     <hr />

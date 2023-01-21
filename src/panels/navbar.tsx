@@ -143,7 +143,6 @@ export default function Navbar() {
               </div>
             </div>
             <div className="messages mx-2 navbar-item  mt-2  dropdown header-messages">
-              {" "}
               <a
                 className="navbar-nav-link dropdown-toggle"
                 role="button"
@@ -222,12 +221,18 @@ export default function Navbar() {
                   <img src="/assets/bg/register_bg.png" alt="" />
                 </div>
               </div>
-              <div className="nav-dropdown">
-                <div className="nav-menu">
-                  <button className="tbl-btn">
-                    <RxTriangleDown size={22} onClick={showMenu} />
-                  </button>
-                  <div id="dropDown" className="menu" onMouseLeave={removeMenu}>
+              <div className="header-menu mx-2 navbar-item  mt-2  dropdown">
+                <a
+                  className="navbar-nav-link dropdown-toggle"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {" "}
+                  <RxTriangleDown size={22} onClick={showMenu} color={"gray"} />
+                </a>
+                <div className="dropdown-menu dropdown-menu-right">
+                  <div className="item-content">
                     {!(user.role == 1) && (
                       <Link to="/Home/Profile" state={user}>
                         <button className="flex-start text-primary option">

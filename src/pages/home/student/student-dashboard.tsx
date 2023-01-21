@@ -20,9 +20,11 @@ export default function StudentDashboard() {
             </Link>
           </div>
           <div className="col-sm-12  ">
-            <div className="image m-2">
-              <img src="/assets/student/Events.png" alt="" />
-            </div>
+            <a href="https://webinar.dataspaceacademy.com/">
+              <div className="image m-2">
+                <img src="/assets/student/Events.png" alt="" />
+              </div>
+            </a>
           </div>
         </div>
       </div>

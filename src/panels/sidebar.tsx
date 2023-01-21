@@ -231,10 +231,10 @@ export default function Sidebar(props: any) {
                                   variant="info"
                                   now={
                                     (stdAtt.class_completed / stdAtt.total) *
-                                    100
+                                      100 || 0
                                   }
                                   style={{ width: "100%" }}
-                                  label={`${60}%`}
+                                  label={`${60}%` || 0}
                                 />
 
                                 <hr />
@@ -244,17 +244,25 @@ export default function Sidebar(props: any) {
                                 <span className="form-label">Present: </span>
                                 <ProgressBar
                                   variant="success"
-                                  now={(stdAtt.present / stdAtt.total) * 100}
+                                  now={
+                                    (stdAtt.present / stdAtt.total) * 100 || 0
+                                  }
                                   style={{ width: "100%" }}
-                                  label={`${stdAtt.present}/${stdAtt.total}`}
+                                  label={
+                                    `${stdAtt.present}/${stdAtt.total}` || 0
+                                  }
                                 />
                                 <br />
                                 <span className="form-label">Absent: </span>
                                 <ProgressBar
                                   variant="danger"
-                                  now={(stdAtt.absent / stdAtt.total) * 100}
+                                  now={
+                                    (stdAtt.absent / stdAtt.total) * 100 || 0
+                                  }
                                   style={{ width: "100%" }}
-                                  label={`${stdAtt.absent}/${stdAtt.total}`}
+                                  label={
+                                    `${stdAtt.absent}/${stdAtt.total}` || 0
+                                  }
                                 />
                               </div>
                             )}

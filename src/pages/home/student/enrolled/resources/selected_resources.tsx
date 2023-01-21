@@ -1,48 +1,46 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ProgressBar } from "primereact/progressbar";
 import { useEffect, useState } from "react";
 import { Button } from "primereact/button";
+import { PdfViewer } from "./pdfviewer";
 
 export default function SelectedResource() {
+  const location: any = useLocation();
+  const resource: any = location.state;
+  const navigate = useNavigate();
+
   return (
     <>
       <>
-        <div className="card  enrolled p-4">
-          <h5 className="heading">Resources</h5>
-          <div className="card shadow-sm p-4">
-            <div className="flex-center flex-column">
-              <img src="/assets/png/bsi.png" alt="" />
-            </div>
-            <div className="flex-between">
-              <h4 className="heading">The Best Study Tips Reveled</h4>
-              <Button
-                label="Download"
-                className="p-button-primary p-button-text"
-                icon="pi pi-download"
-                iconPos="left"
-              />
-            </div>
-            <div className="content">
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis
-                et, eveniet est asperiores vel placeat aliquam voluptatum magni
-                repellat molestias quia voluptate, iste quidem molestiae
-                distinctio reprehenderit iure delectus unde!Lorem ipsum dolor
-                sit, amet consectetur adipisicing elit. Nobis et, eveniet est
-                asperiores vel placeat aliquam voluptatum magni repellat
-                molestias quia voluptate, iste quidem molestiae distinctio
-                reprehenderit iure delectus unde!Lorem ipsum dolor sit, amet
-                consectetur adipisicing elit. Nobis et, eveniet est asperiores
-                vel placeat aliquam voluptatum magni repellat molestias quia
-                voluptate, iste quidem molestiae distinctio reprehenderit iure
-                delectus unde!Lorem ipsum dolor sit, amet consectetur
-                adipisicing elit. Nobis et, eveniet est asperiores vel placeat
-                aliquam voluptatum magni repellat molestias quia voluptate, iste
-                quidem molestiae distinctio reprehenderit iure delectus unde!
-              </p>
+        {resource && (
+          <div className="card  p-4">
+            <h5 className="heading">Resources</h5>
+            <div className="card shadow-sm p-4">
+              <div className="flex-center flex-column mb-4">
+                <PdfViewer
+                  pdf={
+                    "http://dataspaceacademymanagement.in/skillup/public/note/note_1669896766UlKotA4u3skwTgISq3Rr3w7wKjdbecqjPo4JjeH1.pdf"
+                  }
+                />
+              </div>
+              <div className="flex-between">
+                <h4 className="heading">{resource.title}</h4>
+                <a href={resource.resource_link}>
+                  <Button
+                    label="Download"
+                    className="p-button-primary p-button-text"
+                    icon="pi pi-download"
+                    iconPos="left"
+                  />
+                </a>
+              </div>
+              <div
+                className="content"
+                dangerouslySetInnerHTML={{ __html: resource.description }}
+              ></div>
             </div>
           </div>
-        </div>
+        )}
       </>
     </>
   );
