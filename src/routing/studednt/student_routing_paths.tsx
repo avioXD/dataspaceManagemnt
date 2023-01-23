@@ -9,6 +9,7 @@ import SelectedJobs from "../../pages/home/student/jobs/selected_job";
 import ViewProfileDetails from "../../pages/home/admin/common/view_profile";
 import EditProfileDetails from "../../pages/home/admin/common/edit_profile";
 import ViewStudentProfile from "../../pages/home/student/student_profile";
+import Help from "../../pages/home/student/help";
 export default function studentRoutings() {
   const routes: any[] = [
     {
@@ -79,6 +80,14 @@ export default function studentRoutings() {
       route: "Support",
       path: "Support",
       element: <></>,
+      icon: <FaChalkboardTeacher />,
+      children: [],
+      shortcut: true,
+    },
+    {
+      route: "Help",
+      path: "Help",
+      element: <Help />,
       icon: <FaChalkboardTeacher />,
       children: [],
       shortcut: true,

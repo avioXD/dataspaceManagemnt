@@ -46,6 +46,14 @@ import EditCourse from "../pages/settings/edit_course";
 import AddCourse from "../pages/settings/add_course";
 import Courses from "../pages/settings/courses";
 import ViewStudentProfile from "../pages/home/student/student_profile";
+import PaymentGateway from "../pages/home/admin/payment_gateway/payment_gateway";
+import ReferredUser from "../pages/home/admin/referred_user/ref_user";
+import Councellors from "../pages/settings/Councellors";
+import Branches from "../pages/settings/branches";
+import ClassReport from "../pages/home/admin/reports/class_report";
+import StudentStatus from "../pages/home/admin/reports/student_status";
+import Addbranches from "../pages/settings/add_branch";
+import AddCouncellor from "../pages/settings/add_councellor";
 
 export default function superAdminRoutings() {
   const routes: any[] = [
@@ -336,6 +344,22 @@ export default function superAdminRoutings() {
           children: [],
           shortcut: true,
         },
+        {
+          route: "Student Status",
+          path: "Student Status",
+          element: <StudentStatus />,
+
+          children: [],
+          shortcut: true,
+        },
+        {
+          route: "Class Details",
+          path: "Class Details",
+          element: <ClassReport />,
+
+          children: [],
+          shortcut: true,
+        },
       ],
       shortcut: true,
     },
@@ -410,18 +434,61 @@ export default function superAdminRoutings() {
           children: [],
           shortcut: false,
         },
+
+        {
+          route: "Branches",
+          path: "Branches",
+          element: <Branches />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: true,
+        },
+        {
+          route: "Add Branch",
+          path: "Add Branch",
+          element: <Addbranches />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Add Councellor",
+          path: "Add Councellor",
+          element: <AddCouncellor />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: false,
+        },
+        {
+          route: "Councellors",
+          path: "Councellors",
+          element: <Councellors />,
+          icon: <GoPerson />,
+          children: [],
+          shortcut: true,
+        },
+        
       ],
       shortcut: true,
     },
 
     {
-      route: "Payment Gateway",
-      path: "p_gateway",
-      element: <DataTable />,
+      route: "Referred User",
+      path: "Referred User",
+      element: <ReferredUser />,
       icon: <IoMdWallet />,
       children: [],
       shortcut: true,
     },
+    {
+      route: "Payment Gateway",
+      path: "p_gateway",
+      element: <PaymentGateway />,
+      icon: <IoMdWallet />,
+      children: [],
+      shortcut: true,
+    },
+   
     {
       route: "News",
       path: "news",

@@ -599,6 +599,7 @@ export default function protectedApiService() {
       if (res.data?.msg === "you are not an authorised user") {
         logout();
       }
+      return res.data;
     } catch {}
   };
 
@@ -608,6 +609,7 @@ export default function protectedApiService() {
       if (res.data?.msg === "you are not an authorised user") {
         logout();
       }
+      return res.data;
     } catch {}
   };
 
@@ -623,9 +625,100 @@ export default function protectedApiService() {
       if (res.data?.msg === "you are not an authorised user") {
         logout();
       }
+      return res.data;
     } catch {}
   };
 
+  const update_student_details = ()=>{
+    
+  }
+
+
+  
+  const getStudentStatus_all = async()=>{
+    try{
+       const res =  await _https.get("student_course_all_status",authHeader);
+       if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return res.data;
+    }catch{
+
+    }
+  }
+
+  const getclassreport = async()=>{
+    try{
+       const res = await _https.get("get_class_details_report",authHeader);
+       if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return res.data;
+    }catch{
+
+    }
+  }
+
+  const referredusers = async()=>{
+    try{
+const res = await _https.get("refered_user_get_data",authHeader);
+if (res.data?.msg === "you are not an authorised user") {
+  logout();
+}
+return res.data;
+    }catch{
+
+    }
+  }
+
+ const branches = async()=>{
+  try{
+    const res = await _https.get("get_branches",authHeader);
+if (res.data?.msg === "you are not an authorised user") {
+  logout();
+}
+return res.data;
+  }catch{
+
+  }
+ } 
+
+
+ const get_councellors = async()=>{
+  try{
+    const res = await _https.get("get_councellors",authHeader);
+if (res.data?.msg === "you are not an authorised user") {
+  logout();
+}
+return res.data;
+  }catch{
+
+  }
+ } 
+
+
+ const branch_add = async(data:any)=>{
+  const res = await _https.post("add_branch",data,authHeader);
+  return res.data;
+ }
+
+ const councellor_add = async(data:any)=>{
+  const res = await _https.post("add_councellor",data,authHeader);
+  return res.data;
+ }
+const branch_delete = async(id:any)=>{
+
+  const res = await _https.get("branches_delete/"+id,authHeader);
+  return res.data;
+
+}
+
+const councellor_delete = async(id:any)=>{
+
+  const res = await _https.get("councellor_delete/"+id,authHeader);
+  return res.data;
+
+}
   return {
     getAllStudents,
     getAllFaculty,
@@ -682,5 +775,15 @@ export default function protectedApiService() {
     stud_update_details,
     fac_update_details,
     updateStudentDetails,
+    update_student_details,
+    getStudentStatus_all,
+    getclassreport,
+    referredusers,
+    branches,
+    get_councellors,
+    branch_add,
+    councellor_add,
+    branch_delete,
+    councellor_delete
   };
 }
