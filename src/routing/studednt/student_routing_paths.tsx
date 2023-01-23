@@ -10,6 +10,8 @@ import ViewProfileDetails from "../../pages/home/admin/common/view_profile";
 import EditProfileDetails from "../../pages/home/admin/common/edit_profile";
 import ViewStudentProfile from "../../pages/home/student/student_profile";
 import Help from "../../pages/home/student/help";
+import Support from "../../pages/home/faculty/support";
+import StudentSupport from "../../pages/home/support";
 export default function studentRoutings() {
   const routes: any[] = [
     {
@@ -79,7 +81,7 @@ export default function studentRoutings() {
     {
       route: "Support",
       path: "Support",
-      element: <></>,
+      element: <StudentSupport />,
       icon: <FaChalkboardTeacher />,
       children: [],
       shortcut: true,
