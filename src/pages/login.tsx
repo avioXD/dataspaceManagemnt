@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/_auth";
 import { toast } from "react-toastify";
+import { Spinner } from "react-bootstrap";
 export default function Login() {
   const navigate = useNavigate();
   const [creeds, setCreeds] = useState<any>({
@@ -119,6 +120,15 @@ export default function Login() {
                     disabled={loading}
                     onClick={onLogin}
                   >
+                    {loading && (
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                    )}{" "}
                     {loading ? "Loggin..." : "Login"}
                   </button>
                 </div>

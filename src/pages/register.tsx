@@ -6,6 +6,9 @@ import AuthService from "../services/_auth";
 import { Password } from "primereact/password";
 import CommonApiService from "../services/_common_api";
 import { toast } from "react-toastify";
+import protectedApiService from "../services/_protected_api";
+import { Spinner } from "react-bootstrap";
+import commonApiService from "../services/_common_api";
 const regex: any = {
   contact_no: /(7|8|9)\d{9}/,
   aadhar_no: /^\d{4}\s\d{4}\s\d{4}$/,
@@ -46,7 +49,7 @@ export default function Register() {
   const { getAllCourses } = CommonApiService();
 
   const [register, setRegister] = useState(initial);
-  const { signUp } = AuthService();
+  const { signUp, verifyEmailExist } = AuthService();
 
   useEffect(() => {
     fetchCourses();
@@ -109,29 +112,41 @@ export default function Register() {
     console.log(screen);
     if (screen == 1) {
       if (register.tc && !register.agreement && !formError) {
-        setShow(true);
       } else if (register.tc && register.agreement && !formError) {
-        setScreen(screen + 1);
-        setBtnDisabled(true);
+        // setScreen(screen + 1);
+        setBtnDisabled(false);
+        // registerUser();
       }
-    } else if (screen > 1 && screen < 3) {
-      setScreen(screen + 1);
-      setBtnDisabled(true);
-    } else if (screen == 3) {
-      registerUser();
     }
+    //  else if (screen > 1 && screen < 3) {
+    //   setScreen(screen + 1);
+    //   setBtnDisabled(true);
+    // } else if (screen == 3) {
+    //   registerUser();
+    // }
   };
   const registerUser = async () => {
     console.log("REgister", register);
+    setLoading(true);
     if (!formError) {
       const res: any = await signUp(register);
       if (res.status) {
+        setLoading(false);
         toast.success("Registration Successful!");
         resetPanel();
       }
     }
   };
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [alreadyExist, setAlreadyExist] = useState<boolean>(false);
+  const onCheckEmailExist = async (email: any) => {
+    const res: any = await verifyEmailExist(email);
+    if (res == "0") {
+      setAlreadyExist(true);
+    } else {
+      setAlreadyExist(false);
+    }
+  };
   const resetPanel = useCallback(() => {
     setRegister(initial);
     setScreen(1);
@@ -140,43 +155,50 @@ export default function Register() {
   }, [register, screen, formError, btnDisabled]);
   const checkForm = () => {
     setBtnDisabled(true);
-    switch (screen) {
-      case 1:
-        if (
-          !register?.name ||
-          !register?.email ||
-          !register?.contact_no ||
-          !register?.password
-        ) {
-          setBtnDisabled(true);
-        } else {
-          setBtnDisabled(false);
-        }
-        break;
-      case 2:
-        if (!register.user_type) {
-          setBtnDisabled(true);
-        } else {
-          setBtnDisabled(false);
-        }
-        break;
-      case 3:
-        if (!register.state) {
-          setBtnDisabled(true);
-        } else {
-          setBtnDisabled(false);
-        }
-        break;
-      // case 4:
-      //   if (!register.course_id || !register.course_mode) {
-      //     setBtnDisabled(true);
-      //   } else {
-      //     setBtnDisabled(false);
-      //   }
-      //   break;
-      default:
-        break;
+    if (
+      !register?.name ||
+      !register?.email ||
+      !register?.contact_no ||
+      !register?.password ||
+      !register?.tc ||
+      formError ||
+      alreadyExist
+    ) {
+      setBtnDisabled(true);
+    } else {
+      setBtnDisabled(false);
     }
+    // switch (screen) {
+    //   case 1:
+
+    //     break;
+    //   case 2:
+    //     if (!register.user_type) {
+    //       setBtnDisabled(true);
+    //     } else {
+    //       setBtnDisabled(false);
+    //     }
+    //     break;
+    //   case 3:
+    //     if (!register.state) {
+    //       setBtnDisabled(true);
+    //     } else {
+    //       setBtnDisabled(false);
+    //     }
+    //     break;
+    //   // case 4:
+    //   //   if (!register.course_id || !register.course_mode) {
+    //   //     setBtnDisabled(true);
+    //   //   } else {
+    //   //     setBtnDisabled(false);
+    //   //   }
+    //   //   break;
+    //   default:
+    //     break;
+    // }
+  };
+  const onSubmit = () => {
+    registerUser();
   };
   useEffect(() => {
     checkForm();
@@ -233,20 +255,28 @@ export default function Register() {
                         </div>
                         <div className="mb-3">
                           <label htmlFor="email" className="form-label">
-                            Email address
+                            Email address{" "}
+                            {alreadyExist && (
+                              <span className="ml-3 text-danger">
+                                *Email already Exist *
+                              </span>
+                            )}
                           </label>
                           <input
                             type="email"
                             pattern-check="true"
-                            className="form-control"
+                            className={`form-control ${
+                              alreadyExist && "invalid"
+                            }`}
                             name="email"
                             id="email"
                             value={register.email}
                             aria-describedby="emailHelp"
                             placeholder="example@abc.com"
-                            onBlur={(e) =>
-                              onBlur({ [e.target.name]: e.target.value })
-                            }
+                            onBlur={(e) => {
+                              onBlur({ [e.target.name]: e.target.value });
+                              onCheckEmailExist(e.target.value);
+                            }}
                             onChange={(e) =>
                               onValueChange({
                                 [e.target.name]: e.target.value,
@@ -978,11 +1008,9 @@ export default function Register() {
                               id="tc"
                               checked={register.tc}
                               name="tc"
-                              onChange={(e) =>
-                                onValueChange({
-                                  [e.target.name]: !register.tc,
-                                })
-                              }
+                              onChange={(e) => {
+                                handleShow();
+                              }}
                             />
                             <label
                               className="form-check-label mx-2"
@@ -1388,17 +1416,25 @@ export default function Register() {
                     <></>
                   )}
 
-                  <button
+                  <Button
                     disabled={btnDisabled}
-                    type="button"
                     id="button-1"
                     onClick={() => {
-                      onNextPage();
+                      onSubmit();
                     }}
                     className="btn btn-primary btn-wide "
                   >
-                    {screen == 3 ? "Submit" : "Next"}
-                  </button>
+                    {loading && (
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                    )}
+                    {loading ? "Submit" : "Submitting"}
+                  </Button>
                 </div>
               </div>
               <div className="mx-auto mt-4">
@@ -1438,8 +1474,8 @@ export default function Register() {
             onClick={() => {
               onValueChange({
                 agreement: true,
+                tc: true,
               });
-              setScreen(screen + 1);
               handleClose();
             }}
           >

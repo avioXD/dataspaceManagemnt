@@ -15,5 +15,6 @@ export default function commonApiService() {
       console.log(e);
     }
   };
+
   return { getAllCourses };
 }

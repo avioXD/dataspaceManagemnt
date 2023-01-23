@@ -15,11 +15,11 @@ export default function protectedStudentApiService() {
       authentication: accessToken,
     },
   };
-  const createForm = (creeds: any) => {
-    let formData = new FormData();
-    Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
-    return formData;
-  };
+  // const createForm = (creeds: any) => {
+  //   let formData = new FormData();
+  //   Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
+  //   return formData;
+  // };
   // console.log(authHeader);
   ////////////////////student requests
   const getStudentClasses = async () => {
@@ -130,7 +130,8 @@ export default function protectedStudentApiService() {
   };
   const postApplyJob = async (creeds: any) => {
     try {
-      const formData = createForm(creeds);
+      let formData = new FormData();
+      Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
       const res = await _https.post("/job_apply", formData, authHeader);
       return res.data;
     } catch (e) {}

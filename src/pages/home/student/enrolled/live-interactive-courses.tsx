@@ -77,7 +77,7 @@ export default function LiveInteractiveClasses() {
   };
   const redirectToLiveClass = (x: any) => {
     setLiveClass(x);
-    navigate("/StudentClasses/Courses/LiveClass");
+    navigate("/StudentClasses/Courses/LiveClass", { state: x });
   };
 
   return (

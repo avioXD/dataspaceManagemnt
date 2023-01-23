@@ -96,6 +96,15 @@ export default function AuthService() {
       //console.log(e);
     }
   };
+  const verifyEmailExist = async (email: any) => {
+    try {
+      const res = await _https.get("/user_email_check/" + email);
+      // console.log(res.data);
+      return res.data;
+    } catch (e) {
+      //console.log(e);
+    }
+  };
   const logout = () => {
     setUser(null);
     setAccessToken("");
@@ -103,5 +112,5 @@ export default function AuthService() {
     localStorage.removeItem("access");
     navigate("/login");
   };
-  return { loginUser, signUp, logout };
+  return { loginUser, signUp, logout, verifyEmailExist };
 }

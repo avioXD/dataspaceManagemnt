@@ -95,10 +95,10 @@ export default function SelectedJobs() {
               <hr />
               <div className="mt-2 content">
                 <h5 className="heading">Job Description</h5>
-                <p className="text-gray">
-                  {job.job_description ||
-                    "lorem ipsum dolor sit amet, consectetur adip"}
-                </p>
+                <div
+                  className="text-gray"
+                  dangerouslySetInnerHTML={{ __html: job.job_description }}
+                ></div>
               </div>
               <div className="mt-2 content">
                 <h5 className="heading">Qualifications </h5>

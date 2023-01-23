@@ -60,6 +60,7 @@ export default function StudentJobs() {
                       </div>
                     </div>
                     <hr />
+
                     <p className="text-gray limited-char-150">
                       {x.job_description ||
                         "lorem ipsum dolor sit amet, consectetur adip"}

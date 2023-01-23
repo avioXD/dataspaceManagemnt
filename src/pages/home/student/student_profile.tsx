@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import protectedStudentApiService from "../../../services/_protected_student_api";
 import { Button } from "primereact/button";
+import protectedApiService from "../../../services/_protected_api";
+import { toast } from "react-toastify";
 
 export default function ViewStudentProfile({ editable }: any) {
   const location = useLocation();
@@ -10,6 +12,7 @@ export default function ViewStudentProfile({ editable }: any) {
   const navigate = useNavigate();
   const [creeds, setCreeds] = useState<any>(null);
   const [disabled, setDisabled] = useState<boolean>(true);
+  const [isStudent] = useState(() => user.role == "5" && true);
   const { getStudentDetails } = protectedStudentApiService();
   useEffect(() => {
     editable ? setDisabled(false) : setDisabled(true);
@@ -21,14 +24,35 @@ export default function ViewStudentProfile({ editable }: any) {
   }, []);
   const onValueChange = (val: any) => {
     setCreeds({ ...creeds, ...val });
+    console.log({ ...creeds, ...val });
   };
   const getDetails = async () => {
     const res: any = await getStudentDetails(user.user_id);
     console.log({ ...res, ...user });
     setCreeds({ ...res, ...user });
   };
-  const updateDetails = () => {
-    setDisabled(true);
+  const [loading, setLoading] = useState<any>(false);
+  const { updateStudentDetails } = protectedApiService();
+  const updateDetails = async () => {
+    setLoading(true);
+    console.log(creeds);
+    try {
+      const res: any = await updateStudentDetails(creeds);
+      console.log(creeds);
+      if (res.status == 1) {
+        toast.success("Updated");
+        setDisabled(true);
+        setLoading(false);
+      } else {
+        toast.error("Update Error");
+        setDisabled(true);
+        setLoading(false);
+      }
+    } catch (e) {
+      toast.error("Update Error");
+      setDisabled(true);
+      setLoading(false);
+    }
   };
   const role: any = ["", "super admin", "admin", "faculty", "sales", "student"];
   return (
@@ -50,11 +74,13 @@ export default function ViewStudentProfile({ editable }: any) {
                   />
                 ) : (
                   <Button
-                    label="Update"
+                    label={`${loading ? "updating.." : "update"}`}
                     icon={"pi pi-save"}
+                    loading={loading}
+                    disabled={loading}
                     className="p-button-info"
                     onClick={() => {
-                      setDisabled(false);
+                      updateDetails();
                     }}
                   />
                 )}
@@ -72,7 +98,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="name"
                     id="name"
                     placeholder="Name"
-                    value={creeds["name"]}
+                    value={creeds["name"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -91,7 +117,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="username"
                     id="username"
                     placeholder="username"
-                    value={creeds["username"]}
+                    value={creeds["username"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -110,7 +136,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="contact_no"
                     id="contact_no"
                     placeholder="contact_no"
-                    value={creeds["contact_no"]}
+                    value={creeds["contact_no"] || ""}
                     maxLength={10}
                     disabled={disabled}
                     onChange={(e) =>
@@ -130,7 +156,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="address"
                     id="address"
                     placeholder="address"
-                    value={creeds["address"]}
+                    value={creeds["address"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -149,7 +175,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="state"
                     id="state"
                     placeholder="state"
-                    value={creeds["state"]}
+                    value={creeds["state"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -168,7 +194,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="country"
                     id="country"
                     placeholder="country"
-                    value={creeds["country"]}
+                    value={creeds["country"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -191,7 +217,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="professional"
                     id="professional"
                     placeholder="professional"
-                    value={creeds["professional"]}
+                    value={creeds["professional"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -210,7 +236,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="student_college"
                     id="student_college"
                     placeholder="student college"
-                    value={creeds["student_college"]}
+                    value={creeds["student_college"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -229,7 +255,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="student_stream"
                     id="student_stream"
                     placeholder="Student Stream"
-                    value={creeds["student_stream"]}
+                    value={creeds["student_stream"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -248,7 +274,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="company_name"
                     id="company_name"
                     placeholder="company name"
-                    value={creeds["company_name"]}
+                    value={creeds["company_name"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -267,7 +293,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="contact_no"
                     id="contact_no"
                     placeholder="contact_no"
-                    value={creeds["contact_no"]}
+                    value={creeds["contact_no"] || ""}
                     maxLength={10}
                     disabled={disabled}
                     onChange={(e) =>
@@ -279,6 +305,7 @@ export default function ViewStudentProfile({ editable }: any) {
                 </div>
               </div>
               <hr />
+
               <div className="row">
                 <h6 className="heading">Course Details: </h6>
                 <div className="col-sm-6 mb-3">
@@ -291,8 +318,8 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="course_name"
                     id="course_name"
                     placeholder="course name"
-                    value={creeds["course_name"]}
-                    disabled={disabled}
+                    value={creeds["course_name"] || ""}
+                    disabled={disabled || isStudent}
                     onChange={(e) =>
                       onValueChange({
                         [e.target.name]: e.target.value,
@@ -310,8 +337,8 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="assigned_teacher"
                     id="assigned_teacher"
                     placeholder="Assigned Teacher Count"
-                    value={creeds["assigned_teacher"]}
-                    disabled={disabled}
+                    value={creeds["assigned_teacher"] || ""}
+                    disabled={disabled || isStudent}
                     onChange={(e) =>
                       onValueChange({
                         [e.target.name]: e.target.value,
@@ -329,8 +356,8 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="course_completed"
                     id="course_completed"
                     placeholder="course completed"
-                    value={creeds["course_completed"]}
-                    disabled={disabled}
+                    value={creeds["course_completed"] || ""}
+                    disabled={disabled || isStudent}
                     onChange={(e) =>
                       onValueChange({
                         [e.target.name]: e.target.value,
@@ -348,9 +375,9 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="total"
                     id="total"
                     placeholder="total"
-                    value={creeds["total"]}
+                    value={creeds["total"] || ""}
                     maxLength={10}
-                    disabled={disabled}
+                    disabled={disabled || isStudent}
                     onChange={(e) =>
                       onValueChange({
                         [e.target.name]: e.target.value,
@@ -368,9 +395,9 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="present"
                     id="present"
                     placeholder="present"
-                    value={creeds["present"]}
+                    value={creeds["present"] || ""}
                     maxLength={10}
-                    disabled={disabled}
+                    disabled={disabled || isStudent}
                     onChange={(e) =>
                       onValueChange({
                         [e.target.name]: e.target.value,
@@ -388,9 +415,9 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="absent"
                     id="absent"
                     placeholder="absent"
-                    value={creeds["absent"]}
+                    value={creeds["absent"] || ""}
                     maxLength={10}
-                    disabled={disabled}
+                    disabled={disabled || isStudent}
                     onChange={(e) =>
                       onValueChange({
                         [e.target.name]: e.target.value,
@@ -412,7 +439,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="aadhar_no"
                     id="aadhar_no"
                     placeholder="aadhar_no"
-                    value={creeds["aadhar_no"]}
+                    value={creeds["aadhar_no"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -452,7 +479,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="voter_no"
                     id="voter_no"
                     placeholder="voter_no"
-                    value={creeds["voter_no"]}
+                    value={creeds["voter_no"] || ""}
                     disabled={disabled}
                     onChange={(e) =>
                       onValueChange({
@@ -471,7 +498,7 @@ export default function ViewStudentProfile({ editable }: any) {
                     name="voter_card_doc"
                     id="voter_card_doc"
                     placeholder="voter_card_doc"
-                    // value={creeds["aadhar_card"]}
+                    // value={creeds["aadhar_card"] || ""}
                     maxLength={10}
                     disabled={disabled}
                     onChange={(e) =>

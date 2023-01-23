@@ -16,6 +16,9 @@
   font-size: $s6;
   color: gray;
 }
+.valid {
+  border: 1px solid $success-color !important;
+}
 .p-inputtext {
   padding: 0.7rem 1rem;
   border-radius: 4px !important;

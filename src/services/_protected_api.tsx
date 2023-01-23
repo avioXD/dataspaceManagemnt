@@ -14,11 +14,11 @@ export default function protectedApiService() {
       authentication: accessToken,
     },
   };
-  const createForm = (creeds: any) => {
-    let formData = new FormData();
-    Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
-    return formData;
-  };
+  // const createForm = (creeds: any) => {
+  //   let formData = new FormData();
+  //   Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
+  //   return formData;
+  // };
   // console.log(authHeader);
   const {
     setAllAdmins,
@@ -260,6 +260,7 @@ export default function protectedApiService() {
       //console.log(e);
     }
   };
+
   const getMessages = async () => {
     try {
       const res = await _https.get(
@@ -275,6 +276,7 @@ export default function protectedApiService() {
       //console.log(e);
     }
   };
+
   ////// all protected post requests
   const postUpdateJob = async (creeds: any) => {
     try {
@@ -324,11 +326,9 @@ export default function protectedApiService() {
   };
   const postAddMarketing = async (creeds: any) => {
     try {
-      const res = await _https.post(
-        "/marketing_add",
-        createForm(creeds),
-        authHeader
-      );
+      let formData = new FormData();
+      Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
+      const res = await _https.post("/marketing_add", formData, authHeader);
       return res.data;
     } catch (e) {}
   };
@@ -350,22 +350,18 @@ export default function protectedApiService() {
   };
   const postAddAdmin = async (creeds: any) => {
     try {
-      const res = await _https.post(
-        "/add_admin",
-        createForm(creeds),
-        authHeader
-      );
+      let formData = new FormData();
+      Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
+      const res = await _https.post("/add_admin", formData, authHeader);
       return res.data;
     } catch (e) {}
   };
 
   const postAddFaculty = async (creeds: any) => {
     try {
-      const res = await _https.post(
-        "/add_faculty",
-        createForm(creeds),
-        authHeader
-      );
+      let formData = new FormData();
+      Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
+      const res = await _https.post("/add_faculty", formData, authHeader);
       return res.data;
     } catch (e) {}
   };
@@ -380,25 +376,6 @@ export default function protectedApiService() {
     try {
       const res = await _https.get(
         `/delete_faculty_timing/${creeds}`,
-        authHeader
-      );
-      return res.data;
-    } catch (e) {}
-  };
-  const postUpdateCourseCompleteStatus = async (creeds: any) => {
-    try {
-      const res = await _https.get(
-        `/course_completed_status_change/${creeds}`,
-        authHeader
-      );
-      return res.data;
-    } catch (e) {}
-  };
-  const postUpdateProjectCompleteStatus = async (creeds: any) => {
-    try {
-      const res = await _https.post(
-        `/course_student_interview`,
-        creeds,
         authHeader
       );
       return res.data;
@@ -431,6 +408,28 @@ export default function protectedApiService() {
       return res.data;
     } catch (e) {}
   };
+
+  ////////////// update
+  const postUpdateCourseCompleteStatus = async (creeds: any) => {
+    try {
+      const res = await _https.get(
+        `/course_completed_status_change/${creeds}`,
+        authHeader
+      );
+      return res.data;
+    } catch (e) {}
+  };
+  const postUpdateProjectCompleteStatus = async (creeds: any) => {
+    try {
+      const res = await _https.post(
+        `/course_student_interview`,
+        creeds,
+        authHeader
+      );
+      return res.data;
+    } catch (e) {}
+  };
+
   const updateUserDetails = async (creeds: any) => {
     try {
       const res = await _https.post(
@@ -533,52 +532,32 @@ export default function protectedApiService() {
     } catch {}
   };
 
-  const get_student_all_courses = async()=>{
-    try{
-    const res = await _https.get("get_courses");
-    if (res.data?.msg === "you are not an authorised user") {
-      logout();
-    }
-    // console.log(res.data);
-    return res.data;
-    }catch{
+  const get_student_all_courses = async () => {
+    try {
+      const res = await _https.get("get_courses");
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch {}
+  };
 
-    }
-  }
+  const getAppliedJob = async () => {
+    try {
+      const res = await _https.get("get_user_job_apply", authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch {}
+  };
 
-  const getAppliedJob = async()=>{
-try{
-  const res = await _https.get("get_user_job_apply",authHeader);
-  if (res.data?.msg === "you are not an authorised user") {
-    logout();
-  }
-  // console.log(res.data);
-  return res.data;
-}catch{
+  const course_add = async (data: any) => {
+    try {
+      const res = await _https.post("add_course", data, authHeader);
 
-}
-  }
-
-
-  const course_add = async(data:any)=>{
-    try{
-    const res = await _https.post("add_course",data, authHeader);
-
-    if (res.data?.msg === "you are not an authorised user") {
-      logout();
-    }
-    // console.log(res.data);
-    return res.data;
-  } catch (e) {
-    //console.log(e);
-  }
-
-  }
-
-  const course_update = async(data:any)=>{
-    try{
-      const res = await _https.post("update_course",data, authHeader);
-  
       if (res.data?.msg === "you are not an authorised user") {
         logout();
       }
@@ -587,47 +566,65 @@ try{
     } catch (e) {
       //console.log(e);
     }
-  }
+  };
 
-  const course_delete = async(id:any)=>{
-try{
-const res = await _https.get("delete_course/"+id,authHeader);
-if (res.data?.msg === "you are not an authorised user") {
-  logout();
-}
-// console.log(res.data);
-return res.data;
-}catch{
+  const course_update = async (data: any) => {
+    try {
+      const res = await _https.post("update_course", data, authHeader);
 
-}
-  }
-
-  const update_student_details = ()=>{
-    
-  }
-
-  const stud_update_details = async(data:any)=>{
-    try{
-    const res = await _https.post("stud_update_details",data,authHeader);
-    if (res.data?.msg === "you are not an authorised user") {
-      logout();
-    }
-  }catch{
-
-  }
-
-  }
-
-  const fac_update_details = async(data:any)=>{
-    try{
-      const res = await _https.post("fac_update_details",data,authHeader);
       if (res.data?.msg === "you are not an authorised user") {
         logout();
       }
-    }catch{
-
+      // console.log(res.data);
+      return res.data;
+    } catch (e) {
+      //console.log(e);
     }
-  }
+  };
+
+  const course_delete = async (id: any) => {
+    try {
+      const res = await _https.get("delete_course/" + id, authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      // console.log(res.data);
+      return res.data;
+    } catch {}
+  };
+
+  const stud_update_details = async (data: any) => {
+    try {
+      const res = await _https.post("stud_update_details", data, authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+    } catch {}
+  };
+
+  const fac_update_details = async (data: any) => {
+    try {
+      const res = await _https.post("fac_update_details", data, authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+    } catch {}
+  };
+
+  const updateStudentDetails = async (creeds: any) => {
+    try {
+      let formData = new FormData();
+      Object.keys(creeds).map((item) => formData.append(item, creeds[item]));
+      const res = await _https.post(
+        "update_student_details",
+        formData,
+        authHeader
+      );
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+    } catch {}
+  };
 
   return {
     getAllStudents,
@@ -682,8 +679,8 @@ return res.data;
     course_add,
     course_update,
     course_delete,
-    update_student_details,
     stud_update_details,
-    fac_update_details
+    fac_update_details,
+    updateStudentDetails,
   };
 }
