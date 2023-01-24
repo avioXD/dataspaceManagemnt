@@ -371,6 +371,7 @@ export default function protectedApiService() {
       return res.data;
     } catch (e) {}
   };
+
   /////////////delete requests
   const postDeleteFacultyTiming = async (creeds: any) => {
     try {
@@ -629,96 +630,76 @@ export default function protectedApiService() {
     } catch {}
   };
 
-  const update_student_details = ()=>{
-    
-  }
+  const update_student_details = () => {};
 
-
-  
-  const getStudentStatus_all = async()=>{
-    try{
-       const res =  await _https.get("student_course_all_status",authHeader);
-       if (res.data?.msg === "you are not an authorised user") {
+  const getStudentStatus_all = async () => {
+    try {
+      const res = await _https.get("student_course_all_status", authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
         logout();
       }
       return res.data;
-    }catch{
+    } catch {}
+  };
 
-    }
-  }
-
-  const getclassreport = async()=>{
-    try{
-       const res = await _https.get("get_class_details_report",authHeader);
-       if (res.data?.msg === "you are not an authorised user") {
+  const getclassreport = async () => {
+    try {
+      const res = await _https.get("get_class_details_report", authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
         logout();
       }
       return res.data;
-    }catch{
+    } catch {}
+  };
 
-    }
-  }
+  const referredusers = async () => {
+    try {
+      const res = await _https.get("refered_user_get_data", authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return res.data;
+    } catch {}
+  };
 
-  const referredusers = async()=>{
-    try{
-const res = await _https.get("refered_user_get_data",authHeader);
-if (res.data?.msg === "you are not an authorised user") {
-  logout();
-}
-return res.data;
-    }catch{
+  const branches = async () => {
+    try {
+      const res = await _https.get("get_branches", authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return res.data;
+    } catch {}
+  };
 
-    }
-  }
+  const get_councellors = async () => {
+    try {
+      const res = await _https.get("get_councellors", authHeader);
+      if (res.data?.msg === "you are not an authorised user") {
+        logout();
+      }
+      return res.data;
+    } catch {}
+  };
 
- const branches = async()=>{
-  try{
-    const res = await _https.get("get_branches",authHeader);
-if (res.data?.msg === "you are not an authorised user") {
-  logout();
-}
-return res.data;
-  }catch{
+  const branch_add = async (data: any) => {
+    const res = await _https.post("add_branch", data, authHeader);
+    return res.data;
+  };
 
-  }
- } 
+  const councellor_add = async (data: any) => {
+    const res = await _https.post("add_councellor", data, authHeader);
+    return res.data;
+  };
+  const branch_delete = async (id: any) => {
+    const res = await _https.get("branches_delete/" + id, authHeader);
+    return res.data;
+  };
 
-
- const get_councellors = async()=>{
-  try{
-    const res = await _https.get("get_councellors",authHeader);
-if (res.data?.msg === "you are not an authorised user") {
-  logout();
-}
-return res.data;
-  }catch{
-
-  }
- } 
-
-
- const branch_add = async(data:any)=>{
-  const res = await _https.post("add_branch",data,authHeader);
-  return res.data;
- }
-
- const councellor_add = async(data:any)=>{
-  const res = await _https.post("add_councellor",data,authHeader);
-  return res.data;
- }
-const branch_delete = async(id:any)=>{
-
-  const res = await _https.get("branches_delete/"+id,authHeader);
-  return res.data;
-
-}
-
-const councellor_delete = async(id:any)=>{
-
-  const res = await _https.get("councellor_delete/"+id,authHeader);
-  return res.data;
-
-}
+  const councellor_delete = async (id: any) => {
+    const res = await _https.get("councellor_delete/" + id, authHeader);
+    return res.data;
+  };
   return {
     getAllStudents,
     getAllFaculty,
@@ -784,6 +765,6 @@ const councellor_delete = async(id:any)=>{
     branch_add,
     councellor_add,
     branch_delete,
-    councellor_delete
+    councellor_delete,
   };
 }

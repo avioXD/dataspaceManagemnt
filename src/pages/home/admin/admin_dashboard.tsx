@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { collectionCount } from "../../../functions/_helperFunctions";
 import protectedApiService from "../../../services/_protected_api";
 import globalDataStore from "../../../store/_globalData";
+import Loader from "../../../common/loader";
 
 export default function AdminDashboard() {
   const { getClassSummery, getAdminAllReport, getAllFaculty } =
     protectedApiService();
-  const empt: any = null;
-  const [classSummery, setClassSummery] = useState(empt);
-  const [adminReports, setAdminReports] = useState(empt);
-  const [facultyReports, setFacultyReports] = useState(empt);
+
+  const [classSummery, setClassSummery] = useState<any>(null);
+  const [adminReports, setAdminReports] = useState<any>(null);
+  const [facultyReports, setFacultyReports] = useState<any>(null);
   const { allFaculty } = globalDataStore();
   useEffect(() => {
     getAllData();
@@ -52,6 +53,7 @@ export default function AdminDashboard() {
   };
   return (
     <>
+      {!classSummery && !adminReports && !facultyReports && <Loader />}
       <div className="admin-dashboard">
         <div className="row">
           {classSummery ? (

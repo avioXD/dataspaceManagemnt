@@ -1,7 +1,7 @@
 import { Spinner } from "react-bootstrap";
 import Lottie from "react-lottie";
-import * as animationData from "../assets/lottie/hand-loading.json";
-export default function Loader() {
+import * as animationData from "../assets/lottie/Server Analysis.json";
+export default function Loader2() {
   const defaultOptions = {
     loop: true,
     autoplay: true,

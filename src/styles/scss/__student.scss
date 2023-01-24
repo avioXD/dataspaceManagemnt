@@ -242,18 +242,20 @@
   min-width: 20rem;
   border-radius: 6px;
   border: 1px solid rgb(219, 219, 219);
+
   .chips {
     width: max-content;
-    max-width: 20rem;
+
     margin: 4px;
     border: 1px solid $gray;
-    background-color: transparent;
+    // background-color: rgb(185, 185, 185);
     justify-content: center;
     align-items: center;
     display: flex;
     border-radius: 4px;
     color: $gray;
     transition: $transition-all;
+    // box-shadow: 0 0px 10px 0px rgba(207, 219, 237, 0.693);
   }
   .p-chip.custom-chip {
     background: rgb(179, 179, 179);
@@ -349,5 +351,19 @@
         width: 8rem;
       }
     }
+  }
+}
+.suggestions {
+  padding: 0.7rem 1rem;
+  border-radius: 4px !important;
+  max-width: 25rem;
+  border: 1px solid $color-100 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  font-size: $s6;
+  transition: $transition-all;
+  &:hover {
+    transform: scale(1.05);
   }
 }

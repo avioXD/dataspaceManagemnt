@@ -1433,7 +1433,7 @@ export default function Register() {
                         aria-hidden="true"
                       />
                     )}
-                    {loading ? "Submit" : "Submitting"}
+                    {loading ? "Register" : "Submitting..."}
                   </Button>
                 </div>
               </div>

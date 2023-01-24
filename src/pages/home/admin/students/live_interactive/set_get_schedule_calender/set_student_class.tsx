@@ -21,6 +21,8 @@ import { Columns } from "../../../../../../interfaces/_common";
 import globalDataStore from "../../../../../../store/_globalData";
 import { json } from "stream/consumers";
 import commonApiService from "../../../../../../services/_common_api";
+import Loader from "../../../../../../common/loader";
+import Loader2 from "../../../../../../common/loader2";
 
 export default function SetStudentClass() {
   const location: any = useLocation();
@@ -409,7 +411,9 @@ export default function SetStudentClass() {
           </Modal> */}
         </div>
       ) : (
-        <>Loading.....</>
+        <>
+          <Loader2 />
+        </>
       )}
     </>
   );

@@ -6,39 +6,39 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import studentSkillUpApi from "../../../../services/_student_skillup_api";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { RxDoubleArrowLeft } from "react-icons/rx";
 import $ from "jquery";
+import Loader from "../../../../common/loader";
 
 export default function VideoModuleDashboard() {
   const { skillUpModule } = studentGlobalDataStore();
   const { getCourseModules, getCourseProgress } = studentSkillUpApi();
   const [modules, setModules] = useState<any>(null);
   const [progress, setProgress] = useState<any>(null);
+  const { course_id, course_name } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
     getData();
   }, []);
   const [playable, setPlayable] = useState<any>(null);
   const getData = async () => {
-    if (!skillUpModule) {
-      navigate("/Enrolled/SkillUp Courses");
+    if (!course_id) {
+      navigate(-1);
     }
-    const res1: any = await getCourseModules(skillUpModule.course_id);
+    const res1: any = await getCourseModules(course_id);
     console.log(res1.data);
     setModules(res1.data);
     const res2: any = await getCourseProgress();
     console.log(
       res2,
-      res2.data.filter((x: any) => x.course_id == skillUpModule.course_id)
+      res2.data.filter((x: any) => x.course_id == course_id)
     );
-    setProgress(
-      res2.data.filter((x: any) => x.course_id == skillUpModule.course_id)[0]
-    );
+    setProgress(res2.data.filter((x: any) => x.course_id == course_id));
     setPlayable(res1.data[0]);
   };
   const onRefresh = async () => {
-    const res1: any = await getCourseModules(skillUpModule.course_id);
+    const res1: any = await getCourseModules(course_id);
     console.log(res1.data);
     setModules(res1.data);
   };
@@ -57,7 +57,8 @@ export default function VideoModuleDashboard() {
   };
   return (
     <>
-      {progress ? (
+      {!progress && <Loader />}
+      {progress && (
         <div className="skillup-dashboard d-flex">
           <div
             onMouseLeave={onHoverOut}
@@ -74,8 +75,8 @@ export default function VideoModuleDashboard() {
                 {" "}
                 {progress && (
                   <CircularProgressbar
-                    value={progress.completed_percent}
-                    text={`${progress.completed_percent}%`}
+                    value={progress.completed_percent || 0}
+                    text={`${progress.completed_percent || 0}%`}
                     strokeWidth={10}
                     styles={buildStyles({
                       // Rotation of path and trail, in number of turns (0-1)
@@ -159,8 +160,6 @@ export default function VideoModuleDashboard() {
             />
           </div>
         </div>
-      ) : (
-        <>Loading...</>
       )}
     </>
   );

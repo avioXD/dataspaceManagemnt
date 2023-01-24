@@ -12,6 +12,10 @@ import ViewStudentProfile from "../../pages/home/student/student_profile";
 import Help from "../../pages/home/student/help";
 import Support from "../../pages/home/faculty/support";
 import StudentSupport from "../../pages/home/support";
+import { BiHelpCircle, BiSupport } from "react-icons/bi";
+import { GrCertificate } from "react-icons/gr";
+import { GiOfficeChair } from "react-icons/gi";
+import { TbCertificate } from "react-icons/tb";
 export default function studentRoutings() {
   const routes: any[] = [
     {
@@ -33,7 +37,7 @@ export default function studentRoutings() {
       route: "Jobs",
       path: "Jobs",
       element: <Outlet />,
-      icon: <GoPerson />,
+      icon: <GiOfficeChair />,
       no_collapse: true,
       children: [
         {
@@ -74,7 +78,7 @@ export default function studentRoutings() {
       route: "Certificates",
       path: "Certificates",
       element: <AllCertificates />,
-      icon: <GoPerson />,
+      icon: <TbCertificate />,
       children: [],
       shortcut: true,
     },
@@ -82,7 +86,7 @@ export default function studentRoutings() {
       route: "Support",
       path: "Support",
       element: <StudentSupport />,
-      icon: <FaChalkboardTeacher />,
+      icon: <BiSupport />,
       children: [],
       shortcut: true,
     },
@@ -90,7 +94,7 @@ export default function studentRoutings() {
       route: "Help",
       path: "Help",
       element: <Help />,
-      icon: <FaChalkboardTeacher />,
+      icon: <BiHelpCircle />,
       children: [],
       shortcut: true,
     },

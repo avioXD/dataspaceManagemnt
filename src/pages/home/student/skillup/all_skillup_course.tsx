@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import studentCommonApi from "../../../../services/_student_skillup_api";
 import studentGlobalDataStore from "../../../../store/_global_studentData";
 import { FilterDropdown } from "../../../../common/prime_data_table";
+import Loader from "../../../../common/loader";
 
 export default function AllSkillUpCourseList() {
   const { getAllSkillUpCourses } = studentCommonApi();
@@ -26,45 +27,46 @@ export default function AllSkillUpCourseList() {
   return (
     <>
       <>
-        <div className="card  enrolled p-4">
-          <h5 className="heading">All Skill Up Courses</h5>
-          <div className="d-flex justify-content-end my-2">
-            {allCourses && (
+        {!allCourses && <Loader />}
+        {allCourses && (
+          <div className="card  enrolled p-4">
+            <h5 className="heading">All Skill Up Courses</h5>
+            <div className="d-flex justify-content-end my-2">
               <FilterDropdown
                 allData={allCourses}
                 filterField={"course_name"}
                 setChangeableData={setChangeableData}
                 header={"Course"}
               />
-            )}
-          </div>
-          <div className="row">
-            {changeableData &&
-              changeableData.map((x: any) => (
-                <div className="col-sm-4 flex-center course-card">
-                  <div className="card shadow-sm m-2  ">
-                    <img src={x.img || "/assets/bg/register_bg.png"} alt="" />
-                    <div className="details p-4">
-                      <h5 className="heading">
-                        {x.course_name || "Test Course"}
-                      </h5>
-                      <div className="sub">
-                        <div className="flex-between">
-                          <div className="left">
-                            <span className="text-gray">
-                              Class Duration : {x.duration || "3"} Months
-                            </span>
+            </div>
+            <div className="row">
+              {changeableData &&
+                changeableData.map((x: any) => (
+                  <div className="col-sm-4 flex-center course-card">
+                    <div className="card shadow-sm m-2  ">
+                      <img src={x.img || "/assets/bg/register_bg.png"} alt="" />
+                      <div className="details p-4">
+                        <h5 className="heading">
+                          {x.course_name || "Test Course"}
+                        </h5>
+                        <div className="sub">
+                          <div className="flex-between">
+                            <div className="left">
+                              <span className="text-gray">
+                                Class Duration : {x.duration || "3"} Months
+                              </span>
+                            </div>
+                            <div className="right">
+                              <Link
+                                to={`/SkillUp/Modules/${x.course_id}/${x.course_name}`}
+                              >
+                                <button className="btn  btn-sm btn-outline-primary  ">
+                                  Start Now
+                                </button>
+                              </Link>
+                            </div>
                           </div>
-                          <div className="right">
-                            <button
-                              onClick={() => redirectToModule(x)}
-                              className="btn  btn-sm btn-outline-primary  "
-                            >
-                              Start Now
-                            </button>
-                          </div>
-                        </div>
-                        {/* <div className="row  ">
+                          {/* <div className="row  ">
                           <div className="col-sm-6 mt-2">
                             <Link
                               to="/StudentClasses/Courses/LiveClass"
@@ -83,13 +85,14 @@ export default function AllSkillUpCourseList() {
                             </Link>
                           </div>
                         </div> */}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
-        </div>
+        )}
       </>
     </>
   );

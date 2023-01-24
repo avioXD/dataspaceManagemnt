@@ -15,6 +15,7 @@ import protectedApiService from "../../../../../services/_protected_api";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { Modal } from "react-bootstrap";
+import Loader2 from "../../../../../common/loader2";
 
 export default function ViewStudentClass() {
   const location: any = useLocation();
@@ -191,7 +192,9 @@ export default function ViewStudentClass() {
           </Modal>
         </div>
       ) : (
-        <>Loading.....</>
+        <>
+          <Loader2 />
+        </>
       )}
     </>
   );

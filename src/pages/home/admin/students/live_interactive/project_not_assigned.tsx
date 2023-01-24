@@ -8,6 +8,7 @@ import SetFacultyTiming from "../../faculty/set_faculty_timing";
 import { toast } from "react-toastify";
 import { Button } from "primereact/button";
 import { data } from "jquery";
+import Loader2 from "../../../../../common/loader2";
 export default function ProjectNotAssignedStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -79,8 +80,8 @@ export default function ProjectNotAssignedStudents() {
     getData();
     getAllFacultyFromApi();
   }, []);
-  const empt: any = [];
-  const [allData, setAllData] = useState(empt);
+
+  const [allData, setAllData] = useState<any>(null);
   const getData = async () => {
     if (allStudents) {
       let data: any[] = allStudents.filter((x: any) => {
@@ -129,71 +130,80 @@ export default function ProjectNotAssignedStudents() {
   };
   return (
     <>
-      <PrimeDataTable
-        data={allData}
-        structure={tablesStructure}
-        title={"Project Not Assigned Students"}
-        isForStudent
-        onRefresh={getFromApi}
-        note
-        message
-        timeline
-        options
-      />
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Assign Project</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div
-            className="mx-auto"
-            style={{
-              minWidth: "20rem",
-            }}
+      {allData ? (
+        <>
+          <PrimeDataTable
+            data={allData}
+            structure={tablesStructure}
+            title={"Project Not Assigned Students"}
+            isForStudent
+            onRefresh={getFromApi}
+            note
+            message
+            timeline
+            options
+          />
+          <Modal
+            show={show}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+            centered
           >
-            <div className="mb-3">
-              <p className="text-dark">
-                Assign Project to :{" "}
-                <span className="text-info">{data.name}</span>
-              </p>
-              <div className="flex-start flex-between ">
-                <select
-                  id="faculty_id"
-                  name="faculty_id"
-                  className="form-select  "
-                  onChange={(e) =>
-                    onValueChange({
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                >
-                  <option value={0} disabled selected hidden>
-                    Select Faculty
-                  </option>
-                  {allFaculty &&
-                    allFaculty.map((co: any) => (
-                      <option value={co.user_id}>{co.name}</option>
-                    ))}
-                </select>
+            <Modal.Header closeButton>
+              <Modal.Title>Assign Project</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div
+                className="mx-auto"
+                style={{
+                  minWidth: "20rem",
+                }}
+              >
+                <div className="mb-3">
+                  <p className="text-dark">
+                    Assign Project to :{" "}
+                    <span className="text-info">{data.name}</span>
+                  </p>
+                  <div className="flex-start flex-between ">
+                    <select
+                      id="faculty_id"
+                      name="faculty_id"
+                      className="form-select  "
+                      onChange={(e) =>
+                        onValueChange({
+                          [e.target.name]: e.target.value,
+                        })
+                      }
+                    >
+                      <option value={0} disabled selected hidden>
+                        Select Faculty
+                      </option>
+                      {allFaculty &&
+                        allFaculty.map((co: any) => (
+                          <option value={co.user_id}>{co.name}</option>
+                        ))}
+                    </select>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <button onClick={handleClose} className="btn btn-sm btn-info mx-1">
-            Close
-          </button>
-          <button onClick={onAssign} className="btn btn-sm btn-success">
-            Assign
-          </button>
-        </Modal.Footer>
-      </Modal>
+            </Modal.Body>
+            <Modal.Footer>
+              <button
+                onClick={handleClose}
+                className="btn btn-sm btn-info mx-1"
+              >
+                Close
+              </button>
+              <button onClick={onAssign} className="btn btn-sm btn-success">
+                Assign
+              </button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      ) : (
+        <Loader2 />
+      )}
     </>
   );
 }

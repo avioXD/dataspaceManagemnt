@@ -3,6 +3,7 @@ import globalDataStore from "../../../../store/_globalData";
 import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../services/_protected_api";
 import PrimeDataTable from "../../../../common/prime_data_table";
+import Loader2 from "../../../../common/loader2";
 
 export default function AllStudents() {
   const tablesStructure: Columns[] = [
@@ -51,7 +52,7 @@ export default function AllStudents() {
   ];
   const { allStudents } = globalDataStore();
   const { getAllStudents } = protectedApiService();
-  const [allData, setAllData] = useState(null);
+  const [allData, setAllData] = useState<any>(null);
   useEffect(() => {
     getData();
   }, []);
@@ -69,15 +70,19 @@ export default function AllStudents() {
   };
   return (
     <>
-      <PrimeDataTable
-        data={allData || []}
-        structure={tablesStructure}
-        title={"All Students"}
-        isForStudent
-        onRefresh={getFromApi}
-        message
-        options
-      />
+      {allData ? (
+        <PrimeDataTable
+          data={allData || []}
+          structure={tablesStructure}
+          title={"All Students"}
+          isForStudent
+          onRefresh={getFromApi}
+          message
+          options
+        />
+      ) : (
+        <Loader2 />
+      )}
     </>
   );
 }

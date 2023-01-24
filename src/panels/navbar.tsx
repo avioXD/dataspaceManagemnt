@@ -216,11 +216,6 @@ export default function Navbar() {
             </div>
 
             <div className="user-items flex-center">
-              <div className="   ">
-                <div className="avater ">
-                  <img src="/assets/bg/register_bg.png" alt="" />
-                </div>
-              </div>
               <div className="header-menu mx-2 navbar-item  mt-2  dropdown">
                 <a
                   className="navbar-nav-link dropdown-toggle"
@@ -228,8 +223,9 @@ export default function Navbar() {
                   data-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {" "}
-                  <RxTriangleDown size={22} onClick={showMenu} color={"gray"} />
+                  <div className="avater ">
+                    <img src="/assets/bg/register_bg.png" alt="" />
+                  </div>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right">
                   <div className="item-content">

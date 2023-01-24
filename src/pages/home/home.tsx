@@ -47,7 +47,7 @@ export default function Home() {
                       .split("/")
                       [location.pathname.split("/").length - 1].replaceAll(
                         "%20",
-                        ""
+                        " "
                       )}
                   </h4>
                   <span className="breadcrumb">

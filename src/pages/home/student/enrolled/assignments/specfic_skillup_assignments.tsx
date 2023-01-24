@@ -3,6 +3,7 @@ import { ProgressBar } from "primereact/progressbar";
 import { useEffect, useState } from "react";
 import studentCommonApi from "../../../../../services/_student_skillup_api";
 import studentGlobalDataStore from "../../../../../store/_global_studentData";
+import Loader from "../../../../../common/loader";
 
 export default function SkillUpAssignment() {
   const { getStudentAssignments } = studentCommonApi();
@@ -18,11 +19,12 @@ export default function SkillUpAssignment() {
   return (
     <>
       <>
-        <div className="card  enrolled p-4">
-          <h5 className="heading">All Assignments</h5>
-          <div className="row">
-            {data &&
-              data.map((x: any) => (
+        {!data && <Loader />}
+        {data && (
+          <div className="card  enrolled p-4">
+            <h5 className="heading">All Assignments</h5>
+            <div className="row">
+              {data.map((x: any) => (
                 <div className="col-sm-3">
                   <div className="card assignment-card p-3">
                     <div className="flex-center flex-column">
@@ -40,8 +42,9 @@ export default function SkillUpAssignment() {
                   </div>
                 </div>
               ))}
+            </div>
           </div>
-        </div>
+        )}
       </>
     </>
   );

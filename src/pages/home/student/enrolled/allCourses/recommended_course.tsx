@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import commonApiService from "../../../../../services/_common_api";
 import globalDataStore from "../../../../../store/_globalData";
 import studentGlobalDataStore from "../../../../../store/_global_studentData";
+import Loader from "../../../../../common/loader";
 
 export default function RecommendedCourse() {
   const { getAllCourses } = commonApiService();
@@ -30,9 +31,10 @@ export default function RecommendedCourse() {
   return (
     <>
       <>
-        <div className="card  enrolled p-4">
-          <h5 className="heading">Upgrade to paid course</h5>
-          {rec && (
+        {!rec && <Loader />}
+        {rec && (
+          <div className="card  enrolled p-4">
+            <h5 className="heading">Upgrade to paid course</h5>
             <div className="row">
               <div className="col-sm-6 flex-center course-card">
                 <div className="card shadow m-2  ">
@@ -82,8 +84,8 @@ export default function RecommendedCourse() {
                 </div>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </>
     </>
   );

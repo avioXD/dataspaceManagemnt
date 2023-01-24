@@ -5,6 +5,7 @@ import protectedApiService from "../../../../../services/_protected_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
 import { Link } from "react-router-dom";
 import { Button } from "primereact/button";
+import Loader2 from "../../../../../common/loader2";
 export default function NotScheduledStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -54,8 +55,8 @@ export default function NotScheduledStudents() {
   useEffect(() => {
     getData();
   }, []);
-  const empt: any = [];
-  const [allData, setAllData] = useState(empt);
+
+  const [allData, setAllData] = useState<any>(null);
   const getData = async () => {
     if (allStudents) {
       let data: any[] = allStudents.filter((x: any) => {
@@ -80,18 +81,22 @@ export default function NotScheduledStudents() {
 
   return (
     <>
-      <PrimeDataTable
-        data={allData}
-        structure={tablesStructure}
-        title={"Not Scheduled Students"}
-        isForStudent
-        onRefresh={getFromApi}
-        note
-        message
-        timeline
-        options
-        view
-      />
+      {allData ? (
+        <PrimeDataTable
+          data={allData}
+          structure={tablesStructure}
+          title={"Not Scheduled Students"}
+          isForStudent
+          onRefresh={getFromApi}
+          note
+          message
+          timeline
+          options
+          view
+        />
+      ) : (
+        <Loader2 />
+      )}
     </>
   );
 }

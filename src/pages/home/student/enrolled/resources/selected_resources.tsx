@@ -3,6 +3,7 @@ import { ProgressBar } from "primereact/progressbar";
 import { useEffect, useState } from "react";
 import { Button } from "primereact/button";
 import { PdfViewer } from "./pdfviewer";
+import Loader from "../../../../../common/loader";
 
 export default function SelectedResource() {
   const location: any = useLocation();
@@ -12,6 +13,7 @@ export default function SelectedResource() {
   return (
     <>
       <>
+        {resource && <Loader />}
         {resource && (
           <div className="card  p-4">
             <h5 className="heading">Resources</h5>

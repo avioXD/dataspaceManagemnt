@@ -5,6 +5,7 @@ import protectedApiService from "../../../../../services/_protected_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
 import { Link } from "react-router-dom";
 import { Button } from "primereact/button";
+import Loader2 from "../../../../../common/loader2";
 
 export default function ScheduledStudents() {
   const tablesStructure: Columns[] = [
@@ -72,18 +73,22 @@ export default function ScheduledStudents() {
 
   return (
     <>
-      <PrimeDataTable
-        data={allData}
-        structure={tablesStructure}
-        title={"Scheduled Students"}
-        isForStudent
-        onRefresh={getFromApi}
-        note
-        message
-        timeline
-        options
-        view
-      />
+      {allData ? (
+        <PrimeDataTable
+          data={allData}
+          structure={tablesStructure}
+          title={"Scheduled Students"}
+          isForStudent
+          onRefresh={getFromApi}
+          note
+          message
+          timeline
+          options
+          view
+        />
+      ) : (
+        <Loader2 />
+      )}
     </>
   );
 }

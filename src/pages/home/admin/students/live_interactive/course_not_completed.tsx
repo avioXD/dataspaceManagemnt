@@ -6,6 +6,7 @@ import PrimeDataTable from "../../../../../common/prime_data_table";
 import { Button } from "primereact/button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
+import Loader2 from "../../../../../common/loader2";
 export default function CourseNotCompletedStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -65,8 +66,8 @@ export default function CourseNotCompletedStudents() {
   useEffect(() => {
     getData();
   }, []);
-  const empt: any = [];
-  const [allData, setAllData] = useState(empt);
+
+  const [allData, setAllData] = useState<any>(null);
   const getData = async () => {
     getFromApi();
   };
@@ -85,36 +86,47 @@ export default function CourseNotCompletedStudents() {
   };
   return (
     <>
-      <PrimeDataTable
-        data={allData}
-        structure={tablesStructure}
-        title={"Course Completed Reminder"}
-        isForStudent
-        onRefresh={getFromApi}
-        note
-        message
-        timeline
-        options
-      />
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        centered
-      >
-        <div className="p-4">
-          <h3 className="text-center">Are you sure?</h3>
-          <div className="flex-center">
-            <button onClick={handleClose} className="btn btn-sm btn-info mx-1">
-              Close
-            </button>
-            <button onClick={onComplete} className="btn btn-sm btn-success">
-              Completed
-            </button>
-          </div>
-        </div>
-      </Modal>
+      {allData ? (
+        <>
+          <PrimeDataTable
+            data={allData}
+            structure={tablesStructure}
+            title={"Course Completed Reminder"}
+            isForStudent
+            onRefresh={getFromApi}
+            note
+            message
+            timeline
+            options
+          />
+          <Modal
+            show={show}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+            centered
+          >
+            <div className="p-4">
+              <h3 className="text-center">Are you sure?</h3>
+              <div className="flex-center">
+                <button
+                  onClick={handleClose}
+                  className="btn btn-sm btn-info mx-1"
+                >
+                  Close
+                </button>
+                <button onClick={onComplete} className="btn btn-sm btn-success">
+                  Completed
+                </button>
+              </div>
+            </div>
+          </Modal>
+        </>
+      ) : (
+        <>
+          <Loader2 />
+        </>
+      )}
     </>
   );
 }

@@ -18,6 +18,7 @@ import AllCourseList from "../../pages/home/student/enrolled/allCourses/all_cour
 import AlreadyEnrolledForm from "../../pages/home/student/enrolled/allCourses/already_enrolled_form";
 import AllSkillUpCourseList from "../../pages/home/student/skillup/all_skillup_course";
 import SelectedJobs from "../../pages/home/student/jobs/selected_job";
+import { GiBookStorm, GiBookshelf, GiUpgrade } from "react-icons/gi";
 export default function enrolledCourseRoutings() {
   const routes: any[] = [
     {
@@ -39,7 +40,7 @@ export default function enrolledCourseRoutings() {
       route: "Active Courses",
       path: "Live Interactive Courses",
       element: <Outlet />,
-      icon: <MdAccountBalanceWallet />,
+      icon: <GiBookStorm />,
       no_collapse: true,
       children: [
         {
@@ -65,7 +66,7 @@ export default function enrolledCourseRoutings() {
       route: "All Courses",
       path: "All Courses",
       element: <Outlet />,
-      icon: <RiPagesFill />,
+      icon: <GiBookshelf />,
       no_collapse: true,
       children: [
         {
@@ -105,10 +106,10 @@ export default function enrolledCourseRoutings() {
       shortcut: true,
     },
     {
-      route: "SkillUp Courses",
-      path: "SkillUp Courses",
+      route: "Skill Up Courses",
+      path: "Skill Up Courses",
       element: <Outlet />,
-      icon: <FaUserGraduate />,
+      icon: <GiUpgrade />,
       no_collapse: true,
       children: [
         {

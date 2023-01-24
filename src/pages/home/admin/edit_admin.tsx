@@ -5,6 +5,8 @@ import PrimeDataTable from "../../../common/prime_data_table";
 import { Columns } from "../../../interfaces/_common";
 import protectedApiService from "../../../services/_protected_api";
 import globalDataStore from "../../../store/_globalData";
+import Loader from "../../../common/loader";
+import Loader2 from "../../../common/loader2";
 export default function EditAdmin() {
   const tablesStructure: Columns[] = [
     {
@@ -32,10 +34,10 @@ export default function EditAdmin() {
       dataFilter: (data: any, key: any) => data[key] || <></>,
     },
   ];
-  const emtarr: any[] = [];
+
   const { allAdmins } = globalDataStore();
   const { getAllAdmins } = protectedApiService();
-  const [allData, setAllData] = useState(emtarr);
+  const [allData, setAllData] = useState<any>(null);
   useEffect(() => {
     getData();
   }, []);
@@ -52,22 +54,26 @@ export default function EditAdmin() {
   };
   return (
     <>
-      <div className="das-exs">
-        <div className="flex-end mx-4">
-          <Link to="/Home/Add Admins">
-            <button className="btn btn-primary">Add Admin</button>
-          </Link>
-        </div>
-      </div>
-
-      <PrimeDataTable
-        data={allData}
-        structure={tablesStructure}
-        title={"All Admins"}
-        isForStudent
-        onRefresh={getFromApi}
-        filterDropdown={[{ filter: "designation", header: "designation" }]}
-      />
+      {!allData && <Loader2 />}
+      {allData && (
+        <>
+          <div className="das-exs">
+            <div className="flex-end mx-4">
+              <Link to="/Home/Add Admins">
+                <button className="btn btn-primary">Add Admin</button>
+              </Link>
+            </div>
+          </div>
+          <PrimeDataTable
+            data={allData}
+            structure={tablesStructure}
+            title={"All Admins"}
+            isForStudent
+            onRefresh={getFromApi}
+            filterDropdown={[{ filter: "designation", header: "designation" }]}
+          />
+        </>
+      )}
     </>
   );
 }

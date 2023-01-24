@@ -47,7 +47,9 @@ export default function AddJobs() {
       });
       if (res == 1) {
         toast.success("Job Added");
-        // setCreeds(init);
+        setCreeds(init);
+        onSkillsAdd([]);
+        onTextChange("");
       } else {
         toast.error("Adding failed!");
       }
@@ -130,9 +132,9 @@ export default function AddJobs() {
                 </label>
                 <select
                   className="form-select"
-                  name="course_id"
-                  id="course_id"
-                  defaultValue={creeds.course_id}
+                  name="duration"
+                  id="duration"
+                  defaultValue={creeds.duration}
                   required
                   onChange={(e) =>
                     onValueChange({
@@ -217,7 +219,7 @@ export default function AddJobs() {
             <div className="col-sm-6">
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">
-                  Education
+                  Degree
                 </label>
                 <input
                   type="text"

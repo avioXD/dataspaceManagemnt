@@ -4,6 +4,7 @@ import protectedStudentApiService from "../../../services/_protected_student_api
 import { Button } from "primereact/button";
 import protectedApiService from "../../../services/_protected_api";
 import { toast } from "react-toastify";
+import Loading from "../../../common/loader";
 
 export default function ViewStudentProfile({ editable }: any) {
   const location = useLocation();
@@ -57,10 +58,11 @@ export default function ViewStudentProfile({ editable }: any) {
   const role: any = ["", "super admin", "admin", "faculty", "sales", "student"];
   return (
     <>
+      {!creeds && <Loading />}
       {creeds && (
         <>
-          <div className="container view-student">
-            <div className="card shadow-sm p-3">
+          <div className="t">
+            <div className="card p-3">
               <div className="flex-between">
                 <h6 className="heading mb-5">Profile Details</h6>
                 {disabled ? (

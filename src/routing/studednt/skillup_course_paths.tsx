@@ -9,6 +9,7 @@ import {
   MdArrowBack,
   MdClass,
 } from "react-icons/md";
+
 import ModuleVideoPlayer from "../../pages/home/student/skillup/video_player";
 import VideoModuleDashboard from "../../pages/home/student/skillup/moduel_dashboard";
 import AllAssignments from "../../pages/home/student/enrolled/assignments/all_assignments";
@@ -22,14 +23,14 @@ export default function skillUpCoursePaths() {
     {
       route: "Base",
       path: "",
-      element: <Navigate to="Modules" />,
+      element: (props: any) => <Navigate to="Modules" {...props} />,
       children: [],
       shortcut: true,
     },
     {
       route: "Back",
       path: "Back",
-      element: <Navigate to="/Enrolled" />,
+      element: <Navigate to="/Enrolled/Skill Up Courses" />,
       icon: <MdArrowBack />,
       children: [],
       shortcut: true,
@@ -44,24 +45,15 @@ export default function skillUpCoursePaths() {
         {
           route: "Base",
           path: "",
-          element: <Navigate to="Video" />,
+          element: <VideoModuleDashboard />,
           children: [],
           shortcut: false,
         },
         {
-          route: "Video",
-          path: "Video",
+          route: "Base",
+          path: ":course_id/:course_name",
           element: <VideoModuleDashboard />,
-          icon: <MdAccountBalanceWallet />,
-          children: [
-            {
-              route: "Base",
-              path: ":course_name",
-              element: <ModuleVideoPlayer />,
-              children: [],
-              shortcut: false,
-            },
-          ],
+          children: [],
           shortcut: false,
         },
       ],

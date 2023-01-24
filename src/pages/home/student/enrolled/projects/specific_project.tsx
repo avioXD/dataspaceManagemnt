@@ -37,7 +37,7 @@ export default function SpecificProjects() {
       <>
         <div className="card  enrolled p-2">
           <p className="heading">Project Details</p>
-          <div className="card shadow-sm p-4">
+          <div className="card p-4">
             <h5 className="heading">{project.project_name}</h5>
             <div
               style={{ maxWidth: "80rem" }}

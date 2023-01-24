@@ -146,6 +146,16 @@ export default function protectedStudentApiService() {
       return res.data;
     } catch (e) {}
   };
+  const postSupportQuery = async (creeds: any) => {
+    try {
+      const res = await _https.post(
+        "/submit_support_data",
+        { ...creeds, user_id: user.user_id },
+        authHeader
+      );
+      return res.data;
+    } catch (e) {}
+  };
   return {
     getStudentClasses,
     getStudentProgress,
@@ -156,5 +166,6 @@ export default function protectedStudentApiService() {
     getStudentDetailsAll,
     getAllBranch,
     postRequestSchedule,
+    postSupportQuery,
   };
 }

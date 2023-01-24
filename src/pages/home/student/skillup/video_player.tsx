@@ -4,7 +4,9 @@ import { useLocation } from "react-router-dom";
 import ReactPlayer from "react-player";
 import studentSkillUpApi from "../../../../services/_student_skillup_api";
 import { toast } from "react-toastify";
-
+import Loader from "../../../../common/loader";
+import Lottie from "react-lottie";
+import * as animationData from "../../../../assets/lottie/youtube.json";
 export default function ModuleVideoPlayer({
   playable,
   playNext,
@@ -62,19 +64,39 @@ export default function ModuleVideoPlayer({
     updatePlayDuration();
     playNext();
   };
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+  };
   return (
     <>
+      {!player && <Loader />}
       {player && (
-        <div className="player   mx-auto">
-          <h6 className="heading">{player.title}</h6>
+        <div className="player">
+          <div className="flex-start">
+            <div className="flex-center" style={{ width: "30px" }}>
+              <Lottie
+                height={20}
+                style={{ marginTop: "5px" }}
+                width={20}
+                options={defaultOptions}
+              />
+            </div>
+            <p className="heading text-gray  mx-2 my-2">
+              Now Playing{" "}
+              <span className="text-primary mx-2"> {player.title}</span>
+            </p>
+          </div>
+
           <ReactPlayer
             ref={ref}
             style={{
-              margin: "auto",
               borderRadius: "10px",
               overflow: "hidden",
-              maxWidth: "70rem",
+              maxWidth: "80rem",
             }}
+            config={{ file: { attributes: { controlsList: "nodownload" } } }}
             url={`https://dataspaceacademymanagement.in/skillup/public/video/${player?.video}`}
             width="100%"
             height="100%"

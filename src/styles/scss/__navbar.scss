@@ -9,8 +9,9 @@
 }
 .nav-bar {
   position: fixed;
-  height: 8vh;
+  height: 10vh;
   background-color: white;
+  overflow: hidden;
 }
 .nav {
   padding: 0.6rem 0.2rem;
@@ -23,7 +24,6 @@
 }
 .nav-menu {
   padding-right: 1.5rem;
-
   .tbl-btn {
     border: 0;
     padding: 3px;
@@ -255,18 +255,20 @@
   .dropdown-menu {
     width: max-content;
     max-width: 22rem;
-    margin-top: 1.7rem;
+    margin-top: 0.8rem;
   }
   .dropdown-toggle::after {
     display: none;
   }
   z-index: 10000;
   .option {
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 1rem;
     color: $dark;
     border: 0;
-    background-color: #f8f8f8;
+    background-color: transparent;
     width: 100%;
+    align-items: center;
+    justify-content: center;
     span {
       font-size: 14px;
       text-align: start;
@@ -278,4 +280,8 @@
       background-color: #eeeeee;
     }
   }
+}
+.dropdown-menu {
+  border: 0px;
+  box-shadow: $shadow-2;
 }

@@ -89,8 +89,8 @@ export const rootRouterPath = () => {
             ],
     },
     {
-      route: "SkillUpModule",
-      path: "SkillUpModule",
+      route: "Skill Up Module",
+      path: "SkillUp",
       element: <Home />,
       shortcut: false,
       children:

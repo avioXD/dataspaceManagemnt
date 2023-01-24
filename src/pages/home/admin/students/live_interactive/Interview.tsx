@@ -3,6 +3,7 @@ import globalDataStore from "../../../../../store/_globalData";
 import React, { useEffect, useState } from "react";
 import protectedApiService from "../../../../../services/_protected_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
+import Loader2 from "../../../../../common/loader2";
 export default function InterviewStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -49,8 +50,8 @@ export default function InterviewStudents() {
   useEffect(() => {
     getData();
   }, []);
-  const empt: any = [];
-  const [allData, setAllData] = useState(empt);
+
+  const [allData, setAllData] = useState<any>(null);
   const getData = async () => {
     if (allStudents) {
       let data: any[] = allStudents.filter((x: any) => {
@@ -75,17 +76,21 @@ export default function InterviewStudents() {
 
   return (
     <>
-      <PrimeDataTable
-        data={allData}
-        structure={tablesStructure}
-        title={"Interview Completed"}
-        isForStudent
-        onRefresh={getFromApi}
-        note
-        message
-        options
-        timeline
-      />
+      {allData ? (
+        <PrimeDataTable
+          data={allData}
+          structure={tablesStructure}
+          title={"Interview Completed"}
+          isForStudent
+          onRefresh={getFromApi}
+          note
+          message
+          options
+          timeline
+        />
+      ) : (
+        <Loader2 />
+      )}
     </>
   );
 }

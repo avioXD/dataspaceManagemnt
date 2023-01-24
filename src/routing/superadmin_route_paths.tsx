@@ -22,12 +22,11 @@ import ProjectAssignedStudents from "../pages/home/admin/students/live_interacti
 import ProjectNotAssignedStudents from "../pages/home/admin/students/live_interactive/project_not_assigned";
 import InterviewStudents from "../pages/home/admin/students/live_interactive/Interview";
 import InterviewNotCompleted from "../pages/home/admin/students/live_interactive/interview_not_completed";
-import StudentDetails from "../pages/home/admin/students/student_details";
 import AllFaculty from "../pages/home/admin/faculty/all_faculty";
 import SetFacultyTiming from "../pages/home/admin/faculty/set_faculty_timing";
 import AddFaculty from "../pages/home/admin/faculty/add_faculty";
 import AllMarketing from "../pages/home/admin/marketing/all_marketing";
-import { BiStats } from "react-icons/bi";
+import { BiNetworkChart, BiStats } from "react-icons/bi";
 import AddMarketing from "../pages/home/admin/marketing/add_marketing";
 import ReportsOutlet from "../pages/home/admin/reports/outlet_reports";
 import { HiBriefcase, HiClipboardList } from "react-icons/hi";
@@ -37,7 +36,7 @@ import CareerOutlet from "../pages/home/admin/career/outlet_career";
 import ViewAllJobs from "../pages/home/admin/career/view_all_jobes";
 import EditJobs from "../pages/home/admin/career/edit_jobs";
 import AddJobs from "../pages/home/admin/career/add_jobs";
-import { DataTable } from "primereact/datatable";
+
 import NewsView from "../pages/home/admin/news/news_view";
 import AddNews from "../pages/home/admin/news/mews_add";
 import Timeline from "../pages/home/admin/timeline";
@@ -54,6 +53,12 @@ import ClassReport from "../pages/home/admin/reports/class_report";
 import StudentStatus from "../pages/home/admin/reports/student_status";
 import Addbranches from "../pages/settings/add_branch";
 import AddCouncellor from "../pages/settings/add_councellor";
+import { FiSettings } from "react-icons/fi";
+import { BsJournalBookmark } from "react-icons/bs";
+import { AiOutlineShareAlt } from "react-icons/ai";
+import { SiRazorpay } from "react-icons/si";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { GiGraduateCap } from "react-icons/gi";
 
 export default function superAdminRoutings() {
   const routes: any[] = [
@@ -76,7 +81,7 @@ export default function superAdminRoutings() {
       route: "Admin",
       path: "Admin",
       element: <EditAdmin />,
-      icon: <GoPerson />,
+      icon: <MdOutlineAdminPanelSettings />,
       children: [],
       shortcut: true,
     },
@@ -108,7 +113,7 @@ export default function superAdminRoutings() {
       route: "Students",
       path: "Students",
       element: <StudentIndex />,
-      icon: <FaUserGraduate />,
+      icon: <GiGraduateCap />,
       shortcut: true,
 
       children: [
@@ -228,7 +233,7 @@ export default function superAdminRoutings() {
             {
               route: "View Student",
               path: "View Student",
-              element: <StudentDetails />,
+              element: <ViewStudentProfile />,
               children: [],
               shortcut: false,
             },
@@ -399,7 +404,7 @@ export default function superAdminRoutings() {
       route: "Settings",
       path: "settings",
       element: <Outlet />,
-      icon: <FaChalkboardTeacher />,
+      icon: <FiSettings />,
       no_collapse: false,
       children: [
         {
@@ -413,7 +418,7 @@ export default function superAdminRoutings() {
           route: "Courses",
           path: "Courses",
           element: <Courses />,
-          icon: <GoPerson />,
+          icon: <BsJournalBookmark />,
           children: [],
           shortcut: true,
         },
@@ -439,7 +444,7 @@ export default function superAdminRoutings() {
           route: "Branches",
           path: "Branches",
           element: <Branches />,
-          icon: <GoPerson />,
+          icon: <BiNetworkChart />,
           children: [],
           shortcut: true,
         },
@@ -467,7 +472,6 @@ export default function superAdminRoutings() {
           children: [],
           shortcut: true,
         },
-        
       ],
       shortcut: true,
     },
@@ -476,7 +480,7 @@ export default function superAdminRoutings() {
       route: "Referred User",
       path: "Referred User",
       element: <ReferredUser />,
-      icon: <IoMdWallet />,
+      icon: <AiOutlineShareAlt />,
       children: [],
       shortcut: true,
     },
@@ -484,11 +488,11 @@ export default function superAdminRoutings() {
       route: "Payment Gateway",
       path: "p_gateway",
       element: <PaymentGateway />,
-      icon: <IoMdWallet />,
+      icon: <SiRazorpay />,
       children: [],
       shortcut: true,
     },
-   
+
     {
       route: "News",
       path: "news",

@@ -5,6 +5,7 @@ import protectedApiService from "../../../../../services/_protected_api";
 import PrimeDataTable from "../../../../../common/prime_data_table";
 import { Button } from "primereact/button";
 import { Link } from "react-router-dom";
+import Loader2 from "../../../../../common/loader2";
 export default function CourseCompletedStudents() {
   const tablesStructure: Columns[] = [
     {
@@ -54,8 +55,8 @@ export default function CourseCompletedStudents() {
   useEffect(() => {
     getData();
   }, []);
-  const empt: any = [];
-  const [allData, setAllData] = useState(empt);
+
+  const [allData, setAllData] = useState<any>(null);
   const getData = async () => {
     if (allStudents) {
       let data: any[] = allStudents.filter((x: any) => {
@@ -80,17 +81,22 @@ export default function CourseCompletedStudents() {
 
   return (
     <>
-      <PrimeDataTable
-        data={allData}
-        structure={tablesStructure}
-        title={"Course Completed"}
-        isForStudent
-        onRefresh={getFromApi}
-        note
-        message
-        timeline
-        options
-      />
+      <>
+        {!allData && <Loader2 />}
+        {allData && (
+          <PrimeDataTable
+            data={allData}
+            structure={tablesStructure}
+            title={"Course Completed"}
+            isForStudent
+            onRefresh={getFromApi}
+            note
+            message
+            timeline
+            options
+          />
+        )}
+      </>
     </>
   );
 }

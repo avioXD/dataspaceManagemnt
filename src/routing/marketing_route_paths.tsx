@@ -22,7 +22,6 @@ import ProjectAssignedStudents from "../pages/home/admin/students/live_interacti
 import ProjectNotAssignedStudents from "../pages/home/admin/students/live_interactive/project_not_assigned";
 import InterviewStudents from "../pages/home/admin/students/live_interactive/Interview";
 import InterviewNotCompleted from "../pages/home/admin/students/live_interactive/interview_not_completed";
-import StudentDetails from "../pages/home/admin/students/student_details";
 import AllFaculty from "../pages/home/admin/faculty/all_faculty";
 import SetFacultyTiming from "../pages/home/admin/faculty/set_faculty_timing";
 import AddFaculty from "../pages/home/admin/faculty/add_faculty";
@@ -42,6 +41,7 @@ import NewsView from "../pages/home/admin/news/news_view";
 import AddNews from "../pages/home/admin/news/mews_add";
 import Timeline from "../pages/home/admin/timeline";
 import { IoMdWallet } from "react-icons/io";
+import ViewStudentProfile from "../pages/home/student/student_profile";
 
 export default function marketingRoutings() {
   const routes: any[] = [
@@ -216,7 +216,7 @@ export default function marketingRoutings() {
             {
               route: "View Student",
               path: "View Student",
-              element: <StudentDetails />,
+              element: <ViewStudentProfile />,
               children: [],
               shortcut: false,
             },

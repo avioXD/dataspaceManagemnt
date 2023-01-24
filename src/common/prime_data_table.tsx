@@ -14,6 +14,9 @@ import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import protectedApiService from "../services/_protected_api";
 import { Button } from "primereact/button";
+import Loader from "./loader";
+import Loader2 from "./loader2";
+import Loader3 from "./loader3";
 export default function PrimeDataTable({
   structure,
   data,
@@ -311,151 +314,164 @@ export default function PrimeDataTable({
 
   return (
     <>
-      <div className="table">
-        <div className="table-main mx-auto">
-          <div className="table-header">
-            <div className="row">
-              <div className="heading col-sm-4">
-                {title ? title : "All Details"}
-              </div>
+      {changeableData ? (
+        <>
+          {" "}
+          <div className="table">
+            <div className="table-main mx-auto">
+              <div className="table-header">
+                <div className="row">
+                  <div className="heading col-sm-4">
+                    {title ? title : "All Details"}
+                  </div>
 
-              {!noSearch && data && (
-                <div className="col-sm-8 row  ">
-                  <div className="col-sm-7 p-1">
-                    <div className="filter flex-end mr-2">
-                      {filterDropdown &&
-                        filterDropdown.map((fil: any) => (
-                          <>
-                            <FilterDropdown
-                              allData={data}
-                              filterField={fil.filter}
-                              setChangeableData={setChangeableData}
-                              header={fil.header}
-                            />
-                          </>
-                        ))}
+                  {!noSearch && data && (
+                    <div className="col-sm-8 row  ">
+                      <div className="col-sm-7 p-1">
+                        <div className="filter flex-end mr-2">
+                          {filterDropdown &&
+                            filterDropdown.map((fil: any) => (
+                              <>
+                                <FilterDropdown
+                                  allData={data}
+                                  filterField={fil.filter}
+                                  setChangeableData={setChangeableData}
+                                  header={fil.header}
+                                />
+                              </>
+                            ))}
+                        </div>
+                      </div>
+                      <div className="col-sm-5    p-1">
+                        <div className="search ">
+                          <input
+                            type="email"
+                            className="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            placeholder="search"
+                            onChange={(e) => {
+                              onSearch(e.target.value);
+                            }}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-sm-5    p-1">
-                    <div className="search ">
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        placeholder="search"
-                        onChange={(e) => {
-                          onSearch(e.target.value);
-                        }}
-                      />
-                    </div>
-                  </div>
+                  )}
                 </div>
+              </div>
+              {changeableData?.length ? (
+                <>
+                  <div className="table-body mx-auto">
+                    <DataTable
+                      ref={dt}
+                      className="live-session"
+                      value={changeableData || null}
+                      sortMode="multiple"
+                      responsiveLayout="scroll"
+                      paginator
+                      paginatorTemplate={tableTemplate}
+                      // paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                      currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+                      rows={10}
+                      rowsPerPageOptions={[10, 20, 50]}
+                      paginatorLeft={paginatorLeft}
+                      paginatorRight={paginatorRight}
+                      selection={selectedData}
+                      onSelectionChange={(e) => setSelectedData(e.value)}
+                    >
+                      {!noChecks && (
+                        <Column
+                          selectionMode="multiple"
+                          headerStyle={{ width: "3em" }}
+                        ></Column>
+                      )}
+                      {options && (
+                        <Column
+                          headerStyle={{ width: "3em" }}
+                          style={{
+                            position: "relative",
+                          }}
+                          body={(e) => (
+                            <>
+                              {e?.user_id && (
+                                <div className="table-menu">
+                                  <button className="tbl-btn">
+                                    <img
+                                      className="press"
+                                      onClick={() =>
+                                        showMenu(`menuid${e.user_id}`)
+                                      }
+                                      src="/assets/svg/more.svg"
+                                      alt="..."
+                                    />
+                                  </button>
+                                  <div
+                                    id={`menuid${e.user_id}`}
+                                    className="menu"
+                                    onMouseLeave={removeMenu}
+                                  >
+                                    <Link to="/Home/Profile" state={e}>
+                                      <button className="flex-start text-dark option">
+                                        <TbEye size={20} />
+                                        <span className="mx-3">View</span>
+                                      </button>
+                                    </Link>
+                                    <Link to="/Home/Edit Profile" state={e}>
+                                      <button className="flex-start text-dark option">
+                                        <img
+                                          src="/assets/svg/edit.svg"
+                                          alt=""
+                                        />
+                                        <span className="mx-3">Edit</span>
+                                      </button>
+                                    </Link>
+                                    <button
+                                      onClick={() => onDelete(e)}
+                                      className="flex-start text-danger option"
+                                    >
+                                      <img src="/assets/svg/trash.svg" alt="" />
+                                      <span className="mx-3">Delete</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </>
+                          )}
+                        ></Column>
+                      )}
+
+                      {changeableData?.length &&
+                        structure.map((key: Columns) => (
+                          <Column
+                            field={key.data_name}
+                            header={key.header}
+                            sortable={key.sortable}
+                            body={(e) => {
+                              return (
+                                <>
+                                  <div className="flex-start">
+                                    {key.dataFilter(e, key.data_name)}
+                                  </div>
+                                </>
+                              );
+                            }}
+                          ></Column>
+                        ))}
+                    </DataTable>
+                  </div>
+                </>
+              ) : (
+                <>{<Loader3 />}</>
               )}
             </div>
           </div>
-
-          {changeableData?.length ? (
-            <>
-              <div className="table-body mx-auto">
-                <DataTable
-                  ref={dt}
-                  className="live-session"
-                  value={changeableData || null}
-                  sortMode="multiple"
-                  responsiveLayout="scroll"
-                  paginator
-                  paginatorTemplate={tableTemplate}
-                  // paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-                  rows={10}
-                  rowsPerPageOptions={[10, 20, 50]}
-                  paginatorLeft={paginatorLeft}
-                  paginatorRight={paginatorRight}
-                  selection={selectedData}
-                  onSelectionChange={(e) => setSelectedData(e.value)}
-                >
-                  {!noChecks && (
-                    <Column
-                      selectionMode="multiple"
-                      headerStyle={{ width: "3em" }}
-                    ></Column>
-                  )}
-                  {options && (
-                    <Column
-                      headerStyle={{ width: "3em" }}
-                      style={{
-                        position: "relative",
-                      }}
-                      body={(e) => (
-                        <>
-                          {e?.user_id && (
-                            <div className="table-menu">
-                              <button className="tbl-btn">
-                                <img
-                                  className="press"
-                                  onClick={() => showMenu(`menuid${e.user_id}`)}
-                                  src="/assets/svg/more.svg"
-                                  alt="..."
-                                />
-                              </button>
-                              <div
-                                id={`menuid${e.user_id}`}
-                                className="menu"
-                                onMouseLeave={removeMenu}
-                              >
-                                <Link to="/Home/Profile" state={e}>
-                                  <button className="flex-start text-dark option">
-                                    <TbEye size={20} />
-                                    <span className="mx-3">View</span>
-                                  </button>
-                                </Link>
-                                <Link to="/Home/Edit Profile" state={e}>
-                                  <button className="flex-start text-dark option">
-                                    <img src="/assets/svg/edit.svg" alt="" />
-                                    <span className="mx-3">Edit</span>
-                                  </button>
-                                </Link>
-                                <button
-                                  onClick={() => onDelete(e)}
-                                  className="flex-start text-danger option"
-                                >
-                                  <img src="/assets/svg/trash.svg" alt="" />
-                                  <span className="mx-3">Delete</span>
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </>
-                      )}
-                    ></Column>
-                  )}
-
-                  {changeableData?.length &&
-                    structure.map((key: Columns) => (
-                      <Column
-                        field={key.data_name}
-                        header={key.header}
-                        sortable={key.sortable}
-                        body={(e) => {
-                          return (
-                            <>
-                              <div className="flex-start">
-                                {key.dataFilter(e, key.data_name)}
-                              </div>
-                            </>
-                          );
-                        }}
-                      ></Column>
-                    ))}
-                </DataTable>
-              </div>
-            </>
-          ) : (
-            <>{loading}</>
-          )}
-        </div>
-      </div>
+        </>
+      ) : (
+        <>
+          <Loader2 />
+        </>
+      )}
     </>
   );
 }

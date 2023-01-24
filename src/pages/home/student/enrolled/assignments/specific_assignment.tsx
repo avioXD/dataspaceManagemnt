@@ -37,7 +37,7 @@ export default function SpecificAssignments() {
       <>
         <div className="card w-75 enrolled p-2">
           <p className="heading">Assignment Details</p>
-          <div className="card shadow-sm p-4">
+          <div className="card  p-4">
             <h5 className="heading">{assignment.assigment_name}</h5>
             <div
               style={{ maxWidth: "80rem" }}
